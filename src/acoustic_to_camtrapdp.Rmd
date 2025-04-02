@@ -1,0 +1,128 @@
+---
+title: "acoustic_to_camtrapdp"
+author: "Sanne Govaert"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(readxl)
+library(here)
+library(dplyr)
+```
+
+
+```{r}
+data <- readxl::read_excel(here::here("data", "raw", "I2D-BIO_2022_103.xlsx"))
+```
+
+# Create Camtrap DP
+
+## Create datapackage.json
+
+```{r}
+
+```
+
+## Create deployments
+
+```{r}
+deployments <-
+  data %>% 
+  dplyr::mutate(
+    deploymentID = NULL,
+    locationID = NULL,
+    locationName = NULL,
+    latitude = NULL,
+    longitude = NULL,
+    coordinateUncertainty = NULL,
+    deploymentStart = NULL,
+    deploymentEnd = NULL,
+    setupBy = NULL,
+    deviveID = NULL,
+    ddeviceModel = NULL,
+    deviceDelay = NULL,
+    deviceHeight = NULL,
+    deviceDepth = NULL,
+    deviceTilt = NULL,
+    deviceHeading = NULL,
+    dutyCycle = NULL,
+    detectionDistance = NULL,
+    timestampIssues = NULL,
+    devicePlatform = NULL,
+    baitUse = NULL,
+    featureType = NULL,
+    habitat = NULL,
+    deploymentGroups = NULL,
+    deploymentTags = NULL,
+    deploymentComments = NULL
+  )
+```
+
+## Create media
+
+```{r}
+media <-
+  data %>% 
+  dplyr::mutate(
+    medidaID = NULL,
+    deploymentID = NULL,
+    captureMethod = NULL,
+    timestamp = NULL,
+    filePath = NULL,
+    filePublic = NULL,
+    fileName = NULL,
+    fileMediatype = NULL,
+    samplingFrequency = NULL,
+    bitDepth = NULL,
+    gain = NULL,
+    channels = NULL,
+    duration = NULL,
+    exifData = NULL,
+    favorite = NULL,
+    mediaComments = NULL
+  )
+```
+
+## Create observations
+
+```{r}
+observations <-
+  data %>% 
+  dplyr::mutate(
+    observationID = NULL,
+    deploymentID = NULL,
+    mediaID = NULL,
+    eventID = NULL,
+    eventStart = NULL,
+    eventEnd = NULL,
+    observationLevel = NULL,
+    observationType = NULL,
+    deviceSetupType = NULL,
+    scientificName = NULL,
+    count = NULL,
+    lifeStage = NULL,
+    sex = NULL,
+    behavior = NULL,
+    individualID = NULL,
+    individualPositionRadius = NULL,
+    individualPositionAngle = NULL,
+    individualSpeed = NULL,
+    bboxX = NULL,
+    bboxY = NULL,
+    bboxWidth = NULL,
+    bboxHeight = NULL,
+    frequencyLow = NULL,
+    frequencyHigh = NULL,
+    classificationMethod = NULL,
+    classifiedBy = NULL,
+    classificationTimestamp = NULL,
+    classificationProbability = NULL,
+    observationTags = NULL,
+    observationComments = NULL
+  )
+```
