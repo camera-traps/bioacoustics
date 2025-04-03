@@ -13,15 +13,18 @@ knitr::opts_chunk$set(echo = TRUE)
 library(here)
 library(dplyr)
 library(tidyr)
+library(frictionless)
 ```
 
 
 ```{r}
-data_raw <- read.csv(here::here("data", "raw", "birdnet_lite_detections-proj_sound-of-norway-yr2complete.csv"))
+#data_raw <- read.csv(here::here("data", "raw", "birdnet_lite_detections-proj_sound-of-norway-yr2complete.csv"))
 data <- data_raw[1:5000,]
 ```
 
-# Create Camtrap DP
+# Create resources
+
+## Inspect data
 
 ```{r}
 (unique_values_per_column <-
@@ -61,7 +64,8 @@ deployments <-
     habitat = NULL,
     deploymentGroups = NULL,
     deploymentTags = NULL,
-    deploymentComments = NULL
+    deploymentComments = NULL,
+    .keep = "none"
   )
 ```
 
@@ -86,7 +90,8 @@ media <-
     duration = NULL,
     exifData = NULL,
     favorite = NULL,
-    mediaComments = NULL
+    mediaComments = NULL,
+    .keep = "none"
   )
 ```
 
@@ -125,6 +130,79 @@ observations <-
     classificationTimestamp = NULL,
     classificationProbability = NULL,
     observationTags = NULL,
-    observationComments = NULL
+    observationComments = NULL,
+    .keep = "none"
   )
 ```
+
+# Create data package
+
+```{r}
+acoustic <-
+  frictionless::create_package() %>%
+  add_resource(resource_name = "deployments", data = deployments) %>%
+  add_resource(resource_name = "media", data = media) %>%
+  add_resource(resource_name = "observations", data = observations) %>%
+  append(c(
+    "name" = "camtrap-dp-acoustic-example-dataset", # Required
+    "path" = NULL, # Required
+    "profile" = NULL, # Required
+    "schema" = NULL, # Required
+    "id" = NULL,
+    "created" = Sys.time(), # Required
+    "title" = "Sound of Norway: bird detections",
+    "contributors" = list( # Required
+      list(
+        title = "Julia Wiel",
+        email = "julia.wiel@nina.no",
+        path = NULL,
+        role = "principalInvestigator",
+        organization = "Norwegian Institute for Nature Research (NINA)"
+      ),
+      list(
+        title = "Benjamin Cretois",
+        email = "benjamin.cretois@nina.no",
+        path = "https://orcid.org/0000-0001-8668-3321",
+        role = "principalInvestigator",
+        organization = "Norwegian Institute for Nature Research (NINA)"
+      )
+    ),
+    "description" = NULL,
+    "version" = "1.0",
+    "keywords" = c("acoustic", "birds"),
+    "image" = NULL,
+    "homepage" = NULL,
+    "sources" = NULL,
+    "licenses" = list(
+      list(
+        name = "CC0-1.0",
+        scope = "data" # Required
+        ), 
+      list(
+        path = "http://creativecommons.org/licenses/by/4.0/", 
+        scope = "media" # Required
+        )
+      ),
+    "bibliographicCitation" = NULL,
+    "project" = list( # Required
+      id = NULL,
+      title = "Sound of Norway", # Required
+      acronym = NULL,
+      description = NULL,
+      protocolType = "Acoustic",
+      samplingDesign = NULL, # Required
+      path = NULL,
+      captureMethod = NULL, # Required
+      individualAnimals = FALSE, # Required
+      observationLevel = NULL # Required
+    ), 
+    "coordinatePrecision" = NULL,
+    "spatial" = NULL, # Required
+    "temporal" = NULL, # Required
+    "taxonomic" = NULL, # Required
+    "relatedIdentifiers" = NULL,
+    "references" = NULL
+  )) %>%
+  frictionless::create_package()
+```
+
