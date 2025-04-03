@@ -18,7 +18,7 @@ library(frictionless)
 
 
 ```{r}
-#data_raw <- read.csv(here::here("data", "raw", "birdnet_lite_detections-proj_sound-of-norway-yr2complete.csv"))
+data_raw <- read.csv(here::here("data", "raw", "birdnet_lite_detections-proj_sound-of-norway-yr2complete.csv"))
 data <- data_raw[1:5000,]
 ```
 
@@ -145,9 +145,9 @@ acoustic <-
   add_resource(resource_name = "observations", data = observations) %>%
   append(c(
     "name" = "camtrap-dp-acoustic-example-dataset", # Required
-    "path" = NULL, # Required
-    "profile" = NULL, # Required
-    "schema" = NULL, # Required
+    "path" = NULL, # Required (Sanne will do this)
+    "profile" = NULL, # Required (Sanne will do this)
+    "schema" = NULL, # Required (Sanne will do this)
     "id" = NULL,
     "created" = Sys.time(), # Required
     "title" = "Sound of Norway: bird detections",
@@ -197,9 +197,9 @@ acoustic <-
       observationLevel = NULL # Required
     ), 
     "coordinatePrecision" = NULL,
-    "spatial" = NULL, # Required
-    "temporal" = NULL, # Required
-    "taxonomic" = NULL, # Required
+    "spatial" = NULL, # Required (Sanne will do this)
+    "temporal" = NULL, # Required (Sanne will do this)
+    "taxonomic" = NULL, # Required (Sanne will do this)
     "relatedIdentifiers" = NULL,
     "references" = NULL
   )) %>%
