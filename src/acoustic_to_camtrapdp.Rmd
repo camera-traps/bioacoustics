@@ -10,38 +10,40 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-library(readxl)
 library(here)
 library(dplyr)
+library(tidyr)
 ```
 
 
 ```{r}
-data <- readxl::read_excel(here::here("data", "raw", "I2D-BIO_2022_103.xlsx"))
+data_raw <- read.csv(here::here("data", "raw", "birdnet_lite_detections-proj_sound-of-norway-yr2complete.csv"))
+data <- data_raw[1:5000,]
 ```
 
 # Create Camtrap DP
 
-## Create datapackage.json
-
 ```{r}
-
+(unique_values_per_column <-
+  data %>%
+  summarise(across(everything(), ~ n_distinct(.))) %>%
+  pivot_longer(everything(), names_to = "column", values_to = "n_unique"))
 ```
 
-## Create deployments
+## Create deployments resource
 
 ```{r}
 deployments <-
   data %>% 
   dplyr::mutate(
-    deploymentID = NULL,
+    deploymentID = NULL, # Required
     locationID = NULL,
     locationName = NULL,
-    latitude = NULL,
-    longitude = NULL,
+    latitude = NULL, # Required
+    longitude = NULL, # Required
     coordinateUncertainty = NULL,
-    deploymentStart = NULL,
-    deploymentEnd = NULL,
+    deploymentStart = NULL, # Required
+    deploymentEnd = NULL, # Required
     setupBy = NULL,
     deviveID = NULL,
     ddeviceModel = NULL,
@@ -63,20 +65,20 @@ deployments <-
   )
 ```
 
-## Create media
+## Create media resource
 
 ```{r}
 media <-
   data %>% 
   dplyr::mutate(
-    medidaID = NULL,
-    deploymentID = NULL,
+    medidaID = NULL, # Required
+    deploymentID = NULL, # Required
     captureMethod = NULL,
-    timestamp = NULL,
-    filePath = NULL,
-    filePublic = NULL,
+    timestamp = NULL, # Required
+    filePath = NULL,# Required
+    filePublic = NULL, # Required
     fileName = NULL,
-    fileMediatype = NULL,
+    fileMediatype = NULL, # Required
     samplingFrequency = NULL,
     bitDepth = NULL,
     gain = NULL,
@@ -88,22 +90,22 @@ media <-
   )
 ```
 
-## Create observations
+## Create observations resource
 
 ```{r}
 observations <-
   data %>% 
   dplyr::mutate(
-    observationID = NULL,
-    deploymentID = NULL,
+    observationID = .data$id, # Required
+    deploymentID = NULL, # Required
     mediaID = NULL,
     eventID = NULL,
-    eventStart = NULL,
-    eventEnd = NULL,
-    observationLevel = NULL,
-    observationType = NULL,
+    eventStart = NULL, # Required
+    eventEnd = NULL, # Required
+    observationLevel = NULL, # Required
+    observationType = NULL, # Required
     deviceSetupType = NULL,
-    scientificName = NULL,
+    scientificName = NULL,  # Required
     count = NULL,
     lifeStage = NULL,
     sex = NULL,
