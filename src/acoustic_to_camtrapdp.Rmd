@@ -1,6 +1,6 @@
 ---
 title: "acoustic_to_camtrapdp"
-author: "Sanne Govaert"
+author: "Sanne Govaert and Julia Wiel"
 date: "`r Sys.Date()`"
 output: html_document
 ---
@@ -15,6 +15,7 @@ library(here)
 library(dplyr)
 library(tidyr)
 library(frictionless)
+library(lubridate)
 ```
 
 
@@ -34,32 +35,51 @@ data <- data_raw[1:5000,]
   pivot_longer(everything(), names_to = "column", values_to = "n_unique"))
 ```
 
+## Add information in dataset
+```{r}
+#eventEnd
+data$detected_time_parsed <- ymd_hms(data$detected_time, tz = "UTC")
+data$eventEnd <- data$detected_time_parsed + data$end_secs
+data$eventEnd_iso <- format(data$eventEnd, format = "%Y-%m-%dT%H:%M:%OSZ", tz = "UTC")
+
+#scientificName
+translate <- read.delim2(file = here::here("data", "raw","Bird names_english latin norsk.txt"), sep = "\t", header = TRUE)
+data <- merge(data, translate, by.x = "tags", by.y = "EnglishName")
+
+#Deployment start and end based on first and last detection for each site
+data <- data %>%
+  group_by(site) %>%
+  mutate(deploymentStart = min(detected_time_parsed), deploymentEnd = max(detected_time_parsed)) %>%
+  ungroup()
+```
+
+
 ## Create deployments resource
 
 ```{r}
 deployments <-
   data %>% 
   dplyr::mutate(
-    deploymentID = NULL, # Required
+    deploymentID = .data$site, # Required
     locationID = NULL,
-    locationName = NULL,
-    latitude = NULL, # Required
-    longitude = NULL, # Required
+    locationName = .data$site,
+    latitude = .data$latitude, # Required
+    longitude = .data$longitude, # Required
     coordinateUncertainty = NULL,
-    deploymentStart = NULL, # Required
-    deploymentEnd = NULL, # Required
+    deploymentStart = .data$deploymentStart, # Required
+    deploymentEnd = .data$deploymentEnd, # Required
     setupBy = NULL,
-    deviveID = NULL,
-    ddeviceModel = NULL,
+    deviveID = .data$recorder,
+    deviceModel = "Bugg v2022" ,
     deviceDelay = NULL,
-    deviceHeight = NULL,
+    deviceHeight = "1.5",
     deviceDepth = NULL,
     deviceTilt = NULL,
     deviceHeading = NULL,
     dutyCycle = NULL,
     detectionDistance = NULL,
     timestampIssues = NULL,
-    devicePlatform = NULL,
+    devicePlatform = "pole",
     baitUse = NULL,
     featureType = NULL,
     habitat = NULL,
@@ -76,19 +96,19 @@ deployments <-
 media <-
   data %>% 
   dplyr::mutate(
-    medidaID = NULL, # Required
-    deploymentID = NULL, # Required
-    captureMethod = NULL,
-    timestamp = NULL, # Required
-    filePath = NULL,# Required
-    filePublic = NULL, # Required
+    medidaID = .data$audio_id, # Required
+    deploymentID = .data$site, # Required
+    captureMethod = "dutyCycle", #Where to we explain that it's continuous?
+    timestamp = .data$detected_time, # Required
+    filePath = .data$audio_link,# Required
+    filePublic = FALSE, # Required
     fileName = NULL,
-    fileMediatype = NULL, # Required
-    samplingFrequency = NULL,
-    bitDepth = NULL,
+    fileMediatype = NULL, # Required #MP3 format (VBR0 using FFMPEG’s LAME  codec) not in https://www.iana.org/assignments/media-types/audio/mpeg
+    samplingFrequency = "44100",
+    bitDepth = "16",
     gain = NULL,
-    channels = NULL,
-    duration = NULL,
+    channels = "1",
+    duration = "300", # I used mediaDuration http://rs.tdwg.org/ac/terms/mediaDuration
     exifData = NULL,
     favorite = NULL,
     mediaComments = NULL,
@@ -103,15 +123,15 @@ observations <-
   data %>% 
   dplyr::mutate(
     observationID = .data$id, # Required
-    deploymentID = NULL, # Required
-    mediaID = NULL,
+    deploymentID = .data$site, # Required
+    mediaID = .data$audio_id,
     eventID = NULL,
-    eventStart = NULL, # Required
-    eventEnd = NULL, # Required
-    observationLevel = NULL, # Required
-    observationType = NULL, # Required
+    eventStart = .data$detected_time, # Required
+    eventEnd = .data$eventEnd_iso, # Required
+    observationLevel = "interval", # Required
+    observationType = "animal", # Required #or "bird" to be specific
     deviceSetupType = NULL,
-    scientificName = NULL,  # Required
+    scientificName = .data$ScientificName,  # Required
     count = NULL,
     lifeStage = NULL,
     sex = NULL,
@@ -126,14 +146,21 @@ observations <-
     bboxHeight = NULL,
     frequencyLow = NULL,
     frequencyHigh = NULL,
-    classificationMethod = NULL,
-    classifiedBy = NULL,
-    classificationTimestamp = NULL,
-    classificationProbability = NULL,
-    observationTags = NULL,
+    classificationMethod = "machine",
+    classifiedBy = .data$analysis,
+    classificationTimestamp = "2023-06-23T12:23:00Z", #I made it up based on the file system
+    classificationProbability = .data$confidence,
+    observationTags = .data$tags,
     observationComments = NULL,
     .keep = "none"
   )
+```
+
+```{r}
+#Remove duplicate: Sanne, do you know why there are so many duplicates, especially in deployments?
+deployments <- deployments %>% distinct()
+media <- media %>% distinct()
+observations <- observations %>% distinct()
 ```
 
 # Create data package
@@ -151,26 +178,47 @@ acoustic <-
     "schema" = NULL, # Required (Sanne will do this)
     "id" = NULL,
     "created" = Sys.time(), # Required
-    "title" = "Sound of Norway: bird detections",
+    "title" = "The Sound of Norway: bird detections",
     "contributors" = list( # Required
       list(
         title = "Julia Wiel",
         email = "julia.wiel@nina.no",
-        path = NULL,
-        role = "principalInvestigator",
+        path = "https://orcid.org/0009-0009-7224-3953",
+        role = "contributor",
         organization = "Norwegian Institute for Nature Research (NINA)"
       ),
       list(
         title = "Benjamin Cretois",
         email = "benjamin.cretois@nina.no",
         path = "https://orcid.org/0000-0001-8668-3321",
+        role = "rightsHolder",
+        organization = "Norwegian Institute for Nature Research (NINA)"
+      ),
+      list(
+        title = "Carolyn Rosten",
+        email = "carolyn.rosten@nina.no",
+        path = "https://orcid.org/0000-0002-1117-444X",
+        role = "rightsHolder",
+        organization = "Norwegian Institute for Nature Research (NINA)"
+      ),
+      list(
+        title = "Sarab Sethi",
+        email = "sarab.sethi@imperial.ac.uk",
+        path = "https://orcid.org/0000-0002-5939-0432",
+        role = "principalInvestigator",
+        organization = "Imperial College London"
+      ),
+      list(
+        title = "I. Avery Bick",
+        email = "i.avery.bick@gmail.com",
+        path = "https://orcid.org/0000-0002-8007-9649",
         role = "principalInvestigator",
         organization = "Norwegian Institute for Nature Research (NINA)"
       )
     ),
     "description" = NULL,
     "version" = "1.0",
-    "keywords" = c("acoustic", "birds"),
+    "keywords" = c("acoustic", "birds", "passive acoustic monitoring"),
     "image" = NULL,
     "homepage" = NULL,
     "sources" = NULL,
@@ -184,18 +232,18 @@ acoustic <-
         scope = "media" # Required
         )
       ),
-    "bibliographicCitation" = NULL,
+    "bibliographicCitation" = "Bick, I. Avery, Vegar Bakkestuen, Benjamin Cretois, Ben Hillier, John A. Kålås, Marius Pedersen, Kiran Raja, et al. ‘National-Scale Acoustic Monitoring of Avian Biodiversity and Phenology’. Ecology, 24 May 2024. https://doi.org/10.1101/2024.05.21.595242",
     "project" = list( # Required
       id = NULL,
-      title = "Sound of Norway", # Required
+      title = "The Sound of Norway", # Required
       acronym = NULL,
-      description = NULL,
-      protocolType = "Acoustic",
-      samplingDesign = NULL, # Required
-      path = NULL,
-      captureMethod = NULL, # Required
+      description = "The Sound of Norway project monitors ecosystems across the nation with real- time recording devices. Using machine learning to automatically classify bird vocalisations, we can simultaneously track the distribution and migration patterns of many species on vast scales and over long time-periods.",
+      protocolType = "Passive Acoustic Monitoring",
+      samplingDesign = "systematic random", # Required
+      path = "https://thesoundofnorway.com/",
+      captureMethod = "continous", # Required
       individualAnimals = FALSE, # Required
-      observationLevel = NULL # Required
+      observationLevel = "media" # Required
     ), 
     "coordinatePrecision" = NULL,
     "spatial" = NULL, # Required (Sanne will do this)
