@@ -262,6 +262,18 @@ acoustic$project <- list( # Required
 # Write Data Package
 
 ```{r}
-frictionless::write_package(acoustic, here::here("data", "processed", "birdnet_lite_detections-proj_sound-of-norway-yr2complete.csv"))
+frictionless::write_package(acoustic, here::here("data", "processed", "birdnet", "frictionless"))
 ```
 
+# Read with camtrapdp
+
+This automatically updates the spatial and temporal coverage in the metadata, based on the data.
+
+```{r}
+acoustic_dp <- read_camtrapdp(here::here("data", "processed", "birdnet", "frictionless", "datapackage.json"))
+```
+
+# Write Camtrap DP
+```{r}
+write_camtrapdp(acoustic_dp, here::here("data", "processed", "birdnet", "camtrapdp"))
+```
