@@ -16,6 +16,7 @@ library(dplyr)
 library(tidyr)
 library(frictionless)
 library(lubridate)
+library(camtrapdp)
 ```
 
 
@@ -132,7 +133,7 @@ observations <-
     observationID = .data$id, # Required
     deploymentID = .data$site, # Required
     mediaID = .data$audio_id,
-    eventID = NULL,
+    eventID = .data$id, # Necessary to use read_camtrapdp(), see https://github.com/inbo/camtrapdp/issues/162
     eventStart = .data$detected_time, # Required
     eventEnd = .data$eventEnd_iso, # Required
     observationLevel = "interval", # Required
@@ -174,90 +175,93 @@ acoustic <-
   append(c(
     "name" = "camtrap-dp-acoustic-example-dataset", # Required
     "path" = NULL, # Required (Sanne will do this)
-    "profile" = NULL, # Required (Sanne will do this)
+    "profile" = "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0.1/camtrap-dp-profile.json", # Required (hack to use read_camtrapdp())
     "schema" = NULL, # Required (Sanne will do this)
     "id" = NULL,
     "created" = Sys.time(), # Required
     "title" = "The Sound of Norway: bird detections",
-    "contributors" = list( # Required
-      list(
-        title = "Julia Wiel",
-        email = "julia.wiel@nina.no",
-        path = "https://orcid.org/0009-0009-7224-3953",
-        role = "contributor",
-        organization = "Norwegian Institute for Nature Research (NINA)"
-      ),
-      list(
-        title = "Benjamin Cretois",
-        email = "benjamin.cretois@nina.no",
-        path = "https://orcid.org/0000-0001-8668-3321",
-        role = "rightsHolder",
-        organization = "Norwegian Institute for Nature Research (NINA)"
-      ),
-      list(
-        title = "Carolyn Rosten",
-        email = "carolyn.rosten@nina.no",
-        path = "https://orcid.org/0000-0002-1117-444X",
-        role = "rightsHolder",
-        organization = "Norwegian Institute for Nature Research (NINA)"
-      ),
-      list(
-        title = "Sarab Sethi",
-        email = "sarab.sethi@imperial.ac.uk",
-        path = "https://orcid.org/0000-0002-5939-0432",
-        role = "principalInvestigator",
-        organization = "Imperial College London"
-      ),
-      list(
-        title = "I. Avery Bick",
-        email = "i.avery.bick@gmail.com",
-        path = "https://orcid.org/0000-0002-8007-9649",
-        role = "principalInvestigator",
-        organization = "Norwegian Institute for Nature Research (NINA)"
-      )
-    ),
     "description" = NULL,
     "version" = "1.0",
     "keywords" = c("acoustic", "birds", "passive acoustic monitoring"),
     "image" = NULL,
     "homepage" = NULL,
     "sources" = NULL,
-    "licenses" = list(
-      list(
-        name = "CC0-1.0",
-        scope = "data" # Required
-        ), 
-      list(
-        path = "http://creativecommons.org/licenses/by/4.0/", 
-        scope = "media" # Required
-        )
-      ),
     "bibliographicCitation" = "Bick, I. Avery, Vegar Bakkestuen, Benjamin Cretois, Ben Hillier, John A. Kålås, Marius Pedersen, Kiran Raja, et al. ‘National-Scale Acoustic Monitoring of Avian Biodiversity and Phenology’. Ecology, 24 May 2024. https://doi.org/10.1101/2024.05.21.595242",
-    "project" = list( # Required
-      id = NULL,
-      title = "The Sound of Norway", # Required
-      acronym = NULL,
-      description = "The Sound of Norway project monitors ecosystems across the nation with real- time recording devices. Using machine learning to automatically classify bird vocalisations, we can simultaneously track the distribution and migration patterns of many species on vast scales and over long time-periods.",
-      protocolType = "Passive Acoustic Monitoring",
-      samplingDesign = "systematic random", # Required
-      path = "https://thesoundofnorway.com/",
-      captureMethod = "continous", # Required
-      individualAnimals = FALSE, # Required
-      observationLevel = "media" # Required
-    ), 
     "coordinatePrecision" = NULL,
-    "spatial" = NULL, # Required (Sanne will do this)
-    "temporal" = NULL, # Required (Sanne will do this)
+    "spatial" = NULL, # Required, but keep this empty, this comes later
+    "temporal" = NULL, # Required, but keep this empty, this comes later
     "taxonomic" = NULL, # Required (Sanne will do this)
     "relatedIdentifiers" = NULL,
     "references" = NULL
   )) %>%
   frictionless::create_package()
+
+acoustic$contributors <- list( # Required
+  list(
+    title = "Julia Wiel",
+    email = "julia.wiel@nina.no",
+    path = "https://orcid.org/0009-0009-7224-3953",
+    role = "contributor",
+    organization = "Norwegian Institute for Nature Research (NINA)"
+  ),
+  list(
+    title = "Benjamin Cretois",
+    email = "benjamin.cretois@nina.no",
+    path = "https://orcid.org/0000-0001-8668-3321",
+    role = "rightsHolder",
+    organization = "Norwegian Institute for Nature Research (NINA)"
+  ),
+  list(
+    title = "Carolyn Rosten",
+    email = "carolyn.rosten@nina.no",
+    path = "https://orcid.org/0000-0002-1117-444X",
+    role = "rightsHolder",
+    organization = "Norwegian Institute for Nature Research (NINA)"
+  ),
+  list(
+    title = "Sarab Sethi",
+    email = "sarab.sethi@imperial.ac.uk",
+    path = "https://orcid.org/0000-0002-5939-0432",
+    role = "principalInvestigator",
+    organization = "Imperial College London"
+  ),
+  list(
+    title = "I. Avery Bick",
+    email = "i.avery.bick@gmail.com",
+    path = "https://orcid.org/0000-0002-8007-9649",
+    role = "principalInvestigator",
+    organization = "Norwegian Institute for Nature Research (NINA)"
+  )
+)
+
+acoustic$licenses <- list(
+  list(
+    name = "CC0-1.0",
+    scope = "data" # Required
+  ),
+  list(
+    path = "http://creativecommons.org/licenses/by/4.0/",
+    scope = "media" # Required
+  )
+)
+
+acoustic$project <- list( # Required
+  id = NULL,
+  title = "The Sound of Norway", # Required
+  acronym = NULL,
+  description = "The Sound of Norway project monitors ecosystems across the nation with real- time recording devices. Using machine learning to automatically classify bird vocalisations, we can simultaneously track the distribution and migration patterns of many species on vast scales and over long time-periods.",
+  protocolType = "Passive Acoustic Monitoring",
+  samplingDesign = "systematic random", # Required
+  path = "https://thesoundofnorway.com/",
+  captureMethod = "continous", # Required
+  individualAnimals = FALSE, # Required
+  observationLevel = "media" # Required
+)
 ```
 
 # Write Data Package
 
 ```{r}
-# Write files
-frictionless::write_package(acoustic, here::here("data", "processed", "birdnet_lite_detections-proj_sound-of-norway-yr2complete"))
+frictionless::write_package(acoustic, here::here("data", "processed", "birdnet_lite_detections-proj_sound-of-norway-yr2complete.csv"))
 ```
+
