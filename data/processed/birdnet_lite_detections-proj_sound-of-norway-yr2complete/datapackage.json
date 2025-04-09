@@ -1,0 +1,237 @@
+{
+  "resources": [
+    {
+      "name": "deployments",
+      "path": "deployments.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields": [
+          {
+            "name": "site",
+            "type": "string"
+          },
+          {
+            "name": "latitude",
+            "type": "number"
+          },
+          {
+            "name": "longitude",
+            "type": "number"
+          },
+          {
+            "name": "deploymentStart",
+            "type": "datetime"
+          },
+          {
+            "name": "deploymentEnd",
+            "type": "datetime"
+          },
+          {
+            "name": "deploymentID",
+            "type": "string"
+          },
+          {
+            "name": "locationName",
+            "type": "string"
+          },
+          {
+            "name": "deviveID",
+            "type": "string"
+          },
+          {
+            "name": "deviceModel",
+            "type": "string"
+          },
+          {
+            "name": "deviceHeight",
+            "type": "string"
+          },
+          {
+            "name": "devicePlatform",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "media",
+      "path": "media.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields": [
+          {
+            "name": "medidaID",
+            "type": "string"
+          },
+          {
+            "name": "deploymentID",
+            "type": "string"
+          },
+          {
+            "name": "captureMethod",
+            "type": "string"
+          },
+          {
+            "name": "timestamp",
+            "type": "string"
+          },
+          {
+            "name": "filePath",
+            "type": "string"
+          },
+          {
+            "name": "filePublic",
+            "type": "boolean"
+          },
+          {
+            "name": "samplingFrequency",
+            "type": "string"
+          },
+          {
+            "name": "bitDepth",
+            "type": "string"
+          },
+          {
+            "name": "channels",
+            "type": "string"
+          },
+          {
+            "name": "duration",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "observations",
+      "path": "observations.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields": [
+          {
+            "name": "eventEnd",
+            "type": "string"
+          },
+          {
+            "name": "observationID",
+            "type": "string"
+          },
+          {
+            "name": "deploymentID",
+            "type": "string"
+          },
+          {
+            "name": "mediaID",
+            "type": "string"
+          },
+          {
+            "name": "eventStart",
+            "type": "string"
+          },
+          {
+            "name": "observationLevel",
+            "type": "string"
+          },
+          {
+            "name": "observationType",
+            "type": "string"
+          },
+          {
+            "name": "scientificName",
+            "type": "string"
+          },
+          {
+            "name": "classificationMethod",
+            "type": "string"
+          },
+          {
+            "name": "classifiedBy",
+            "type": "string"
+          },
+          {
+            "name": "classificationTimestamp",
+            "type": "string"
+          },
+          {
+            "name": "classificationProbability",
+            "type": "number"
+          },
+          {
+            "name": "observationTags",
+            "type": "string"
+          }
+        ]
+      }
+    }
+  ],
+  "name": "camtrap-dp-acoustic-example-dataset",
+  "created": 1744195070.5904,
+  "title": "The Sound of Norway: bird detections",
+  "contributors1": {
+    "title": "Julia Wiel",
+    "email": "julia.wiel@nina.no",
+    "path": "https://orcid.org/0009-0009-7224-3953",
+    "role": "contributor",
+    "organization": "Norwegian Institute for Nature Research (NINA)"
+  },
+  "contributors2": {
+    "title": "Benjamin Cretois",
+    "email": "benjamin.cretois@nina.no",
+    "path": "https://orcid.org/0000-0001-8668-3321",
+    "role": "rightsHolder",
+    "organization": "Norwegian Institute for Nature Research (NINA)"
+  },
+  "contributors3": {
+    "title": "Carolyn Rosten",
+    "email": "carolyn.rosten@nina.no",
+    "path": "https://orcid.org/0000-0002-1117-444X",
+    "role": "rightsHolder",
+    "organization": "Norwegian Institute for Nature Research (NINA)"
+  },
+  "contributors4": {
+    "title": "Sarab Sethi",
+    "email": "sarab.sethi@imperial.ac.uk",
+    "path": "https://orcid.org/0000-0002-5939-0432",
+    "role": "principalInvestigator",
+    "organization": "Imperial College London"
+  },
+  "contributors5": {
+    "title": "I. Avery Bick",
+    "email": "i.avery.bick@gmail.com",
+    "path": "https://orcid.org/0000-0002-8007-9649",
+    "role": "principalInvestigator",
+    "organization": "Norwegian Institute for Nature Research (NINA)"
+  },
+  "version": "1.0",
+  "keywords1": "acoustic",
+  "keywords2": "birds",
+  "keywords3": "passive acoustic monitoring",
+  "licenses1": {
+    "name": "CC0-1.0",
+    "scope": "data"
+  },
+  "licenses2": {
+    "path": "http://creativecommons.org/licenses/by/4.0/",
+    "scope": "media"
+  },
+  "bibliographicCitation": "Bick, I. Avery, Vegar Bakkestuen, Benjamin Cretois, Ben Hillier, John A. Kålås, Marius Pedersen, Kiran Raja, et al. ‘National-Scale Acoustic Monitoring of Avian Biodiversity and Phenology’. Ecology, 24 May 2024. https://doi.org/10.1101/2024.05.21.595242",
+  "project.id": null,
+  "project.title": "The Sound of Norway",
+  "project.acronym": null,
+  "project.description": "The Sound of Norway project monitors ecosystems across the nation with real- time recording devices. Using machine learning to automatically classify bird vocalisations, we can simultaneously track the distribution and migration patterns of many species on vast scales and over long time-periods.",
+  "project.protocolType": "Passive Acoustic Monitoring",
+  "project.samplingDesign": "systematic random",
+  "project.path": "https://thesoundofnorway.com/",
+  "project.captureMethod": "continous",
+  "project.individualAnimals": false,
+  "project.observationLevel": "media"
+}

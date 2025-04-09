@@ -255,4 +255,9 @@ acoustic <-
   frictionless::create_package()
 ```
 
+# Write Data Package
 
+```{r}
+# Write files
+frictionless::write_package(acoustic, here::here("data", "processed", "birdnet_lite_detections-proj_sound-of-norway-yr2complete"))
+```
