@@ -47,10 +47,16 @@ translate <- read.delim2(file = here::here("data", "raw","Bird names_english lat
 data <- merge(data, translate, by.x = "tags", by.y = "EnglishName")
 
 #Deployment start and end based on first and last detection for each site
-data <- data %>%
+deployments_raw <- data %>%
   group_by(site) %>%
-  mutate(deploymentStart = min(detected_time_parsed), deploymentEnd = max(detected_time_parsed)) %>%
-  ungroup()
+  dplyr::mutate(
+    deploymentStart = min(detected_time_parsed),
+    deploymentEnd = max(detected_time_parsed)
+    ) %>%
+  dplyr::select(
+    site, latitude, longitude, deploymentStart, deploymentEnd, recorder
+    ) %>% 
+  dplyr::distinct()
 ```
 
 
@@ -58,7 +64,7 @@ data <- data %>%
 
 ```{r}
 deployments <-
-  data %>% 
+  deployments_raw %>% 
   dplyr::mutate(
     deploymentID = .data$site, # Required
     locationID = NULL,
