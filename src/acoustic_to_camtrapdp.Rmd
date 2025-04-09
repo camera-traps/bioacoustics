@@ -174,9 +174,9 @@ acoustic <-
   add_resource(resource_name = "observations", data = observations) %>%
   append(c(
     name = "camtrap-dp-acoustic-example-dataset", # Required
-    path = NULL, # Required (Sanne will do this)
+    path = NULL, # Required, but keep this empty for now
     profile = "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0.1/camtrap-dp-profile.json", # Required (hack to use read_camtrapdp())
-    schema = NULL, # Required (Sanne will do this)
+    schema = NULL, # Required, but keep this empty for now
     id = NULL,
     created = format(Sys.time(), "%Y-%M-%dT%H:%M:%SZ"), # Required
     title = "The Sound of Norway: bird detections",
