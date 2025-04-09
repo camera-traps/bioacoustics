@@ -178,7 +178,7 @@ acoustic <-
     profile = "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0.1/camtrap-dp-profile.json", # Required (hack to use read_camtrapdp())
     schema = NULL, # Required, but keep this empty for now
     id = NULL,
-    created = format(Sys.time(), "%Y-%M-%dT%H:%M:%SZ"), # Required
+    created = format(Sys.time(), "%Y-%M-%dT%H:%M:%SZ", tz = "UTC"), # Required
     title = "The Sound of Norway: bird detections",
     description = NULL,
     version = "1.0",
