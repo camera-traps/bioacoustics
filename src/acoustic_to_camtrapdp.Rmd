@@ -37,16 +37,16 @@ data <- data_raw[1:5000,]
 
 ## Add information in dataset
 ```{r}
-#eventEnd
+# eventEnd
 data$detected_time_parsed <- ymd_hms(data$detected_time, tz = "UTC")
 data$eventEnd <- data$detected_time_parsed + data$end_secs
 data$eventEnd_iso <- format(data$eventEnd, format = "%Y-%m-%dT%H:%M:%OSZ", tz = "UTC")
 
-#scientificName
+# scientificName
 translate <- read.delim2(file = here::here("data", "raw","Bird names_english latin norsk.txt"), sep = "\t", header = TRUE)
 data <- merge(data, translate, by.x = "tags", by.y = "EnglishName")
 
-#Deployment start and end based on first and last detection for each site
+# Deployment start and end based on first and last detection for each site
 deployments_raw <- data %>%
   group_by(site) %>%
   dplyr::mutate(
@@ -99,6 +99,7 @@ deployments <-
 ## Create media resource
 
 ```{r}
+#TODO: check duplicates in media
 media <-
   data %>% 
   dplyr::mutate(
@@ -160,13 +161,6 @@ observations <-
     observationComments = NULL,
     .keep = "none"
   )
-```
-
-```{r}
-#Remove duplicate: Sanne, do you know why there are so many duplicates, especially in deployments?
-deployments <- deployments %>% distinct()
-media <- media %>% distinct()
-observations <- observations %>% distinct()
 ```
 
 # Create data package
@@ -260,4 +254,5 @@ acoustic <-
   )) %>%
   frictionless::create_package()
 ```
+
 
