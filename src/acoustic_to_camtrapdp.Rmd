@@ -100,7 +100,8 @@ deployments <-
     deploymentTags = NULL,
     deploymentComments = NULL,
     .keep = "none"
-  )
+  ) %>% 
+  dplyr::arrange(deploymentID)
 ```
 
 ## Create media resource
@@ -127,7 +128,8 @@ media <-
     favorite = NULL,
     mediaComments = NULL,
     .keep = "none"
-  )
+  ) %>% 
+  dplyr::arrange(mediaID)
 ```
 
 ## Create observations resource
@@ -167,7 +169,8 @@ observations <-
     observationTags = .data$tags,
     observationComments = NULL,
     .keep = "none"
-  )
+  ) %>% 
+  dplyr::arrange(observationID)
 ```
 
 # Create data package
