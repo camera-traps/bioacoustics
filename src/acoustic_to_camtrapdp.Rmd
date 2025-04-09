@@ -173,26 +173,26 @@ acoustic <-
   add_resource(resource_name = "media", data = media) %>%
   add_resource(resource_name = "observations", data = observations) %>%
   append(c(
-    "name" = "camtrap-dp-acoustic-example-dataset", # Required
-    "path" = NULL, # Required (Sanne will do this)
-    "profile" = "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0.1/camtrap-dp-profile.json", # Required (hack to use read_camtrapdp())
-    "schema" = NULL, # Required (Sanne will do this)
-    "id" = NULL,
-    "created" = Sys.time(), # Required
-    "title" = "The Sound of Norway: bird detections",
-    "description" = NULL,
-    "version" = "1.0",
-    "keywords" = c("acoustic", "birds", "passive acoustic monitoring"),
-    "image" = NULL,
-    "homepage" = NULL,
-    "sources" = NULL,
-    "bibliographicCitation" = "Bick, I. Avery, Vegar Bakkestuen, Benjamin Cretois, Ben Hillier, John A. Kålås, Marius Pedersen, Kiran Raja, et al. ‘National-Scale Acoustic Monitoring of Avian Biodiversity and Phenology’. Ecology, 24 May 2024. https://doi.org/10.1101/2024.05.21.595242",
-    "coordinatePrecision" = NULL,
-    "spatial" = NULL, # Required, but keep this empty, this comes later
-    "temporal" = NULL, # Required, but keep this empty, this comes later
-    "taxonomic" = NULL, # Required (Sanne will do this)
-    "relatedIdentifiers" = NULL,
-    "references" = NULL
+    name = "camtrap-dp-acoustic-example-dataset", # Required
+    path = NULL, # Required (Sanne will do this)
+    profile = "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0.1/camtrap-dp-profile.json", # Required (hack to use read_camtrapdp())
+    schema = NULL, # Required (Sanne will do this)
+    id = NULL,
+    created = Sys.time(), # Required
+    title = "The Sound of Norway: bird detections",
+    description = NULL,
+    version = "1.0",
+    keywords = c("acoustic", "birds", "passive acoustic monitoring"),
+    image = NULL,
+    homepage = NULL,
+    sources = NULL,
+    bibliographicCitation = "Bick, I. Avery, Vegar Bakkestuen, Benjamin Cretois, Ben Hillier, John A. Kålås, Marius Pedersen, Kiran Raja, et al. ‘National-Scale Acoustic Monitoring of Avian Biodiversity and Phenology’. Ecology, 24 May 2024. https://doi.org/10.1101/2024.05.21.595242",
+    coordinatePrecision = NULL,
+    spatial = NULL, # Required, but keep this empty, this comes later
+    temporal = NULL, # Required, but keep this empty, this comes later
+    taxonomic = NULL, # Required (Sanne will do this)
+    relatedIdentifiers = NULL,
+    references = NULL
   )) %>%
   frictionless::create_package()
 
