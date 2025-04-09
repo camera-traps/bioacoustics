@@ -1,4 +1,4 @@
-medidaID,deploymentID,captureMethod,timestamp,filePath,filePublic,samplingFrequency,bitDepth,channels,duration
+mediaID,deploymentID,captureMethod,timestamp,filePath,filePublic,samplingFrequency,bitDepth,channels,duration
 8851a9d110f41a2cf448,TOV-E: Stavanger 110204,dutyCycle,2022-10-24T19:38:47.317Z,https://bugg-301712.web.app/download/9a42ba3b-ca7f-4523-b129-486a4f2389ca/audio/proj_sound-of-norway/bugg_RPiID-1000000027dd31af/conf_6f40914/2022-10-24T19_36_53.317Z.mp3,FALSE,44100,16,1,300
 257ad6f232655c37fc4e,TOV-E: Stavanger 110204,dutyCycle,2022-10-24T19:05:33.412Z,https://bugg-301712.web.app/download/3f1db578-45c2-4771-acbf-5006200ad947/audio/proj_sound-of-norway/bugg_RPiID-1000000027dd31af/conf_6f40914/2022-10-24T19_01_36.412Z.mp3,FALSE,44100,16,1,300
 b36457799f13a8f5e4cd,TOV-E: Stavanger 110204,dutyCycle,2022-10-24T11:10:11.161Z,https://bugg-301712.web.app/download/5bafce08-e55c-4986-8d44-5ff8121462a0/audio/proj_sound-of-norway/bugg_RPiID-1000000027dd31af/conf_6f40914/2022-10-24T11_07_50.161Z.mp3,FALSE,44100,16,1,300

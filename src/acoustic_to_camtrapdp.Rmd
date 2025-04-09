@@ -110,7 +110,7 @@ deployments <-
 media <-
   data %>% 
   dplyr::mutate(
-    medidaID = .data$audio_id, # Required
+    mediaID = .data$audio_id, # Required
     deploymentID = .data$site, # Required
     captureMethod = "dutyCycle", #Where to we explain that it's continuous?
     timestamp = .data$detected_time, # Required
