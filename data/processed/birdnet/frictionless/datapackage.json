@@ -179,7 +179,7 @@
   ],
   "name": "camtrap-dp-acoustic-example-dataset",
   "profile": "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0.1/camtrap-dp-profile.json",
-  "created": "2025-28-09T15:28:29Z",
+  "created": "2025-48-09T15:48:46Z",
   "title": "The Sound of Norway: bird detections",
   "version": "1.0",
   "keywords1": "acoustic",
@@ -541,12 +541,6 @@
       }
     },
     {
-      "scientificName": "Glaucidium Passerinum",
-      "vernacularNames": {
-        "eng": "Eurasian Pygmy-Owl"
-      }
-    },
-    {
       "scientificName": "Spinus Spinus",
       "vernacularNames": {
         "eng": "Eurasian Siskin"
@@ -751,12 +745,6 @@
       }
     },
     {
-      "scientificName": "Asio Otus",
-      "vernacularNames": {
-        "eng": "Long-Eared Owl"
-      }
-    },
-    {
       "scientificName": "Aegithalos Caudatus",
       "vernacularNames": {
         "eng": "Long-Tailed Tit"
@@ -943,18 +931,6 @@
       }
     },
     {
-      "scientificName": "Tetrao Urogallus",
-      "vernacularNames": {
-        "eng": "Western Capercaillie"
-      }
-    },
-    {
-      "scientificName": "Motacilla Alba",
-      "vernacularNames": {
-        "eng": "White Wagtail"
-      }
-    },
-    {
       "scientificName": "Motacilla Alba",
       "vernacularNames": {
         "eng": "White Wagtail"
@@ -964,12 +940,6 @@
       "scientificName": "Loxia Leucoptera",
       "vernacularNames": {
         "eng": "White-Winged Crossbill"
-      }
-    },
-    {
-      "scientificName": "Cygnus Cygnus",
-      "vernacularNames": {
-        "eng": "Whooper Swan"
       }
     },
     {

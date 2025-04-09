@@ -36,16 +36,23 @@ data <- data_raw[1:5000,]
   pivot_longer(everything(), names_to = "column", values_to = "n_unique"))
 ```
 
-## Add information in dataset
+## Add information to dataset
+
 ```{r}
-# eventEnd
+# Calculate eventEnd
 data$detected_time_parsed <- ymd_hms(data$detected_time, tz = "UTC")
 data$eventEnd <- data$detected_time_parsed + data$end_secs
 data$eventEnd_iso <- format(data$eventEnd, format = "%Y-%m-%dT%H:%M:%OSZ", tz = "UTC")
 
-# scientificName
-taxonomy <- read.delim2(file = here::here("data", "raw","Bird names_english latin norsk.txt"), sep = "\t", header = TRUE)
-data <- merge(data, taxonomy, by.x = "tags", by.y = "EnglishName")
+# add scientificName
+taxonomy <- 
+  read.delim2(
+    file = here::here("data", "raw","Bird names_english latin norsk.txt"), 
+    sep = "\t", 
+    header = TRUE
+    ) %>% 
+  dplyr::distinct() # Remove duplicates
+data <- dplyr::left_join(data, taxonomy, dplyr::join_by(tags == EnglishName))
 
 # Deployment start and end based on first and last detection for each site
 deployments_raw <- data %>%
