@@ -44,8 +44,8 @@ data$eventEnd <- data$detected_time_parsed + data$end_secs
 data$eventEnd_iso <- format(data$eventEnd, format = "%Y-%m-%dT%H:%M:%OSZ", tz = "UTC")
 
 # scientificName
-translate <- read.delim2(file = here::here("data", "raw","Bird names_english latin norsk.txt"), sep = "\t", header = TRUE)
-data <- merge(data, translate, by.x = "tags", by.y = "EnglishName")
+taxonomy <- read.delim2(file = here::here("data", "raw","Bird names_english latin norsk.txt"), sep = "\t", header = TRUE)
+data <- merge(data, taxonomy, by.x = "tags", by.y = "EnglishName")
 
 # Deployment start and end based on first and last detection for each site
 deployments_raw <- data %>%
@@ -190,7 +190,7 @@ acoustic <-
     coordinatePrecision = NULL,
     spatial = NULL, # Required, but keep this empty, this comes later
     temporal = NULL, # Required, but keep this empty, this comes later
-    taxonomic = NULL, # Required (Sanne will do this)
+    taxonomic = NULL, # Required, but keep this empty, this comes later
     relatedIdentifiers = NULL,
     references = NULL
   )) %>%
@@ -258,6 +258,26 @@ acoustic$project <- list( # Required
   observationLevel = "media" # Required
 )
 ```
+
+## Create taxonomy
+
+```{r}
+map_taxonomy <- function(taxonomy) {
+  list(
+    scientificName = taxonomy$ScientificName,
+    vernacularNames = list(
+      eng = taxonomy$EnglishName,
+      nor = taxonomy$NorwegianName
+      )
+  )
+}
+```
+
+```{r}
+taxonomy_list <- apply(taxonomy, 1, as.list)
+acoustic$taxonomic <- purrr::map(taxonomy_list, map_taxonomy)
+```
+
 
 # Write Data Package
 

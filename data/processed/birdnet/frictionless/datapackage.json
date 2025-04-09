@@ -179,7 +179,7 @@
   ],
   "name": "camtrap-dp-acoustic-example-dataset",
   "profile": "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0.1/camtrap-dp-profile.json",
-  "created": "1744203867.78665",
+  "created": "1744204574.61142",
   "title": "The Sound of Norway: bird detections",
   "version": "1.0",
   "keywords1": "acoustic",
@@ -244,5 +244,787 @@
     "captureMethod": "continous",
     "individualAnimals": false,
     "observationLevel": "media"
-  }
+  },
+  "taxonomic": [
+    {
+      "scientificName": "Zapornia Pusilla",
+      "vernacularNames": {
+        "eng": "Baillon'S Crake"
+      }
+    },
+    {
+      "scientificName": "Hirundo Rustica",
+      "vernacularNames": {
+        "eng": "Barn Swallow"
+      }
+    },
+    {
+      "scientificName": "Branta Leucopsis",
+      "vernacularNames": {
+        "eng": "Barnacle Goose"
+      }
+    },
+    {
+      "scientificName": "Lyrurus Tetrix",
+      "vernacularNames": {
+        "eng": "Black Grouse"
+      }
+    },
+    {
+      "scientificName": "Dryocopus Martius",
+      "vernacularNames": {
+        "eng": "Black Woodpecker"
+      }
+    },
+    {
+      "scientificName": "Aegolius Funereus",
+      "vernacularNames": {
+        "eng": "Boreal Owl"
+      }
+    },
+    {
+      "scientificName": "Fringilla Montifringilla",
+      "vernacularNames": {
+        "eng": "Brambling"
+      }
+    },
+    {
+      "scientificName": "Branta Canadensis",
+      "vernacularNames": {
+        "eng": "Canada Goose"
+      }
+    },
+    {
+      "scientificName": "Periparus Ater",
+      "vernacularNames": {
+        "eng": "Coal Tit"
+      }
+    },
+    {
+      "scientificName": "Buteo Buteo",
+      "vernacularNames": {
+        "eng": "Common Buzzard"
+      }
+    },
+    {
+      "scientificName": "Fringilla Coelebs",
+      "vernacularNames": {
+        "eng": "Common Chaffinch"
+      }
+    },
+    {
+      "scientificName": "Phylloscopus Collybita",
+      "vernacularNames": {
+        "eng": "Common Chiffchaff"
+      }
+    },
+    {
+      "scientificName": "Grus Grus",
+      "vernacularNames": {
+        "eng": "Common Crane"
+      }
+    },
+    {
+      "scientificName": "Cuculus Canorus",
+      "vernacularNames": {
+        "eng": "Common Cuckoo"
+      }
+    },
+    {
+      "scientificName": "Locustella Naevia",
+      "vernacularNames": {
+        "eng": "Common Grasshopper-Warbler"
+      }
+    },
+    {
+      "scientificName": "Tringa Nebularia",
+      "vernacularNames": {
+        "eng": "Common Greenshank"
+      }
+    },
+    {
+      "scientificName": "Delichon Urbicum",
+      "vernacularNames": {
+        "eng": "Common House-Martin"
+      }
+    },
+    {
+      "scientificName": "Luscinia Megarhynchos",
+      "vernacularNames": {
+        "eng": "Common Nightingale"
+      }
+    },
+    {
+      "scientificName": "Corvus Corax",
+      "vernacularNames": {
+        "eng": "Common Raven"
+      }
+    },
+    {
+      "scientificName": "Acanthis Flammea",
+      "vernacularNames": {
+        "eng": "Common Redpoll"
+      }
+    },
+    {
+      "scientificName": "Phoenicurus Phoenicurus",
+      "vernacularNames": {
+        "eng": "Common Redstart"
+      }
+    },
+    {
+      "scientificName": "Carpodacus Erythrinus",
+      "vernacularNames": {
+        "eng": "Common Rosefinch"
+      }
+    },
+    {
+      "scientificName": "Actitis Hypoleucos",
+      "vernacularNames": {
+        "eng": "Common Sandpiper"
+      }
+    },
+    {
+      "scientificName": "Gallinago Gallinago",
+      "vernacularNames": {
+        "eng": "Common Snipe"
+      }
+    },
+    {
+      "scientificName": "Apus Apus",
+      "vernacularNames": {
+        "eng": "Common Swift"
+      }
+    },
+    {
+      "scientificName": "Columba Palumbus",
+      "vernacularNames": {
+        "eng": "Common Wood-Pigeon"
+      }
+    },
+    {
+      "scientificName": "Crex Crex",
+      "vernacularNames": {
+        "eng": "Corn Crake"
+      }
+    },
+    {
+      "scientificName": "Lophophanes Cristatus",
+      "vernacularNames": {
+        "eng": "Crested Tit"
+      }
+    },
+    {
+      "scientificName": "Prunella Modularis",
+      "vernacularNames": {
+        "eng": "Dunnock"
+      }
+    },
+    {
+      "scientificName": "Turdus Merula",
+      "vernacularNames": {
+        "eng": "Eurasian Blackbird"
+      }
+    },
+    {
+      "scientificName": "Sylvia Atricapilla",
+      "vernacularNames": {
+        "eng": "Eurasian Blackcap"
+      }
+    },
+    {
+      "scientificName": "Cyanistes Caeruleus",
+      "vernacularNames": {
+        "eng": "Eurasian Blue Tit"
+      }
+    },
+    {
+      "scientificName": "Pyrrhula Pyrrhula",
+      "vernacularNames": {
+        "eng": "Eurasian Bullfinch"
+      }
+    },
+    {
+      "scientificName": "Fulica Atra",
+      "vernacularNames": {
+        "eng": "Eurasian Coot"
+      }
+    },
+    {
+      "scientificName": "Numenius Arquata",
+      "vernacularNames": {
+        "eng": "Eurasian Curlew"
+      }
+    },
+    {
+      "scientificName": "Charadrius Morinellus",
+      "vernacularNames": {
+        "eng": "Eurasian Dotterel"
+      }
+    },
+    {
+      "scientificName": "Bubo Bubo",
+      "vernacularNames": {
+        "eng": "Eurasian Eagle-Owl"
+      }
+    },
+    {
+      "scientificName": "Oriolus Oriolus",
+      "vernacularNames": {
+        "eng": "Eurasian Golden Oriole"
+      }
+    },
+    {
+      "scientificName": "Picus Viridis",
+      "vernacularNames": {
+        "eng": "Eurasian Green Woodpecker"
+      }
+    },
+    {
+      "scientificName": "Upupa Epops",
+      "vernacularNames": {
+        "eng": "Eurasian Hoopoe"
+      }
+    },
+    {
+      "scientificName": "Corvus Monedula",
+      "vernacularNames": {
+        "eng": "Eurasian Jackdaw"
+      }
+    },
+    {
+      "scientificName": "Garrulus Glandarius",
+      "vernacularNames": {
+        "eng": "Eurasian Jay"
+      }
+    },
+    {
+      "scientificName": "Falco Tinnunculus",
+      "vernacularNames": {
+        "eng": "Eurasian Kestrel"
+      }
+    },
+    {
+      "scientificName": "Pica Pica",
+      "vernacularNames": {
+        "eng": "Eurasian Magpie"
+      }
+    },
+    {
+      "scientificName": "Caprimulgus Europaeus",
+      "vernacularNames": {
+        "eng": "Eurasian Nightjar"
+      }
+    },
+    {
+      "scientificName": "Nucifraga Caryocatactes",
+      "vernacularNames": {
+        "eng": "Eurasian Nutcracker"
+      }
+    },
+    {
+      "scientificName": "Sitta Europaea",
+      "vernacularNames": {
+        "eng": "Eurasian Nuthatch"
+      }
+    },
+    {
+      "scientificName": "Haematopus Ostralegus",
+      "vernacularNames": {
+        "eng": "Eurasian Oystercatcher"
+      }
+    },
+    {
+      "scientificName": "Glaucidium Passerinum",
+      "vernacularNames": {
+        "eng": "Eurasian Pygmy-Owl"
+      }
+    },
+    {
+      "scientificName": "Glaucidium Passerinum",
+      "vernacularNames": {
+        "eng": "Eurasian Pygmy-Owl"
+      }
+    },
+    {
+      "scientificName": "Spinus Spinus",
+      "vernacularNames": {
+        "eng": "Eurasian Siskin"
+      }
+    },
+    {
+      "scientificName": "Picoides Tridactylus",
+      "vernacularNames": {
+        "eng": "Eurasian Three-Toed Woodpecker"
+      }
+    },
+    {
+      "scientificName": "Passer Montanus",
+      "vernacularNames": {
+        "eng": "Eurasian Tree Sparrow"
+      }
+    },
+    {
+      "scientificName": "Certhia Familiaris",
+      "vernacularNames": {
+        "eng": "Eurasian Treecreeper"
+      }
+    },
+    {
+      "scientificName": "Mareca Penelope",
+      "vernacularNames": {
+        "eng": "Eurasian Wigeon"
+      }
+    },
+    {
+      "scientificName": "Scolopax Rusticola",
+      "vernacularNames": {
+        "eng": "Eurasian Woodcock"
+      }
+    },
+    {
+      "scientificName": "Troglodytes Troglodytes",
+      "vernacularNames": {
+        "eng": "Eurasian Wren"
+      }
+    },
+    {
+      "scientificName": "Jynx Torquilla",
+      "vernacularNames": {
+        "eng": "Eurasian Wryneck"
+      }
+    },
+    {
+      "scientificName": "Pluvalis Apricaria",
+      "vernacularNames": {
+        "eng": "European Golden-Plover"
+      }
+    },
+    {
+      "scientificName": "Carduelis Carduelis",
+      "vernacularNames": {
+        "eng": "European Goldfinch"
+      }
+    },
+    {
+      "scientificName": "Chloris Chloris",
+      "vernacularNames": {
+        "eng": "European Greenfinch"
+      }
+    },
+    {
+      "scientificName": "Ficedula Hypoleuca",
+      "vernacularNames": {
+        "eng": "European Pied Flycatcher"
+      }
+    },
+    {
+      "scientificName": "Erithacus Rubecula",
+      "vernacularNames": {
+        "eng": "European Robin"
+      }
+    },
+    {
+      "scientificName": "Turdus Pilaris",
+      "vernacularNames": {
+        "eng": "Fieldfare"
+      }
+    },
+    {
+      "scientificName": "Sylvia Borin",
+      "vernacularNames": {
+        "eng": "Garden Warbler"
+      }
+    },
+    {
+      "scientificName": "Regulus Regulus",
+      "vernacularNames": {
+        "eng": "Goldcrest"
+      }
+    },
+    {
+      "scientificName": "Ardea Cinerea",
+      "vernacularNames": {
+        "eng": "Gray Heron"
+      }
+    },
+    {
+      "scientificName": "Picus Canus",
+      "vernacularNames": {
+        "eng": "Gray-Headed Woodpecker"
+      }
+    },
+    {
+      "scientificName": "Anser Anser",
+      "vernacularNames": {
+        "eng": "Graylag Goose"
+      }
+    },
+    {
+      "scientificName": "Botaurus Stellaris",
+      "vernacularNames": {
+        "eng": "Great Bittern"
+      }
+    },
+    {
+      "scientificName": "Larus Marinus",
+      "vernacularNames": {
+        "eng": "Great Black-Backed Gull"
+      }
+    },
+    {
+      "scientificName": "Dendrocopos Major",
+      "vernacularNames": {
+        "eng": "Great Spotted Woodpecker"
+      }
+    },
+    {
+      "scientificName": "Parus Major",
+      "vernacularNames": {
+        "eng": "Great Tit"
+      }
+    },
+    {
+      "scientificName": "Sylvia Communis",
+      "vernacularNames": {
+        "eng": "Greater Whitethroat"
+      }
+    },
+    {
+      "scientificName": "Tringa Ochropus",
+      "vernacularNames": {
+        "eng": "Green Sandpiper"
+      }
+    },
+    {
+      "scientificName": "Phylloscopus Trochiloides",
+      "vernacularNames": {
+        "eng": "Greenish Warbler"
+      }
+    },
+    {
+      "scientificName": "Coccothraustes Coccothraustes",
+      "vernacularNames": {
+        "eng": "Hawfinch"
+      }
+    },
+    {
+      "scientificName": "Tetrastes Bonasia",
+      "vernacularNames": {
+        "eng": "Hazel Grouse"
+      }
+    },
+    {
+      "scientificName": "Larus Argentatus",
+      "vernacularNames": {
+        "eng": "Herring Gull"
+      }
+    },
+    {
+      "scientificName": "Corvus Cornix",
+      "vernacularNames": {
+        "eng": "Hooded Crow"
+      }
+    },
+    {
+      "scientificName": "Hippolais Icterina",
+      "vernacularNames": {
+        "eng": "Icterine Warbler"
+      }
+    },
+    {
+      "scientificName": "Dryobates Minor",
+      "vernacularNames": {
+        "eng": "Lesser Spotted Woodpecker"
+      }
+    },
+    {
+      "scientificName": "Porzana Parva",
+      "vernacularNames": {
+        "eng": "Little Crake"
+      }
+    },
+    {
+      "scientificName": "Asio Otus",
+      "vernacularNames": {
+        "eng": "Long-Eared Owl"
+      }
+    },
+    {
+      "scientificName": "Asio Otus",
+      "vernacularNames": {
+        "eng": "Long-Eared Owl"
+      }
+    },
+    {
+      "scientificName": "Aegithalos Caudatus",
+      "vernacularNames": {
+        "eng": "Long-Tailed Tit"
+      }
+    },
+    {
+      "scientificName": "Anas Platyrhynchos",
+      "vernacularNames": {
+        "eng": "Mallard"
+      }
+    },
+    {
+      "scientificName": "Poecile Palustris",
+      "vernacularNames": {
+        "eng": "Marsh Tit"
+      }
+    },
+    {
+      "scientificName": "Larus Canus",
+      "vernacularNames": {
+        "eng": "Mew Gull"
+      }
+    },
+    {
+      "scientificName": "Turdus Viscivorus",
+      "vernacularNames": {
+        "eng": "Mistle Thrush"
+      }
+    },
+    {
+      "scientificName": "Surnia Ulula",
+      "vernacularNames": {
+        "eng": "Northern Hawk Owl"
+      }
+    },
+    {
+      "scientificName": "Vanellus Vanellus",
+      "vernacularNames": {
+        "eng": "Northern Lapwing"
+      }
+    },
+    {
+      "scientificName": "Loxia Pytyopsittacus",
+      "vernacularNames": {
+        "eng": "Parrot Crossbill"
+      }
+    },
+    {
+      "scientificName": "Pinicola Enucleator",
+      "vernacularNames": {
+        "eng": "Pine Grosbeak"
+      }
+    },
+    {
+      "scientificName": "Alca Torda",
+      "vernacularNames": {
+        "eng": "Razorbill"
+      }
+    },
+    {
+      "scientificName": "Loxia Curvirostra",
+      "vernacularNames": {
+        "eng": "Red Crossbill"
+      }
+    },
+    {
+      "scientificName": "Ficedula Parva",
+      "vernacularNames": {
+        "eng": "Red-Breasted Flycatcher"
+      }
+    },
+    {
+      "scientificName": "Gavia Stellata",
+      "vernacularNames": {
+        "eng": "Red-Throated Loon"
+      }
+    },
+    {
+      "scientificName": "Turdus Iliacus",
+      "vernacularNames": {
+        "eng": "Redwing"
+      }
+    },
+    {
+      "scientificName": "Emberiza Schoeniclus",
+      "vernacularNames": {
+        "eng": "Reed Bunting"
+      }
+    },
+    {
+      "scientificName": "Turdus Torquatus",
+      "vernacularNames": {
+        "eng": "Ring Ouzel"
+      }
+    },
+    {
+      "scientificName": "Phasianus Colchicus",
+      "vernacularNames": {
+        "eng": "Ring-Necked Pheasant"
+      }
+    },
+    {
+      "scientificName": "Columba Livia",
+      "vernacularNames": {
+        "eng": "Rock Pigeon"
+      }
+    },
+    {
+      "scientificName": "Lagopus Muta",
+      "vernacularNames": {
+        "eng": "Rock Ptarmigan"
+      }
+    },
+    {
+      "scientificName": "Corvus Frugilegus",
+      "vernacularNames": {
+        "eng": "Rook"
+      }
+    },
+    {
+      "scientificName": "Locustella Luscinioides",
+      "vernacularNames": {
+        "eng": "Savi'S Warbler"
+      }
+    },
+    {
+      "scientificName": "Turdus Philomelos",
+      "vernacularNames": {
+        "eng": "Song Thrush"
+      }
+    },
+    {
+      "scientificName": "Porzana Porzana",
+      "vernacularNames": {
+        "eng": "Spotted Crake"
+      }
+    },
+    {
+      "scientificName": "Muscicapa Striata",
+      "vernacularNames": {
+        "eng": "Spotted Flycatcher"
+      }
+    },
+    {
+      "scientificName": "Tringa Erythropus",
+      "vernacularNames": {
+        "eng": "Spotted Redshank"
+      }
+    },
+    {
+      "scientificName": "Strix Aluco",
+      "vernacularNames": {
+        "eng": "Tawny Owl"
+      }
+    },
+    {
+      "scientificName": "Luscinia Luscinia",
+      "vernacularNames": {
+        "eng": "Thrush Nightingale"
+      }
+    },
+    {
+      "scientificName": "Anthus Trivialis",
+      "vernacularNames": {
+        "eng": "Tree Pipit"
+      }
+    },
+    {
+      "scientificName": "Strix Uralensis",
+      "vernacularNames": {
+        "eng": "Ural Owl"
+      }
+    },
+    {
+      "scientificName": "Rallus Aquaticus",
+      "vernacularNames": {
+        "eng": "Water Rail"
+      }
+    },
+    {
+      "scientificName": "Tetrao Urogallus",
+      "vernacularNames": {
+        "eng": "Western Capercaillie"
+      }
+    },
+    {
+      "scientificName": "Tetrao Urogallus",
+      "vernacularNames": {
+        "eng": "Western Capercaillie"
+      }
+    },
+    {
+      "scientificName": "Motacilla Alba",
+      "vernacularNames": {
+        "eng": "White Wagtail"
+      }
+    },
+    {
+      "scientificName": "Motacilla Alba",
+      "vernacularNames": {
+        "eng": "White Wagtail"
+      }
+    },
+    {
+      "scientificName": "Loxia Leucoptera",
+      "vernacularNames": {
+        "eng": "White-Winged Crossbill"
+      }
+    },
+    {
+      "scientificName": "Cygnus Cygnus",
+      "vernacularNames": {
+        "eng": "Whooper Swan"
+      }
+    },
+    {
+      "scientificName": "Cygnus Cygnus",
+      "vernacularNames": {
+        "eng": "Whooper Swan"
+      }
+    },
+    {
+      "scientificName": "Lagopus Lagopus",
+      "vernacularNames": {
+        "eng": "Willow Ptarmigan"
+      }
+    },
+    {
+      "scientificName": "Poecile Montanus",
+      "vernacularNames": {
+        "eng": "Willow Tit"
+      }
+    },
+    {
+      "scientificName": "Phylloscopus Trochilus",
+      "vernacularNames": {
+        "eng": "Willow Warbler"
+      }
+    },
+    {
+      "scientificName": "Lullula Arborea",
+      "vernacularNames": {
+        "eng": "Wood Lark"
+      }
+    },
+    {
+      "scientificName": "Tringa Glareola",
+      "vernacularNames": {
+        "eng": "Wood Sandpiper"
+      }
+    },
+    {
+      "scientificName": "Phylloscopus Sibilatrix",
+      "vernacularNames": {
+        "eng": "Wood Warbler"
+      }
+    },
+    {
+      "scientificName": "Phylloscopus Inornatus",
+      "vernacularNames": {
+        "eng": "Yellow-Browed Warbler"
+      }
+    },
+    {
+      "scientificName": "Emberiza Citrinella",
+      "vernacularNames": {
+        "eng": "Yellowhammer"
+      }
+    }
+  ]
 }
