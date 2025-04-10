@@ -253,9 +253,9 @@ acoustic$licenses <- list(
 )
 
 acoustic$project <- list( # Required
-  id = NULL,
+  # id = "",
   title = "The Sound of Norway", # Required
-  acronym = NULL,
+  # acronym = "",
   description = "The Sound of Norway project monitors ecosystems across the nation with real- time recording devices. Using machine learning to automatically classify bird vocalisations, we can simultaneously track the distribution and migration patterns of many species on vast scales and over long time-periods.",
   protocolType = "Passive Acoustic Monitoring",
   samplingDesign = "systematic random", # Required
