@@ -260,7 +260,7 @@ acoustic$project <- list( # Required
   protocolType = "Passive Acoustic Monitoring",
   samplingDesign = "systematicRandom", # Required
   path = "https://thesoundofnorway.com/",
-  captureMethod = "continous", # Required
+  captureMethod = "continuous", # Required
   individualAnimals = FALSE, # Required
   observationLevel = "media" # Required
 )
