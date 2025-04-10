@@ -179,7 +179,7 @@
   ],
   "name": "camtrap-dp-acoustic-example-dataset",
   "profile": "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0.1/camtrap-dp-profile.json",
-  "created": "2025-58-09T15:58:56Z",
+  "created": "2025-04-10T15:24:43Z",
   "title": "The Sound of Norway: bird detections",
   "version": "1.0",
   "keywords1": "acoustic",
