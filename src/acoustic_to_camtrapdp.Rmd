@@ -258,7 +258,7 @@ acoustic$project <- list( # Required
   # acronym = "",
   description = "The Sound of Norway project monitors ecosystems across the nation with real- time recording devices. Using machine learning to automatically classify bird vocalisations, we can simultaneously track the distribution and migration patterns of many species on vast scales and over long time-periods.",
   protocolType = "Passive Acoustic Monitoring",
-  samplingDesign = "systematic random", # Required
+  samplingDesign = "systematicRandom", # Required
   path = "https://thesoundofnorway.com/",
   captureMethod = "continous", # Required
   individualAnimals = FALSE, # Required
