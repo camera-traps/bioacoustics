@@ -141,7 +141,7 @@ observations <-
     observationID = .data$id, # Required
     deploymentID = .data$site, # Required
     mediaID = .data$audio_id,
-    eventID = .data$id, # Necessary to use read_camtrapdp(), see https://github.com/inbo/camtrapdp/issues/162
+    eventID = NA, #.data$id, # Necessary to use read_camtrapdp(), see https://github.com/inbo/camtrapdp/issues/162
     eventStart = .data$detected_time, # Required
     eventEnd = .data$eventEnd_iso, # Required
     observationLevel = "interval", # Required
