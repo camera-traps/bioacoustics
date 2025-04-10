@@ -113,7 +113,7 @@ media <-
   dplyr::mutate(
     mediaID = .data$audio_id, # Required
     deploymentID = .data$site, # Required
-    captureMethod = "dutyCycle", #Where to we explain that it's continuous?
+    captureMethod = "dutyCycle",
     timestamp = .data$detected_time, # Required
     filePath = .data$audio_link,# Required
     filePublic = FALSE, # Required
@@ -145,7 +145,7 @@ observations <-
     eventStart = .data$detected_time, # Required
     eventEnd = .data$eventEnd_iso, # Required
     observationLevel = "interval", # Required
-    observationType = "animal", # Required #or "bird" to be specific
+    observationType = "animal", # Required 
     deviceSetupType = NULL,
     scientificName = .data$ScientificName,  # Required
     count = NULL,
@@ -164,7 +164,7 @@ observations <-
     frequencyHigh = NULL,
     classificationMethod = "machine",
     classifiedBy = .data$analysis,
-    classificationTimestamp = "2023-06-23T12:23:00Z", #I made it up based on the file system
+    classificationTimestamp = "2023-06-23T12:23:00Z",
     classificationProbability = .data$confidence,
     observationTags = .data$tags,
     observationComments = NULL,
@@ -183,9 +183,7 @@ acoustic <-
   add_resource(resource_name = "observations", data = observations) %>%
   append(c(
     name = "camtrap-dp-acoustic-example-dataset", # Required
-    path = NULL, # Required, but keep this empty for now
     profile = "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0.1/camtrap-dp-profile.json", # Required (hack to use read_camtrapdp())
-    schema = NULL, # Required, but keep this empty for now
     id = NULL,
     created = format(Sys.time(), "%Y-%M-%dT%H:%M:%SZ", tz = "UTC"), # Required
     title = "The Sound of Norway: bird detections",
