@@ -179,7 +179,7 @@
   ],
   "name": "camtrap-dp-acoustic-example-dataset",
   "profile": "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0.1/camtrap-dp-profile.json",
-  "created": "2025-04-10T15:24:43Z",
+  "created": "2025-04-10T15:26:11Z",
   "title": "The Sound of Norway: bird detections",
   "version": "1.0",
   "keywords1": "acoustic",
@@ -234,9 +234,7 @@
     }
   ],
   "project": {
-    "id": null,
     "title": "The Sound of Norway",
-    "acronym": null,
     "description": "The Sound of Norway project monitors ecosystems across the nation with real- time recording devices. Using machine learning to automatically classify bird vocalisations, we can simultaneously track the distribution and migration patterns of many species on vast scales and over long time-periods.",
     "protocolType": "Passive Acoustic Monitoring",
     "samplingDesign": "systematic random",
