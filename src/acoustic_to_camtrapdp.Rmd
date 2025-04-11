@@ -20,8 +20,7 @@ library(camtrapdp)
 ```
 
 ```{r}
-data_raw <- read.csv(here::here("data", "raw", "birdnet_lite_detections-proj_sound-of-norway-yr2complete.csv"))
-data <- data_raw[1:5000,]
+data <- read.csv(here::here("data", "raw", "sound_of_norway_subsample.csv"))
 ```
 
 # Create resources
