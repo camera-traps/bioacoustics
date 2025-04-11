@@ -16,7 +16,6 @@ library(here)
 library(dplyr)
 library(tidyr)
 library(frictionless)
-library(lubridate)
 library(camtrapdp)
 ```
 
