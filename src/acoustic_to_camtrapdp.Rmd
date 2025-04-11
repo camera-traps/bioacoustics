@@ -18,7 +18,6 @@ library(lubridate)
 library(camtrapdp)
 ```
 
-
 ```{r}
 data_raw <- read.csv(here::here("data", "raw", "birdnet_lite_detections-proj_sound-of-norway-yr2complete.csv"))
 data <- data_raw[1:5000,]
@@ -65,7 +64,6 @@ deployments_raw <- data %>%
     ) %>% 
   dplyr::distinct()
 ```
-
 
 ## Create deployments resource
 
@@ -141,7 +139,7 @@ observations <-
     observationID = .data$id, # Required
     deploymentID = .data$site, # Required
     mediaID = .data$audio_id,
-    eventID = NA, #.data$id, # Necessary to use read_camtrapdp(), see https://github.com/inbo/camtrapdp/issues/162
+    eventID = NA, # Necessary to use read_camtrapdp(), see https://github.com/inbo/camtrapdp/issues/162
     eventStart = .data$detected_time, # Required
     eventEnd = .data$eventEnd_iso, # Required
     observationLevel = "interval", # Required
@@ -285,11 +283,10 @@ taxonomy_list <- apply(taxonomy, 1, as.list)
 acoustic$taxonomic <- purrr::map(taxonomy_list, map_taxonomy)
 ```
 
-
 # Write Data Package
 
 ```{r}
-frictionless::write_package(acoustic, here::here("data", "processed", "birdnet", "frictionless"))
+frictionless::write_package(acoustic, here::here("data", "interim", "sound_of_norway"))
 ```
 
 # Read with camtrapdp
@@ -297,9 +294,10 @@ frictionless::write_package(acoustic, here::here("data", "processed", "birdnet",
 This automatically updates the spatial, temporal and taxonomic coverage in the metadata, based on the data.
 
 ```{r}
-acoustic_dp <- read_camtrapdp(here::here("data", "processed", "birdnet", "frictionless", "datapackage.json"))
+acoustic_dp <- camtrapdp::read_camtrapdp(here::here("data", "interim", "sound_of_norway", "datapackage.json"))
 ```
+
 # Write Camtrap DP
 ```{r}
-write_camtrapdp(acoustic_dp, here::here("data", "processed", "birdnet", "camtrapdp"))
+camtrapdp::write_camtrapdp(acoustic_dp, here::here("data", "processed", "sound_of_norway"))
 ```
