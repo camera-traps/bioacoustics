@@ -1,6 +1,8 @@
 ---
 title: "acoustic_to_camtrapdp"
-author: "Sanne Govaert and Julia Wiel"
+author: 
+- "Sanne Govaert"
+- "Julia Wiel"
 date: "`r Sys.Date()`"
 output: html_document
 ---
