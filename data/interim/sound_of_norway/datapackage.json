@@ -179,7 +179,7 @@
   ],
   "name": "camtrap-dp-acoustic-example-dataset",
   "profile": "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0.1/camtrap-dp-profile.json",
-  "created": "2025-04-11T11:49:58Z",
+  "created": "2025-04-11T13:14:24Z",
   "title": "The Sound of Norway: bird detections",
   "version": "1.0",
   "keywords1": "acoustic",
@@ -239,9 +239,13 @@
     "protocolType": "Passive Acoustic Monitoring",
     "samplingDesign": "systematicRandom",
     "path": "https://thesoundofnorway.com/",
-    "captureMethod": "continuous",
+    "captureMethod": [
+      "continuous"
+    ],
     "individualAnimals": false,
-    "observationLevel": "media"
+    "observationLevel": [
+      "media"
+    ]
   },
   "taxonomic": [
     {

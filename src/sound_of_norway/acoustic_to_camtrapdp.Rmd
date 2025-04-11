@@ -263,9 +263,9 @@ acoustic$project <- list( # Required
   protocolType = "Passive Acoustic Monitoring",
   samplingDesign = "systematicRandom", # Required
   path = "https://thesoundofnorway.com/",
-  captureMethod = "continuous", # Required
+  captureMethod = list(c("continuous")), # Required | Bug, see https://github.com/frictionlessdata/frictionless-r/issues/276
   individualAnimals = FALSE, # Required
-  observationLevel = "media" # Required
+  observationLevel = list(c("media")) # Required | Bug, see https://github.com/frictionlessdata/frictionless-r/issues/276
 )
 ```
 
