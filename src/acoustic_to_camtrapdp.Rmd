@@ -17,10 +17,11 @@ library(dplyr)
 library(tidyr)
 library(frictionless)
 library(camtrapdp)
+library(lubridate)
 ```
 
 ```{r}
-data <- read.csv(here::here("data", "raw", "sound_of_norway_subsample.csv"))
+data_raw <- read.csv(here::here("data", "raw", "sound_of_norway_subsample.csv"))
 ```
 
 # Create resources
@@ -30,19 +31,23 @@ data <- read.csv(here::here("data", "raw", "sound_of_norway_subsample.csv"))
 ```{r}
 (unique_values_per_column <-
   data %>%
-  summarise(across(everything(), ~ n_distinct(.))) %>%
-  pivot_longer(everything(), names_to = "column", values_to = "n_unique"))
+  dplyr::summarise(across(everything(), ~ n_distinct(.))) %>%
+  tidyr::pivot_longer(everything(), names_to = "column", values_to = "n_unique"))
 ```
 
 ## Add information to dataset
 
 ```{r}
 # Calculate eventEnd
-data$detected_time_parsed <- ymd_hms(data$detected_time, tz = "UTC")
-data$eventEnd <- data$detected_time_parsed + data$end_secs
-data$eventEnd_iso <- format(data$eventEnd, format = "%Y-%m-%dT%H:%M:%OSZ", tz = "UTC")
+data <-
+  data_raw %>% 
+  dplyr::mutate(
+    detected_time_parsed = lubridate::ymd_hms(.data$detected_time, tz = "UTC"),
+    eventEnd = .data$detected_time_parsed + .data$end_secs,
+    eventEnd_iso = format(.data$eventEnd, format = "%Y-%m-%dT%H:%M:%OSZ", tz = "UTC")
+  )
 
-# add scientificName
+# Add scientificName
 taxonomy <- 
   read.delim2(
     file = here::here("data", "raw","Bird names_english latin norsk.txt"), 
@@ -116,12 +121,12 @@ media <-
     filePath = .data$audio_link,# Required
     filePublic = FALSE, # Required
     fileName = NULL,
-    fileMediatype = NULL, # Required #MP3 format (VBR0 using FFMPEG’s LAME  codec) not in https://www.iana.org/assignments/media-types/audio/mpeg
+    fileMediatype = NULL, # Required # MP3 format (VBR0 using FFMPEG’s LAME  codec) not in https://www.iana.org/assignments/media-types/audio/mpeg
     samplingFrequency = "44100",
     bitDepth = "16",
     gain = NULL,
     channels = "1",
-    duration = "300", # I used mediaDuration http://rs.tdwg.org/ac/terms/mediaDuration
+    duration = "300", # MediaDuration http://rs.tdwg.org/ac/terms/mediaDuration
     exifData = NULL,
     favorite = NULL,
     mediaComments = NULL,
@@ -181,7 +186,7 @@ acoustic <-
   add_resource(resource_name = "observations", data = observations) %>%
   append(c(
     name = "camtrap-dp-acoustic-example-dataset", # Required
-    profile = "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0.1/camtrap-dp-profile.json", # Required (hack to use read_camtrapdp())
+    profile = "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0.1/camtrap-dp-profile.json", # Required (incorrect, hack to use read_camtrapdp())
     id = NULL,
     created = format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"), # Required
     title = "The Sound of Norway: bird detections",
@@ -272,7 +277,7 @@ map_taxonomy <- function(taxonomy) {
     scientificName = taxonomy$ScientificName,
     vernacularNames = list(
       eng = taxonomy$EnglishName
-      # nor = taxonomy$NorwegianName #gives error in read_camtrapdp() | lexical error: invalid bytes in UTF8 string
+      # nor = taxonomy$NorwegianName # Gives error in read_camtrapdp() | lexical error: invalid bytes in UTF8 string
       )
   )
 }
