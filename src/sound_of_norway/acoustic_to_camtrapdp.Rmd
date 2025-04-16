@@ -30,7 +30,7 @@ data_raw <- read.csv(here::here("data", "raw", "sound_of_norway_subsample.csv"))
 
 ```{r}
 (unique_values_per_column <-
-  data %>%
+  data_raw %>%
   dplyr::summarise(across(everything(), ~ n_distinct(.))) %>%
   tidyr::pivot_longer(everything(), names_to = "column", values_to = "n_unique"))
 ```
@@ -260,7 +260,7 @@ acoustic$project <- list( # Required
   title = "The Sound of Norway", # Required
   # acronym = "",
   description = "The Sound of Norway project monitors ecosystems across the nation with real- time recording devices. Using machine learning to automatically classify bird vocalisations, we can simultaneously track the distribution and migration patterns of many species on vast scales and over long time-periods.",
-  protocolType = "Passive Acoustic Monitoring",
+  protocolType = list(c("acoustic")), # Required
   samplingDesign = "systematicRandom", # Required
   path = "https://thesoundofnorway.com/",
   captureMethod = list(c("continuous")), # Required | Bug, see https://github.com/frictionlessdata/frictionless-r/issues/276
