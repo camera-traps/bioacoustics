@@ -31,8 +31,8 @@ data_raw <- read.csv(here::here("data", "raw", "sound_of_norway_subsample.csv"))
 ```{r}
 (unique_values_per_column <-
   data_raw %>%
-  dplyr::summarise(across(everything(), ~ n_distinct(.))) %>%
-  tidyr::pivot_longer(everything(), names_to = "column", values_to = "n_unique"))
+  dplyr::summarise(dplyr::across(dplyr::everything(), ~ dplyr::n_distinct(.))) %>%
+  tidyr::pivot_longer(dplyr::everything(), names_to = "column", values_to = "n_unique"))
 ```
 
 ## Add information to dataset
