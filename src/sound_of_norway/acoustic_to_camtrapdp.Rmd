@@ -86,7 +86,8 @@ deployments <-
     deploymentEnd = .data$deploymentEnd, # Required
     setupBy = NULL,
     deviveID = .data$recorder,
-    deviceModel = "Bugg v2022" ,
+    deviceModel = "Bugg v2022",
+    devicePlatform = "pole",
     deviceDelay = NULL,
     deviceHeight = "1.5",
     deviceDepth = NULL,
@@ -95,7 +96,6 @@ deployments <-
     dutyCycle = NULL,
     detectionDistance = NULL,
     timestampIssues = NULL,
-    devicePlatform = "pole",
     baitUse = NULL,
     featureType = NULL,
     habitat = NULL,

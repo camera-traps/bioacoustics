@@ -46,11 +46,11 @@
             "type": "string"
           },
           {
-            "name": "deviceHeight",
+            "name": "devicePlatform",
             "type": "string"
           },
           {
-            "name": "devicePlatform",
+            "name": "deviceHeight",
             "type": "string"
           }
         ]
@@ -179,7 +179,7 @@
   ],
   "name": "camtrap-dp-acoustic-example-dataset",
   "profile": "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0.1/camtrap-dp-profile.json",
-  "created": "2025-04-16T14:15:49Z",
+  "created": "2025-04-16T14:19:09Z",
   "title": "The Sound of Norway: bird detections",
   "version": "1.0",
   "keywords1": "acoustic",
