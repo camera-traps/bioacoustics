@@ -78,7 +78,7 @@ deployments <-
   dplyr::mutate(
     deploymentID = .data$site, # Required
     locationID = NULL,
-    locationName = .data$site,
+    locationName = NULL,
     latitude = .data$latitude, # Required
     longitude = .data$longitude, # Required
     coordinateUncertainty = NULL,
@@ -93,7 +93,7 @@ deployments <-
     deviceDepth = NULL,
     deviceTilt = NULL,
     deviceHeading = NULL,
-    dutyCycle = NULL,
+    dutyCycle = "continuous",
     detectionDistance = NULL,
     timestampIssues = NULL,
     baitUse = NULL,
@@ -117,11 +117,11 @@ media <-
     mediaID = .data$audio_id, # Required
     deploymentID = .data$site, # Required
     captureMethod = "dutyCycle",
-    timestamp = .data$detected_time, # Required
+    timestamp = .data$upload_time, # Required
     filePath = .data$audio_link,# Required
     filePublic = FALSE, # Required
     fileName = NULL,
-    fileMediatype = NULL, # Required # MP3 format (VBR0 using FFMPEG’s LAME  codec) not in https://www.iana.org/assignments/media-types/audio/mpeg
+    fileMediatype = "audio/mp3", # Required # MP3 format (VBR0 using FFMPEG’s LAME  codec) not in https://www.iana.org/assignments/media-types/audio/mpeg
     samplingFrequency = "44100",
     bitDepth = "16",
     gain = NULL,
