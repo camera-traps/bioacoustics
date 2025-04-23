@@ -110,7 +110,6 @@ deployments <-
 ## Create media resource
 
 ```{r}
-#TODO: check duplicates in media
 media <-
   data %>% 
   dplyr::mutate(
@@ -132,7 +131,8 @@ media <-
     mediaComments = NULL,
     .keep = "none"
   ) %>% 
-  dplyr::arrange(mediaID)
+  dplyr::arrange(mediaID) %>%
+  dplyr::distinct()
 ```
 
 ## Create observations resource
