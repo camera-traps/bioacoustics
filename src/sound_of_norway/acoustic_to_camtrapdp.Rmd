@@ -120,7 +120,7 @@ media <-
     filePath = .data$audio_link,# Required
     filePublic = FALSE, # Required
     fileName = NULL,
-    fileMediatype = "audio/mp3", # Required # MP3 format (VBR0 using FFMPEG’s LAME  codec) not in https://www.iana.org/assignments/media-types/audio/mpeg
+    fileMediatype = "audio/mpeg", # Required
     samplingFrequency = "44100",
     bitDepth = "16",
     gain = NULL,
