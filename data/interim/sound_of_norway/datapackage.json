@@ -34,6 +34,10 @@
             "type": "string"
           },
           {
+            "name": "locationName",
+            "type": "string"
+          },
+          {
             "name": "deviveID",
             "type": "string"
           },
@@ -183,13 +187,13 @@
   ],
   "name": "camtrap-dp-acoustic-example-dataset",
   "profile": "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0.1/camtrap-dp-profile.json",
-  "created": "2025-04-23T17:40:09Z",
+  "created": "2025-04-24T12:18:42Z",
   "title": "The Sound of Norway: bird detections",
   "version": "1.0",
   "keywords1": "acoustic",
   "keywords2": "birds",
   "keywords3": "passive acoustic monitoring",
-  "bibliographicCitation": "Bick, I. Avery, Vegar Bakkestuen, Benjamin Cretois, Ben Hillier, John A. Kålås, Marius Pedersen, Kiran Raja, et al. ‘National-Scale Acoustic Monitoring of Avian Biodiversity and Phenology’. Ecology, 24 May 2024. https://doi.org/10.1101/2024.05.21.595242",
+  "bibliographicCitation": "Bick, I. Avery, Vegar Bakkestuen, Benjamin Cretois, Ben Hillier, John A. K<U+00E5>l<U+00E5>s, Marius Pedersen, Kiran Raja, et al. <U+2018>National-Scale Acoustic Monitoring of Avian Biodiversity and Phenology<U+2019>. Ecology, 24 May 2024. https://doi.org/10.1101/2024.05.21.595242",
   "contributors": [
     {
       "title": "Julia Wiel",

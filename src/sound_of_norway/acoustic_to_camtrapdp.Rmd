@@ -68,6 +68,9 @@ deployments_raw <- data %>%
     site, latitude, longitude, deploymentStart, deploymentEnd, recorder
     ) %>% 
   dplyr::distinct()
+
+# Generate deploymentID
+deployments_raw$deploymentID <- paste(deployments_raw$site,"_", deployments_raw$deploymentStart)
 ```
 
 ## Create deployments resource
@@ -76,9 +79,9 @@ deployments_raw <- data %>%
 deployments <-
   deployments_raw %>% 
   dplyr::mutate(
-    deploymentID = .data$site, # Required
+    deploymentID = .data$deploymentID, # Required
     locationID = NULL,
-    locationName = NULL,
+    locationName = .data$site,
     latitude = .data$latitude, # Required
     longitude = .data$longitude, # Required
     coordinateUncertainty = NULL,
