@@ -1,10 +1,10 @@
 # Bioacoustics
 
-## Mapping Bioacoustic Datasets to Camtrap DP
+## Mapping bioacoustic datasets to Camtrap DP
 
 This repository is dedicated to testing the proposed modifications to Camtrap DP by the bioacoustic community. We aim to evaluate these changes by mapping datasets to Camtrap DP.
 
-## Background: Safe and Sound Pilot Project
+## Background: Safe and Sound pilot project
 
 The "Safe and Sound" pilot project explored the feasibility of establishing a standard for Passive Acoustic Monitoring (PAM) data, building upon the Camera Trap Data Package (Camtrap DP), a community-driven data exchange format for camera trap data.
 
