@@ -57,6 +57,10 @@ taxonomy <-
   dplyr::distinct() # Remove duplicates
 data <- dplyr::left_join(data, taxonomy, dplyr::join_by(tags == EnglishName))
 
+
+# Extract media time stamp from audio_link
+data$timestamp <- basename(data$audio_link)
+
 # Deployment start and end based on first and last detection for each site
 deployments_raw <- data %>%
   group_by(site) %>%
@@ -119,7 +123,7 @@ media <-
     mediaID = .data$audio_id, # Required
     deploymentID = .data$site, # Required
     captureMethod = "dutyCycle",
-    timestamp = .data$upload_time, # Required
+    timestamp = .data$timestamp, # Required
     filePath = .data$audio_link,# Required
     filePublic = FALSE, # Required
     fileName = NULL,

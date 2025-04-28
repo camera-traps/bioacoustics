@@ -70,6 +70,10 @@
       "schema": {
         "fields": [
           {
+            "name": "timestamp",
+            "type": "string"
+          },
+          {
             "name": "mediaID",
             "type": "string"
           },
@@ -79,10 +83,6 @@
           },
           {
             "name": "captureMethod",
-            "type": "string"
-          },
-          {
-            "name": "timestamp",
             "type": "string"
           },
           {
@@ -187,7 +187,7 @@
   ],
   "name": "camtrap-dp-acoustic-example-dataset",
   "profile": "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0.1/camtrap-dp-profile.json",
-  "created": "2025-04-24T12:18:42Z",
+  "created": "2025-04-28T09:01:52Z",
   "title": "The Sound of Norway: bird detections",
   "version": "1.0",
   "keywords1": "acoustic",
