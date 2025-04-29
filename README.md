@@ -30,6 +30,7 @@ For more information, you can read Safe and Sound [Summary report](https://docs.
 Comment and reply to comments in the working document [Suggested Camtrap DP changes](https://docs.google.com/document/d/17qTjZdw8ohqfK0lSH9DPCXiJcSqSAeFRyUdWcYCdwRc/edit?tab=t.0).
 
 **Contacts**
+
 sanne.govaert@inbo.be
 
 julia.wiel@nina.no
