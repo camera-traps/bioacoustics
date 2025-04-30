@@ -19,9 +19,16 @@ library(frictionless)
 library(camtrapdp)
 library(lubridate)
 ```
+# Import data
 
 ```{r}
 data_raw <- read.csv(here::here("data", "raw", "sound_of_norway", "sound_of_norway_subsample.csv"))
+taxonomy_raw <- read.delim2(
+  file = here::here("data", "raw", "sound_of_norway", "labels_en.txt"),
+  sep = "_",
+  header = FALSE,
+  col.names = c("scientificName", "EnglishName")
+)
 ```
 
 # Create resources
@@ -55,13 +62,8 @@ data <-
 
 # Add scientificName
 taxonomy <-
-  read.delim2(
-    file = here::here("data", "raw", "sound_of_norway", "labels_en.txt"),
-    sep = "_",
-    header = FALSE,
-    col.names = c("scientificName", "EnglishName")
-    ) %>%
-  dplyr::distinct() # Remove duplicates
+  taxonomy_raw %>%
+  dplyr::distinct()  # Remove duplicates
 data <- dplyr::left_join(data, taxonomy, dplyr::join_by(tags == EnglishName))
 
 # Extra deployment information
