@@ -61,20 +61,18 @@ data <- dplyr::left_join(data, taxonomy, dplyr::join_by(tags == EnglishName))
 # Extract media time stamp from audio_link
 data$timestamp <- basename(data$audio_link)
 
-# Deployment start and end based on first and last detection for each site
+# Extra deployment information
 deployments_raw <- data %>%
   group_by(site) %>%
   dplyr::mutate(
+    # Deployment start and end based on first and last detection for each site
     deploymentStart = min(detected_time_parsed),
-    deploymentEnd = max(detected_time_parsed)
+    deploymentEnd = max(detected_time_parsed),
+    deploymentID = paste0(site, "_", deploymentStart)
     ) %>%
-  dplyr::select(
-    site, latitude, longitude, deploymentStart, deploymentEnd, recorder
-    ) %>% 
+  dplyr::select(site, latitude, longitude, deploymentStart, deploymentEnd, 
+                deploymentID, recorder) %>% 
   dplyr::distinct()
-
-# Generate deploymentID
-deployments_raw$deploymentID <- paste(deployments_raw$site,"_", deployments_raw$deploymentStart)
 ```
 
 ## Create deployments resource
@@ -132,7 +130,7 @@ media <-
     bitDepth = "16",
     gain = NULL,
     channels = "1",
-    duration = "300", # MediaDuration http://rs.tdwg.org/ac/terms/mediaDuration
+    mediaDuration = "300", # MediaDuration http://rs.tdwg.org/ac/terms/mediaDuration
     exifData = NULL,
     favorite = NULL,
     mediaComments = NULL,
