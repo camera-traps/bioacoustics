@@ -48,15 +48,15 @@ data <-
   )
 
 # Add scientificName
-taxonomy <- 
+taxonomy <-
   read.delim2(
-    file = here::here("data", "raw","Bird names_english latin norsk.txt"), 
-    sep = "\t", 
-    header = TRUE
-    ) %>% 
+    file = here::here("data", "raw","labels_en.txt"),
+    sep = "_",
+    header = FALSE,
+    col.names = c("scientificName", "EnglishName")
+    ) %>%
   dplyr::distinct() # Remove duplicates
 data <- dplyr::left_join(data, taxonomy, dplyr::join_by(tags == EnglishName))
-
 
 # Extract media time stamp from audio_link
 data$timestamp <- basename(data$audio_link)
@@ -157,7 +157,7 @@ observations <-
     observationLevel = "interval", # Required
     observationType = "animal", # Required 
     deviceSetupType = NULL,
-    scientificName = .data$ScientificName,  # Required
+    scientificName = .data$scientificName,  # Required
     count = NULL,
     lifeStage = NULL,
     sex = NULL,
