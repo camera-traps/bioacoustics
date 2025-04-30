@@ -19,6 +19,7 @@ library(frictionless)
 library(camtrapdp)
 library(lubridate)
 ```
+
 # Import data
 
 ```{r}
@@ -312,6 +313,7 @@ acoustic_dp <- camtrapdp::read_camtrapdp(here::here("data", "interim", "sound_of
 ```
 
 # Write Camtrap DP
+
 ```{r}
 camtrapdp::write_camtrapdp(acoustic_dp, here::here("data", "processed", "sound_of_norway"))
 ```
