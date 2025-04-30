@@ -48,7 +48,9 @@ data <-
       .data$eventEnd, format = "%Y-%m-%dT%H:%M:%OSZ", tz = "UTC"
       ),
     # Extract media time stamp from audio_link
-    timestamp = gsub(".mp3", "", basename(.data$audio_link))
+    timestamp_interim = sub(".mp3", "", basename(.data$audio_link)),
+    timestamp_interim = gsub("_", ":", .data$timestamp_interim),
+    timestamp = sub("\\..*$", "z", .data$timestamp_interim)
   )
 
 # Add scientificName
