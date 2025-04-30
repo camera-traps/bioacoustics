@@ -21,7 +21,7 @@ library(lubridate)
 ```
 
 ```{r}
-data_raw <- read.csv(here::here("data", "raw", "sound_of_norway_subsample.csv"))
+data_raw <- read.csv(here::here("data", "raw", "sound_of_norway", "sound_of_norway_subsample.csv"))
 ```
 
 # Create resources
@@ -56,7 +56,7 @@ data <-
 # Add scientificName
 taxonomy <-
   read.delim2(
-    file = here::here("data", "raw", "labels_en.txt"),
+    file = here::here("data", "raw", "sound_of_norway", "labels_en.txt"),
     sep = "_",
     header = FALSE,
     col.names = c("scientificName", "EnglishName")
