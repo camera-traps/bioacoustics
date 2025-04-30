@@ -1,4 +1,4 @@
-site,latitude,longitude,deploymentStart,deploymentEnd,deploymentID,locationName,deviveID,deviceModel,devicePlatform,deviceHeight,dutyCycle
+site,latitude,longitude,deploymentStart,deploymentEnd,deploymentID,locationName,deviceID,deviceModel,devicePlatform,deviceHeight,dutyCycle
 TOV-E Østfold 10617,59.697562,11.2003972,2022-09-06T09:01:41Z,2022-10-20T01:52:24Z,TOV-E Østfold 10617_2022-09-06 09:01:41.049,TOV-E Østfold 10617,bugg_RPiID-10000000a122d275,Bugg v2022,pole,1.5,continuous
 TOV-E: Bergen 120718,60.0603424,5.6645948,2022-09-06T09:24:17Z,2022-10-21T16:13:46Z,TOV-E: Bergen 120718_2022-09-06 09:24:17.29,TOV-E: Bergen 120718,bugg_RPiID-1000000022fb515e,Bugg v2022,pole,1.5,continuous
 TOV-E: Finmark 202610,69.3441414,29.4054735,2022-09-06T12:25:09Z,2022-09-25T02:14:24Z,TOV-E: Finmark 202610_2022-09-06 12:25:09.429,TOV-E: Finmark 202610,bugg_RPiID-100000002a9c2c16,Bugg v2022,pole,1.5,continuous

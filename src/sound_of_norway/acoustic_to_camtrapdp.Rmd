@@ -95,7 +95,7 @@ deployments <-
     deploymentStart = .data$deploymentStart, # Required
     deploymentEnd = .data$deploymentEnd, # Required
     setupBy = NULL,
-    deviveID = .data$recorder,
+    deviceID = .data$recorder,
     deviceModel = "Bugg v2022",
     devicePlatform = "pole",
     deviceDelay = NULL,
