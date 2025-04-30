@@ -38,7 +38,6 @@ data_raw <- read.csv(here::here("data", "raw", "sound_of_norway_subsample.csv"))
 ## Add information to dataset
 
 ```{r}
-
 data <-
   data_raw %>% 
   dplyr::mutate(
@@ -55,7 +54,7 @@ data <-
 # Add scientificName
 taxonomy <-
   read.delim2(
-    file = here::here("data", "raw","labels_en.txt"),
+    file = here::here("data", "raw", "labels_en.txt"),
     sep = "_",
     header = FALSE,
     col.names = c("scientificName", "EnglishName")
@@ -132,7 +131,7 @@ media <-
     bitDepth = "16",
     gain = NULL,
     channels = "1",
-    mediaDuration = "300", # MediaDuration http://rs.tdwg.org/ac/terms/mediaDuration
+    mediaDuration = "300",
     exifData = NULL,
     favorite = NULL,
     mediaComments = NULL,
