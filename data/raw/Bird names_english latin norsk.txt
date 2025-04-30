@@ -1,0 +1,131 @@
+EnglishName	ScientificName	NorwegianName
+Baillon'S Crake	Zapornia Pusilla	Dvergrikse 
+Barn Swallow	Hirundo Rustica	Hirundo
+Barnacle Goose	Branta Leucopsis	Hvitkinngås
+Black Grouse	Lyrurus Tetrix	Orrfugl
+Black Woodpecker	Dryocopus Martius	Svartspett
+Boreal Owl	Aegolius Funereus	Perleugle
+Brambling	Fringilla Montifringilla	Bjørkefink
+Canada Goose	Branta Canadensis	Kanadagås 
+Coal Tit	Periparus Ater	Svartmeis
+Common Buzzard	Buteo Buteo	Musvåk
+Common Chaffinch	Fringilla Coelebs	Bokfink
+Common Chiffchaff	Phylloscopus Collybita	Gransanger
+Common Crane	Grus Grus	Trane
+Common Cuckoo	Cuculus Canorus	Gjøk
+Common Grasshopper-Warbler	Locustella Naevia	Gresshoppesanger 
+Common Greenshank	Tringa Nebularia	Gluttsnipe 
+Common House-Martin	Delichon Urbicum	Taksvale 
+Common Nightingale	Luscinia Megarhynchos	Sørnattergal
+Common Raven	Corvus Corax	Ravn
+Common Redpoll	Acanthis Flammea	Gråsisik
+Common Redstart	Phoenicurus Phoenicurus	Rødstjert 
+Common Rosefinch	Carpodacus Erythrinus	Rosenfink 
+Common Sandpiper	Actitis Hypoleucos	Strandsnipe
+Common Snipe	Gallinago Gallinago	Enkeltbekkasin 
+Common Swift	Apus Apus	Tårnseiler
+Common Wood-Pigeon	Columba Palumbus	Ringdue
+Corn Crake	Crex Crex	Åkerrikse 
+Crested Tit	Lophophanes Cristatus	Toppmeis
+Dunnock	Prunella Modularis	Jernspurv
+Eurasian Blackbird	Turdus Merula	Svarttrost
+Eurasian Blackcap	Sylvia Atricapilla	Munk
+Eurasian Blue Tit	Cyanistes Caeruleus	Blåmeis
+Eurasian Bullfinch	Pyrrhula Pyrrhula	Dompap
+Eurasian Coot	Fulica Atra	Sothøne 
+Eurasian Curlew	Numenius Arquata	Storspove
+Eurasian Dotterel	Charadrius Morinellus	Boltit 
+Eurasian Eagle-Owl	Bubo Bubo	Hubro
+Eurasian Golden Oriole	Oriolus Oriolus	Pirol
+Eurasian Green Woodpecker	Picus Viridis	Grønnspett
+Eurasian Hoopoe	Upupa Epops	Hærfugl 
+Eurasian Jackdaw	Corvus Monedula	Kaie
+Eurasian Jay	Garrulus Glandarius	Nøtteskrike
+Eurasian Kestrel	Falco Tinnunculus	Tårnfalk
+Eurasian Magpie	Pica Pica	Skjære
+Eurasian Nightjar	Caprimulgus Europaeus	Nattravn 
+Eurasian Nutcracker	Nucifraga Caryocatactes	Nøttekråke 
+Eurasian Nuthatch	Sitta Europaea	Spettmeis
+Eurasian Oystercatcher	Haematopus Ostralegus	Tjeld
+Eurasian Pygmy-Owl	Glaucidium Passerinum	Spurveugle
+Eurasian Pygmy-Owl	Glaucidium Passerinum	Spurveugle
+Eurasian Siskin	Spinus Spinus	Grønnsisik
+Eurasian Three-Toed Woodpecker	Picoides Tridactylus	Tretåspett
+Eurasian Tree Sparrow	Passer Montanus	Pilfink
+Eurasian Treecreeper	Certhia Familiaris	Trekryper
+Eurasian Wigeon	Mareca Penelope	Brunnakke 
+Eurasian Woodcock	Scolopax Rusticola	Rugde
+Eurasian Wren	Troglodytes Troglodytes	Gjerdesmett
+Eurasian Wryneck	Jynx Torquilla	Vendehals 
+European Golden-Plover	Pluvalis Apricaria	Pluvalis Apricaria
+European Goldfinch	Carduelis Carduelis	Stillits
+European Greenfinch	Chloris Chloris	Grønnfink
+European Pied Flycatcher	Ficedula Hypoleuca	Svarthvit Fluesnapper
+European Robin	Erithacus Rubecula	Rødstrupe
+Fieldfare	Turdus Pilaris	Gråtrost
+Garden Warbler	Sylvia Borin	Hagesanger
+Goldcrest	Regulus Regulus	Fuglekonge
+Gray Heron	Ardea Cinerea	Gråhegre
+Gray-Headed Woodpecker	Picus Canus	Gråspett 
+Graylag Goose	Anser Anser	Grågås
+Great Bittern	Botaurus Stellaris	Rørdrum
+Great Black-Backed Gull	Larus Marinus	Svartbak 
+Great Spotted Woodpecker	Dendrocopos Major	Flaggspett
+Great Tit	Parus Major	Kjøttmeis
+Greater Whitethroat	Sylvia Communis	Tornsanger 
+Green Sandpiper	Tringa Ochropus	Skogsnipe 
+Greenish Warbler	Phylloscopus Trochiloides	Østsanger 
+Hawfinch	Coccothraustes Coccothraustes	Kjernebiter 
+Hazel Grouse	Tetrastes Bonasia	Jerpe 
+Herring Gull	Larus Argentatus	Gråmåke 
+Hooded Crow	Corvus Cornix	Kråke
+Icterine Warbler	Hippolais Icterina	Gulsanger 
+Lesser Spotted Woodpecker	Dryobates Minor	Dvergspett 
+Little Crake	Porzana Parva	Sumprikse 
+Long-Eared Owl	Asio Otus	Hornugle 
+Long-Eared Owl	Asio Otus	Hornugle 
+Long-Tailed Tit	Aegithalos Caudatus	Stjertmeis 
+Mallard	Anas Platyrhynchos	Stokkand 
+Marsh Tit	Poecile Palustris	Løvmeis
+Mew Gull	Larus Canus	Fiskemåke 
+Mistle Thrush	Turdus Viscivorus	Duetrost 
+Northern Hawk Owl	Surnia Ulula	Haukugle 
+Northern Lapwing	Vanellus Vanellus	Vipe 
+Parrot Crossbill	Loxia Pytyopsittacus	Furukorsnebb
+Pine Grosbeak	Pinicola Enucleator	Konglebit
+Razorbill	Alca Torda	Alke 
+Red Crossbill	Loxia Curvirostra	Grankorsnebb
+Red-Breasted Flycatcher	Ficedula Parva	Dvergfluesnapper 
+Red-Throated Loon	Gavia Stellata	Smålom
+Redwing	Turdus Iliacus	Rødvingetrost
+Reed Bunting	Emberiza Schoeniclus	Sivspurv 
+Ring Ouzel	Turdus Torquatus	Ringtrost 
+Ring-Necked Pheasant	Phasianus Colchicus	Fasan 
+Rock Pigeon	Columba Livia	Klippedue 
+Rock Ptarmigan	Lagopus Muta	Fjellrype 
+Rook	Corvus Frugilegus	Kornkråke 
+Savi'S Warbler	Locustella Luscinioides	Sumpsanger 
+Song Thrush	Turdus Philomelos	Måltrost 
+Spotted Crake	Porzana Porzana	Myrrikse
+Spotted Flycatcher	Muscicapa Striata	Gråfluesnapper 
+Spotted Redshank	Tringa Erythropus	Sotsnipe 
+Tawny Owl	Strix Aluco	Kattugle
+Thrush Nightingale	Luscinia Luscinia	Nattergal 
+Tree Pipit	Anthus Trivialis	Trepiplerke
+Ural Owl	Strix Uralensis	Slagugle 
+Water Rail	Rallus Aquaticus	Vannrikse
+Western Capercaillie	Tetrao Urogallus	Storfugl 
+Western Capercaillie	Tetrao Urogallus	Storfugl 
+White Wagtail	Motacilla Alba	Linerle 
+White Wagtail	Motacilla Alba	Linerle 
+White-Winged Crossbill	Loxia Leucoptera	Båndkorsnebb 
+Whooper Swan	Cygnus Cygnus	Sangsvane 
+Whooper Swan	Cygnus Cygnus	Sangsvane 
+Willow Ptarmigan	Lagopus Lagopus	Lirype
+Willow Tit	Poecile Montanus	Granmeis
+Willow Warbler	Phylloscopus Trochilus	Løvsanger 
+Wood Lark	Lullula Arborea	Trelerke 
+Wood Sandpiper	Tringa Glareola	Grønnstilk 
+Wood Warbler	Phylloscopus Sibilatrix	Bøksanger 
+Yellow-Browed Warbler	Phylloscopus Inornatus	Gulbrynsanger 
+Yellowhammer	Emberiza Citrinella	Gulspurv 
