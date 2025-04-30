@@ -38,13 +38,18 @@ data_raw <- read.csv(here::here("data", "raw", "sound_of_norway_subsample.csv"))
 ## Add information to dataset
 
 ```{r}
-# Calculate eventEnd
+
 data <-
   data_raw %>% 
   dplyr::mutate(
+    # Calculate eventEnd
     detected_time_parsed = lubridate::ymd_hms(.data$detected_time, tz = "UTC"),
     eventEnd = .data$detected_time_parsed + .data$end_secs,
-    eventEnd_iso = format(.data$eventEnd, format = "%Y-%m-%dT%H:%M:%OSZ", tz = "UTC")
+    eventEnd_iso = format(
+      .data$eventEnd, format = "%Y-%m-%dT%H:%M:%OSZ", tz = "UTC"
+      ),
+    # Extract media time stamp from audio_link
+    timestamp = gsub(".mp3", "", basename(.data$audio_link))
   )
 
 # Add scientificName
@@ -58,9 +63,6 @@ taxonomy <-
   dplyr::distinct() # Remove duplicates
 data <- dplyr::left_join(data, taxonomy, dplyr::join_by(tags == EnglishName))
 
-# Extract media time stamp from audio_link
-data$timestamp <- basename(data$audio_link)
-
 # Extra deployment information
 deployments_raw <- data %>%
   group_by(site) %>%
@@ -68,7 +70,7 @@ deployments_raw <- data %>%
     # Deployment start and end based on first and last detection for each site
     deploymentStart = min(detected_time_parsed),
     deploymentEnd = max(detected_time_parsed),
-    deploymentID = paste0(site, "_", deploymentStart)
+    deploymentID = paste(site, deploymentStart, sep = "_")
     ) %>%
   dplyr::select(site, latitude, longitude, deploymentStart, deploymentEnd, 
                 deploymentID, recorder) %>% 
