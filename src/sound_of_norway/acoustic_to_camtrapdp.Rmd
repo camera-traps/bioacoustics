@@ -284,7 +284,6 @@ map_taxonomy <- function(taxonomy) {
     scientificName = taxonomy$scientificName,
     vernacularNames = list(
       eng = taxonomy$EnglishName
-      # nor = taxonomy$NorwegianName # Gives error in read_camtrapdp() | lexical error: invalid bytes in UTF8 string
       )
   )
 }
