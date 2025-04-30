@@ -1,4 +1,4 @@
-timestamp,mediaID,deploymentID,captureMethod,filePath,filePublic,fileMediatype,samplingFrequency,bitDepth,channels,duration
+timestamp,mediaID,deploymentID,captureMethod,filePath,filePublic,fileMediatype,samplingFrequency,bitDepth,channels,mediaDuration
 2022-09-19T13_12_56.582Z.mp3,002815cc39f5c298e01d,TOV-E: Finnmark 205906,dutyCycle,https://bugg-301712.web.app/download/0658d170-918c-420e-9328-0c1d2c861db0/audio/proj_sound-of-norway/bugg_RPiID-100000006e4b733f/conf_6f40914/2022-09-19T13_12_56.582Z.mp3,FALSE,audio/mpeg,44100,16,1,300
 2022-09-17T14_18_57.455Z.mp3,004631e8f1bfc9228ccf,TOV-E: Kristiansand 90115,dutyCycle,https://bugg-301712.web.app/download/aab8916f-51bc-4221-b133-51cbbb7662d5/audio/proj_sound-of-norway/bugg_RPiID-1000000018bff2d2/conf_6f40914/2022-09-17T14_18_57.455Z.mp3,FALSE,audio/mpeg,44100,16,1,300
 2022-09-19T06_44_51.051Z.mp3,007e47c4aacbbecc5a62,TOV-E: Finnmark 205906,dutyCycle,https://bugg-301712.web.app/download/59248fcd-45f4-4902-b7f5-2fd9f48d83de/audio/proj_sound-of-norway/bugg_RPiID-100000006e4b733f/conf_6f40914/2022-09-19T06_44_51.051Z.mp3,FALSE,audio/mpeg,44100,16,1,300
