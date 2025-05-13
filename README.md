@@ -48,15 +48,16 @@ manually.
 
 This repository is open to contributions from the community. If you have a bioacoustic dataset that you would like to map to Camtrap DP, please follow the guidelines below.
 
-1.  Create a branch for your project.
-2.  Create a folder in `src` with the name of your project.
-3.  Copy the `acoustic_to_camtrapdp.Rmd` file to your project folder.
-4.  Create a folder in `data` with the name of your project.
-5.  Copy your raw data to the `raw` folder.
-6.  Edit the `acoustic_to_camtrapdp.Rmd` file to include your project-specific code.
-7.  Run `acoustic_to_camtrapdp.Rmd` to generate the Camtrap DP iles.
-8.  Throughout all the previous steps: commit your changes and push to your branch. You don’t need to wait to commit until your finished.
-9.  Create a pull request to merge your changes into the main branch.
+1. Ask access to @sannegovaert to collaborate on this repo.
+2.  Create a branch for your project.
+3.  Create a folder in `src` with the name of your project.
+4.  Copy the `acoustic_to_camtrapdp.Rmd` file to your project folder.
+5.  Create a folder in `data` with the name of your project.
+6.  Copy your raw data to the `raw` folder.
+7.  Edit the `acoustic_to_camtrapdp.Rmd` file to include your project-specific code.
+8.  Run `acoustic_to_camtrapdp.Rmd` to generate the Camtrap DP iles.
+9.  Throughout all the previous steps: commit your changes and push to your branch. You don’t need to wait to commit until your finished.
+10.  Create a pull request to merge your changes into the main branch.
 
 ## Relevant sources
 
