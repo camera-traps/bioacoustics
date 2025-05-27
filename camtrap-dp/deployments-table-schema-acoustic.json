@@ -122,6 +122,22 @@
       "example": "Reconyx-PC800"
     },
     {
+      "name": "devicePlatform",
+      "description": "The substrate to which the device is mounted.",
+      "type": "string",
+      "constraints": {
+        "required": false
+        "enum": [
+          "buoy",
+          "vegetation",
+          "building",
+          "structure",
+          "unattached"
+        ]
+      },
+      "example": "unattached"
+    },
+    {
       "name": "deviceDelay",
       "description": "Predefined duration after detection when further activity is ignored. Expressed in seconds.",
       "type": "integer",
