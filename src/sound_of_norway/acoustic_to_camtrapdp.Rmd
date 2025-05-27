@@ -77,7 +77,8 @@ deployments_raw <- data %>%
     ) %>%
   dplyr::select(site, latitude, longitude, deploymentStart, deploymentEnd, 
                 deploymentID, recorder) %>% 
-  dplyr::distinct()
+  dplyr::distinct() %>% 
+  dplyr::ungroup()
 ```
 
 ## Create deployments resource
@@ -87,34 +88,42 @@ deployments <-
   deployments_raw %>% 
   dplyr::mutate(
     deploymentID = .data$deploymentID, # Required
-    locationID = NULL,
+    locationID = NA_character_,
     locationName = .data$site,
     latitude = .data$latitude, # Required
     longitude = .data$longitude, # Required
-    coordinateUncertainty = NULL,
+    coordinateUncertainty = NA_integer_,
     deploymentStart = .data$deploymentStart, # Required
     deploymentEnd = .data$deploymentEnd, # Required
-    setupBy = NULL,
+    setupBy = NA_character_,
     deviceID = .data$recorder,
     deviceModel = "Bugg v2022",
     devicePlatform = "pole",
-    deviceDelay = NULL,
+    deviceDelay = NA_integer_,
     deviceHeight = 1.5,
-    deviceDepth = NULL,
-    deviceTilt = NULL,
-    deviceHeading = NULL,
+    deviceDepth = NA_real_,
+    deviceTilt = NA_integer_,
+    deviceHeading = NA_integer_,
     dutyCycle = "continuous",
-    detectionDistance = NULL,
-    timestampIssues = NULL,
-    baitUse = NULL,
-    featureType = NULL,
-    habitat = NULL,
-    deploymentGroups = NULL,
-    deploymentTags = NULL,
-    deploymentComments = NULL,
+    detectionDistance = NA_real_,
+    timestampIssues = NA,
+    baitUse = NA,
+    featureType = NA_character_,
+    habitat = NA_character_,
+    deploymentGroups = NA_character_,
+    deploymentTags = NA_character_,
+    deploymentComments = NA_character_,
     .keep = "none"
   ) %>% 
-  dplyr::arrange(deploymentID)
+  dplyr::arrange(deploymentID) %>% 
+  dplyr::select(
+    deploymentID, locationID, locationName, latitude, longitude, 
+    coordinateUncertainty, deploymentStart, deploymentEnd, setupBy, 
+    deviceID, deviceModel, devicePlatform, deviceDelay, deviceHeight, 
+    deviceDepth, deviceTilt, deviceHeading, dutyCycle, detectionDistance,
+    timestampIssues, baitUse, featureType, habitat, deploymentGroups,
+    deploymentTags, deploymentComments
+  )
 ```
 
 ## Create media resource
@@ -191,7 +200,7 @@ observations <-
 ```{r}
 acoustic <-
   frictionless::create_package() %>%
-  add_resource(resource_name = "deployments", data = deployments) %>%
+  add_resource(resource_name = "deployments", data = deployments, schema = here::here("camtrap-dp", "deployments-table-schema-acoustic.json")) %>%
   add_resource(resource_name = "media", data = media) %>%
   add_resource(resource_name = "observations", data = observations) %>%
   append(c(
