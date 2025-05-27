@@ -126,7 +126,7 @@
       "description": "The substrate to which the device is mounted.",
       "type": "string",
       "constraints": {
-        "required": false
+        "required": false,
         "enum": [
           "buoy",
           "vegetation",
