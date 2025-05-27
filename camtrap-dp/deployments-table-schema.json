@@ -1,7 +1,7 @@
 {
   "name": "deployments",
   "title": "Deployments",
-  "description": "Table with camera trap placements (deployments). Includes `deploymentID`, start, end, location and camera setup information.",
+  "description": "Table with device trap placements (deployments). Includes `deploymentID`, start, end, location and device setup information.",
   "fields": [
     {
       "name": "deploymentID",
@@ -94,7 +94,7 @@
     },
     {
       "name": "setupBy",
-      "description": "Name or identifier of the person or organization that deployed the camera.",
+      "description": "Name or identifier of the person or organization that deployed the device.",
       "skos:broadMatch": "http://rs.tdwg.org/eco/terms/samplingPerformedBy",
       "type": "string",
       "constraints": {
@@ -103,8 +103,8 @@
       "example": "Jakub Bubnicki"
     },
     {
-      "name": "cameraID",
-      "description": "Identifier of the camera used for the deployment (e.g. the camera device serial number).",
+      "name": "deviceID",
+      "description": "Identifier of the device used for the deployment (e.g. the device device serial number).",
       "type": "string",
       "constraints": {
         "required": false
@@ -112,8 +112,8 @@
       "example": "P800HG08192031"
     },
     {
-      "name": "cameraModel",
-      "description": "Manufacturer and model of the camera. Formatted as `manufacturer-model`.",
+      "name": "deviceModel",
+      "description": "Manufacturer and model of the device. Formatted as `manufacturer-model`.",
       "skos:broadMatch": "http://rs.tdwg.org/ac/terms/captureDevice",
       "type": "string",
       "constraints": {
@@ -122,7 +122,7 @@
       "example": "Reconyx-PC800"
     },
     {
-      "name": "cameraDelay",
+      "name": "deviceDelay",
       "description": "Predefined duration after detection when further activity is ignored. Expressed in seconds.",
       "type": "integer",
       "constraints": {
@@ -132,8 +132,8 @@
       "example": 120
     },
     {
-      "name": "cameraHeight",
-      "description": "Height at which the camera was deployed. Expressed in meters. Not to be combined with `cameraDepth`.",
+      "name": "deviceHeight",
+      "description": "Height at which the device was deployed. Expressed in meters. Not to be combined with `deviceDepth`.",
       "skos:narrowMatch": [
         "http://rs.tdwg.org/dwc/terms/minimumDistanceAboveSurfaceInMeters",
         "http://rs.tdwg.org/dwc/terms/maximumDistanceAboveSurfaceInMeters"
@@ -147,8 +147,8 @@
       "example": 1.2
     },
     {
-      "name": "cameraDepth",
-      "description": "Depth at which the camera was deployed. Expressed in meters. Not to be combined with `cameraHeight`.",
+      "name": "deviceDepth",
+      "description": "Depth at which the device was deployed. Expressed in meters. Not to be combined with `deviceHeight`.",
       "skos:narrowMatch": [
         "http://rs.tdwg.org/dwc/terms/minimumDepthInMeters",
         "http://rs.tdwg.org/dwc/terms/maximumDepthInMeters"
@@ -162,8 +162,8 @@
       "example": 4.8
     },
     {
-      "name": "cameraTilt",
-      "description": "Angle at which the camera was deployed in the vertical plane. Expressed in degrees, with `-90` facing down, `0` horizontal and `90` facing up.",
+      "name": "deviceTilt",
+      "description": "Angle at which the device was deployed in the vertical plane. Expressed in degrees, with `-90` facing down, `0` horizontal and `90` facing up.",
       "type": "integer",
       "constraints": {
         "required": false,
@@ -174,8 +174,8 @@
       "example": -90
     },
     {
-      "name": "cameraHeading",
-      "description": "Angle at which the camera was deployed in the horizontal plane. Expressed in decimal degrees clockwise from north, with values ranging from `0` to `360`: `0` = north, `90` = east, `180` = south, `270` = west.",
+      "name": "deviceHeading",
+      "description": "Angle at which the device was deployed in the horizontal plane. Expressed in decimal degrees clockwise from north, with values ranging from `0` to `360`: `0` = north, `90` = east, `180` = south, `270` = west.",
       "type": "integer",
       "constraints": {
         "required": false,
@@ -187,7 +187,7 @@
     },
     {
       "name": "detectionDistance",
-      "description": "Maximum distance at which the camera can reliably detect activity. Expressed in meters. Typically measured by having a human move in front of the camera.",
+      "description": "Maximum distance at which the device can reliably detect activity. Expressed in meters. Typically measured by having a human move in front of the device.",
       "type": "number",
       "constraints": {
         "required": false,
