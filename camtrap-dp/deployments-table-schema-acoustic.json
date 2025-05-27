@@ -202,6 +202,15 @@
       "example": 225
     },
     {
+      "name": "dutyCycle",
+      "description": "Description of the duty cycle settings",
+      "type": "string",
+      "constraints": {
+        "required": false
+      },
+      "example": "9AM and 9PM"
+    },
+    {
       "name": "detectionDistance",
       "description": "Maximum distance at which the device can reliably detect activity. Expressed in meters. Typically measured by having a human move in front of the device.",
       "type": "number",
