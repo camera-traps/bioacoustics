@@ -265,6 +265,24 @@
       "example": 0.5
     },
     {
+      "name": "frequencyLow",
+      "description": "Lower limit of the frequency range over which the observation applies. Expressed in Hertz. Must be lower than frequencyHigh.",
+      "type": "number",
+      "constraints": {
+        "required": false
+      },
+      "example": 1000
+    },
+    {
+      "name": "frequencyHigh",
+      "description": "Higher limit of the frequency range over which the observation applies. Expressed in Hertz. Must be higher than frequencyHigh.",
+      "type": "number",
+      "constraints": {
+        "required": false
+      },
+      "example": 5000
+    },
+    {
       "name": "classificationMethod",
       "description": "Method (most recently) used to classify the observation.",
       "type": "string",
