@@ -33,7 +33,8 @@
         "required": false,
         "enum": [
           "activityDetection",
-          "timeLapse"
+          "timeLapse",
+          "dutyCycle"
         ]
       },
       "example": "activityDetection"
