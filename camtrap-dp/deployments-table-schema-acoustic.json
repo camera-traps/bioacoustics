@@ -132,6 +132,7 @@
           "vegetation",
           "building",
           "structure",
+          "pole",
           "unattached"
         ]
       },
