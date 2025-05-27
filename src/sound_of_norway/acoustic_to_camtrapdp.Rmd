@@ -135,23 +135,28 @@ media <-
     mediaID = .data$audio_id, # Required
     deploymentID = .data$site, # Required
     captureMethod = "dutyCycle",
-    timestamp = .data$timestamp, # Required
+    timestamp = .data$timestamp, # Required 
     filePath = .data$audio_link,# Required
     filePublic = FALSE, # Required
-    fileName = NULL,
+    fileName = NA_character_,
     fileMediatype = "audio/mpeg", # Required
     samplingFrequency = 44100,
     bitDepth = 16,
-    gain = NULL,
+    gain = NA_real_,
     channels = 1,
     mediaDuration = 300,
-    exifData = NULL,
-    favorite = NULL,
-    mediaComments = NULL,
+    exifData = NA,
+    favorite = NA,
+    mediaComments = NA_character_,
     .keep = "none"
   ) %>% 
   dplyr::arrange(mediaID) %>%
-  dplyr::distinct()
+  dplyr::distinct() %>% 
+  dplyr::select(
+    mediaID, deploymentID, captureMethod, timestamp, filePath, 
+    filePublic, fileName, fileMediatype, samplingFrequency, bitDepth, 
+    gain, channels, mediaDuration, exifData, favorite, mediaComments
+  )
 ```
 
 ## Create observations resource
@@ -164,7 +169,7 @@ observations <-
     deploymentID = .data$site, # Required
     mediaID = .data$audio_id,
     eventID = NA, # Necessary to use read_camtrapdp(), see https://github.com/inbo/camtrapdp/issues/162
-    eventStart = .data$detected_time, # Required
+    eventStart = .data$detected_time, # format(.data$detected_time_parsed, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"), # Required
     eventEnd = .data$eventEnd_iso, # Required
     observationLevel = "interval", # Required
     observationType = "animal", # Required 
@@ -201,7 +206,7 @@ observations <-
 acoustic <-
   frictionless::create_package() %>%
   add_resource(resource_name = "deployments", data = deployments, schema = here::here("camtrap-dp", "deployments-table-schema-acoustic.json")) %>%
-  add_resource(resource_name = "media", data = media) %>%
+  add_resource(resource_name = "media", data = media, schema = here::here("camtrap-dp", "media-table-schema-acoustic.json")) %>%
   add_resource(resource_name = "observations", data = observations) %>%
   append(c(
     name = "camtrap-dp-acoustic-example-dataset", # Required
