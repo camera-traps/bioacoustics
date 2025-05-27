@@ -92,6 +92,61 @@
       "example": "image/jpeg"
     },
     {
+      "name": "samplingFrequency",
+      "description": "Frequencies at which measurements are made. Expressed in Hertz.",
+      "type": "integer",
+      "constraints": {
+        "required": false
+      },
+      "example": 44100
+    },
+    {
+      "name": "bitDepth",
+      "description": "Number of bits used to represent each sample in a digital audio file.",
+      "skos:broadMatch": "",
+      "type": "integer",
+      "constraints": {
+        "required": false,
+        "enum": [
+          8,
+          16,
+          24,
+          32
+        ]
+      },
+      "example": 8
+    },
+    {
+      "name": "gain",
+      "description": "Amplification of a signal. Expressed in decibels (dB).",
+      "type": "number",
+      "constraints": {
+        "required": false,
+        "minimum": 0
+      },
+      "example": 3
+    },
+    {
+      "name": "channels",
+      "description": "Index of an acoustic data stream within a recording.",
+      "type": "integer",
+      "constraints": {
+        "required": false,
+        "minimum": 1
+      },
+      "example": 2
+    },
+    {
+      "name": "mediaDuration",
+      "description": "The playback duration of an audio or video file in seconds. This might be different from the time in seconds calculated as the difference of ac:endTimestamp and ac:startTimestamp if ac:mediaSpeed is not equal to 1.",
+      "skos:broadMatch": "http://rs.tdwg.org/ac/terms/mediaDuration",
+      "type": "string",
+      "constraints": {
+        "required": false
+      },
+      "example": ""
+    },
+    {
       "name": "exifData",
       "description": "EXIF data of the media file. Formatted as a valid JSON object.",
       "type": "any",
