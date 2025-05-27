@@ -76,7 +76,8 @@
         "required": true,
         "enum": [
           "media",
-          "event"
+          "event",
+          "interval"
         ]
       },
       "example": "media"
