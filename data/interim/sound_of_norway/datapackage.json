@@ -8,56 +8,286 @@
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "schema": {
+        "name": "deployments",
+        "title": "Deployments",
+        "description": "Table with device trap placements (deployments). Includes `deploymentID`, start, end, location and device setup information.",
         "fields": [
           {
-            "name": "site",
-            "type": "string"
-          },
-          {
-            "name": "latitude",
-            "type": "number"
-          },
-          {
-            "name": "longitude",
-            "type": "number"
-          },
-          {
-            "name": "deploymentStart",
-            "type": "datetime"
-          },
-          {
-            "name": "deploymentEnd",
-            "type": "datetime"
-          },
-          {
             "name": "deploymentID",
-            "type": "string"
+            "description": "Unique identifier of the deployment.",
+            "skos:broadMatch": "http://rs.tdwg.org/dwc/terms/eventID",
+            "type": "string",
+            "constraints": {
+              "required": true,
+              "unique": true
+            },
+            "example": "dep1"
+          },
+          {
+            "name": "locationID",
+            "description": "Identifier of the deployment location.",
+            "skos:exactMatch": "http://rs.tdwg.org/dwc/terms/locationID",
+            "type": "string",
+            "constraints": {
+              "required": false
+            },
+            "example": "loc1"
           },
           {
             "name": "locationName",
-            "type": "string"
+            "description": "Name given to the deployment location.",
+            "skos:exactMatch": "http://rs.tdwg.org/dwc/terms/locality",
+            "type": "string",
+            "constraints": {
+              "required": false
+            },
+            "example": "Białowieża MRI 01"
+          },
+          {
+            "name": "latitude",
+            "description": "Latitude of the deployment location in decimal degrees, using the WGS84 datum.",
+            "skos:broadMatch": "http://rs.tdwg.org/dwc/terms/decimalLatitude",
+            "type": "number",
+            "constraints": {
+              "required": true,
+              "minimum": -90,
+              "maximum": 90
+            },
+            "example": 52.7044
+          },
+          {
+            "name": "longitude",
+            "description": "Longitude of the deployment location in decimal degrees, using the WGS84 datum.",
+            "skos:broadMatch": "http://rs.tdwg.org/dwc/terms/decimalLongitude",
+            "type": "number",
+            "constraints": {
+              "required": true,
+              "minimum": -180,
+              "maximum": 180
+            },
+            "example": 23.8499
+          },
+          {
+            "name": "coordinateUncertainty",
+            "description": "Horizontal distance from the given `latitude` and `longitude` describing the smallest circle containing the deployment location. Expressed in meters. Especially relevant when coordinates are rounded to protect sensitive species.",
+            "skos:exactMatch": "http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters",
+            "type": "integer",
+            "constraints": {
+              "required": false,
+              "minimum": 1
+            },
+            "unit": "m",
+            "example": 100
+          },
+          {
+            "name": "deploymentStart",
+            "description": "Date and time at which the deployment was started. Formatted as an ISO 8601 string with timezone designator (`YYYY-MM-DDThh:mm:ssZ` or `YYYY-MM-DDThh:mm:ss±hh:mm`).",
+            "skos:broadMatch": "http://rs.tdwg.org/dwc/terms/eventDate",
+            "type": "datetime",
+            "format": "%Y-%m-%dT%H:%M:%S%z",
+            "constraints": {
+              "required": true
+            },
+            "example": "2020-03-01T22:00:00Z"
+          },
+          {
+            "name": "deploymentEnd",
+            "description": "Date and time at which the deployment was ended. Formatted as an ISO 8601 string with timezone designator (`YYYY-MM-DDThh:mm:ssZ` or `YYYY-MM-DDThh:mm:ss±hh:mm`).",
+            "skos:broadMatch": "http://rs.tdwg.org/dwc/terms/eventDate",
+            "type": "datetime",
+            "format": "%Y-%m-%dT%H:%M:%S%z",
+            "constraints": {
+              "required": true
+            },
+            "example": "2020-04-01T22:00:00Z"
+          },
+          {
+            "name": "setupBy",
+            "description": "Name or identifier of the person or organization that deployed the device.",
+            "skos:broadMatch": "http://rs.tdwg.org/eco/terms/samplingPerformedBy",
+            "type": "string",
+            "constraints": {
+              "required": false
+            },
+            "example": "Jakub Bubnicki"
           },
           {
             "name": "deviceID",
-            "type": "string"
+            "description": "Identifier of the device used for the deployment (e.g. the device device serial number).",
+            "type": "string",
+            "constraints": {
+              "required": false
+            },
+            "example": "P800HG08192031"
           },
           {
             "name": "deviceModel",
-            "type": "string"
+            "description": "Manufacturer and model of the device. Formatted as `manufacturer-model`.",
+            "skos:broadMatch": "http://rs.tdwg.org/ac/terms/captureDevice",
+            "type": "string",
+            "constraints": {
+              "required": false
+            },
+            "example": "Reconyx-PC800"
           },
           {
             "name": "devicePlatform",
-            "type": "string"
+            "description": "The substrate to which the device is mounted.",
+            "type": "string",
+            "constraints": {
+              "required": false,
+              "enum": ["buoy", "vegetation", "building", "structure", "pole", "unattached"]
+            },
+            "example": "unattached"
+          },
+          {
+            "name": "deviceDelay",
+            "description": "Predefined duration after detection when further activity is ignored. Expressed in seconds.",
+            "type": "integer",
+            "constraints": {
+              "required": false,
+              "minimum": 0
+            },
+            "example": 120
           },
           {
             "name": "deviceHeight",
-            "type": "number"
+            "description": "Height at which the device was deployed. Expressed in meters. Not to be combined with `deviceDepth`.",
+            "skos:narrowMatch": ["http://rs.tdwg.org/dwc/terms/minimumDistanceAboveSurfaceInMeters", "http://rs.tdwg.org/dwc/terms/maximumDistanceAboveSurfaceInMeters"],
+            "type": "number",
+            "constraints": {
+              "required": false,
+              "minimum": 0
+            },
+            "unit": "m",
+            "example": 1.2
+          },
+          {
+            "name": "deviceDepth",
+            "description": "Depth at which the device was deployed. Expressed in meters. Not to be combined with `deviceHeight`.",
+            "skos:narrowMatch": ["http://rs.tdwg.org/dwc/terms/minimumDepthInMeters", "http://rs.tdwg.org/dwc/terms/maximumDepthInMeters"],
+            "type": "number",
+            "constraints": {
+              "required": false,
+              "minimum": 0
+            },
+            "unit": "m",
+            "example": 4.8
+          },
+          {
+            "name": "deviceTilt",
+            "description": "Angle at which the device was deployed in the vertical plane. Expressed in degrees, with `-90` facing down, `0` horizontal and `90` facing up.",
+            "type": "integer",
+            "constraints": {
+              "required": false,
+              "minimum": -90,
+              "maximum": 90
+            },
+            "unit": "°",
+            "example": -90
+          },
+          {
+            "name": "deviceHeading",
+            "description": "Angle at which the device was deployed in the horizontal plane. Expressed in decimal degrees clockwise from north, with values ranging from `0` to `360`: `0` = north, `90` = east, `180` = south, `270` = west.",
+            "type": "integer",
+            "constraints": {
+              "required": false,
+              "minimum": 0,
+              "maximum": 360
+            },
+            "unit": "°",
+            "example": 225
           },
           {
             "name": "dutyCycle",
-            "type": "string"
+            "description": "Description of the duty cycle settings",
+            "type": "string",
+            "constraints": {
+              "required": false
+            },
+            "example": "9AM and 9PM"
+          },
+          {
+            "name": "detectionDistance",
+            "description": "Maximum distance at which the device can reliably detect activity. Expressed in meters. Typically measured by having a human move in front of the device.",
+            "type": "number",
+            "constraints": {
+              "required": false,
+              "minimum": 0
+            },
+            "unit": "m",
+            "example": 9.5
+          },
+          {
+            "name": "timestampIssues",
+            "description": "`true` if timestamps in the `media` resource for the deployment are known to have (unsolvable) issues (e.g. unknown timezone, am/pm switch).",
+            "type": "boolean",
+            "constraints": {
+              "required": false
+            },
+            "example": false
+          },
+          {
+            "name": "baitUse",
+            "description": "`true` if bait was used for the deployment. More information can be provided in `tags` or `comments`.",
+            "type": "boolean",
+            "constraints": {
+              "required": false
+            },
+            "example": true
+          },
+          {
+            "name": "featureType",
+            "description": "Type of the feature (if any) associated with the deployment.",
+            "type": "string",
+            "constraints": {
+              "required": false,
+              "enum": ["roadPaved", "roadDirt", "trailHiking", "trailGame", "roadUnderpass", "roadOverpass", "roadBridge", "culvert", "burrow", "nestSite", "carcass", "waterSource", "fruitingTree"]
+            },
+            "example": "culvert"
+          },
+          {
+            "name": "habitat",
+            "description": "Short characterization of the habitat at the deployment location.",
+            "skos:exactMatch": "http://rs.tdwg.org/dwc/terms/habitat",
+            "type": "string",
+            "constraints": {
+              "required": false
+            },
+            "example": "Mixed temperate low-land forest"
+          },
+          {
+            "name": "deploymentGroups",
+            "description": "Deployment group(s) associated with the deployment. Deployment groups can have a spatial (arrays, grids, clusters), temporal (sessions, seasons, months, years) or other context. Formatted as a pipe (`|`) separated list for multiple values, with values preferably formatted as `key:value` pairs.",
+            "type": "string",
+            "constraints": {
+              "required": false
+            },
+            "example": "season:winter 2020 | grid:A1"
+          },
+          {
+            "name": "deploymentTags",
+            "description": "Tag(s) associated with the deployment. Formatted as a pipe (`|`) separated list for multiple values, with values optionally formatted as `key:value` pairs.",
+            "skos:exactMatch": "http://rs.tdwg.org/ac/terms/tag",
+            "type": "string",
+            "constraints": {
+              "required": false
+            },
+            "example": "forest edge | bait:food"
+          },
+          {
+            "name": "deploymentComments",
+            "description": "Comments or notes about the deployment.",
+            "skos:exactMatch": "http://rs.tdwg.org/dwc/terms/eventRemarks",
+            "type": "string",
+            "constraints": {
+              "required": false
+            },
+            "example": ""
           }
-        ]
+        ],
+        "missingValues": "",
+        "primaryKey": "deploymentID"
       }
     },
     {
@@ -68,50 +298,182 @@
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "schema": {
+        "name": "media",
+        "title": "Media",
+        "description": "Table with media files (images/videos) recorded during deployments (`deploymentID`). Includes timestamp and file path.",
         "fields": [
           {
-            "name": "timestamp",
-            "type": "string"
-          },
-          {
             "name": "mediaID",
-            "type": "string"
+            "description": "Unique identifier of the media file.",
+            "skos:broadMatch": "http://purl.org/dc/terms/identifier",
+            "type": "string",
+            "constraints": {
+              "required": true,
+              "unique": true
+            },
+            "example": "m1"
           },
           {
             "name": "deploymentID",
-            "type": "string"
+            "description": "Identifier of the deployment the media file belongs to. Foreign key to `deployments.deploymentID`.",
+            "skos:broadMatch": "http://rs.tdwg.org/dwc/terms/parentEventID",
+            "type": "string",
+            "constraints": {
+              "required": true
+            },
+            "example": "dep1"
           },
           {
             "name": "captureMethod",
-            "type": "string"
+            "description": "Method used to capture the media file.",
+            "skos:broadMatch": "http://rs.tdwg.org/ac/terms/resourceCreationTechnique",
+            "type": "string",
+            "constraints": {
+              "required": false,
+              "enum": ["activityDetection", "timeLapse", "dutyCycle"]
+            },
+            "example": "activityDetection"
+          },
+          {
+            "name": "timestamp",
+            "description": "Date and time at which the media file was recorded. Formatted as an ISO 8601 string with timezone designator (`YYYY-MM-DDThh:mm:ssZ` or `YYYY-MM-DDThh:mm:ss±hh:mm`).",
+            "skos:exactMatch": "http://ns.adobe.com/xap/1.0/CreateDate",
+            "type": "datetime",
+            "format": "%Y-%m-%dT%H:%M:%S%z",
+            "constraints": {
+              "required": true
+            },
+            "example": "2020-03-24T11:21:46Z"
           },
           {
             "name": "filePath",
-            "type": "string"
+            "description": "URL or relative path to the media file, respectively for externally hosted files or files that are part of the package.",
+            "skos:broadMatch": "http://rs.tdwg.org/ac/terms/accessURI",
+            "type": "string",
+            "constraints": {
+              "required": true,
+              "pattern": "^(?=^[^./~])(^((?!\\.{2}).)*$).*$"
+            },
+            "example": "https://multimedia.agouti.eu/assets/6d65f3e4-4770-407b-b2bf-878983bf9872/file"
           },
           {
             "name": "filePublic",
-            "type": "boolean"
+            "description": "`false` if the media file is not publicly accessible (e.g. to protect the privacy of people).",
+            "skos:broadMatch": "http://rs.tdwg.org/ac/terms/serviceExpectation",
+            "type": "boolean",
+            "constraints": {
+              "required": true
+            },
+            "example": true
+          },
+          {
+            "name": "fileName",
+            "description": "Name of the media file. If provided, one should be able to sort media files chronologically within a deployment on `timestamp` (first) and `fileName` (second).",
+            "type": "string",
+            "constraints": {
+              "required": false
+            },
+            "example": "IMG0001.jpg"
           },
           {
             "name": "fileMediatype",
-            "type": "string"
+            "description": "Mediatype of the media file. Expressed as an [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml).",
+            "skos:broadMatch": "http://purl.org/dc/elements/1.1/format",
+            "type": "string",
+            "constraints": {
+              "required": true,
+              "pattern": "^(image|video|audio)/.*$"
+            },
+            "example": "image/jpeg"
           },
           {
             "name": "samplingFrequency",
-            "type": "number"
+            "description": "Frequencies at which measurements are made. Expressed in Hertz.",
+            "type": "integer",
+            "constraints": {
+              "required": false
+            },
+            "example": 44100
           },
           {
             "name": "bitDepth",
-            "type": "number"
+            "description": "Number of bits used to represent each sample in a digital audio file.",
+            "skos:broadMatch": "",
+            "type": "integer",
+            "constraints": {
+              "required": false,
+              "enum": [8, 16, 24, 32]
+            },
+            "example": 8
+          },
+          {
+            "name": "gain",
+            "description": "Amplification of a signal. Expressed in decibels (dB).",
+            "type": "number",
+            "constraints": {
+              "required": false,
+              "minimum": 0
+            },
+            "example": 3
           },
           {
             "name": "channels",
-            "type": "number"
+            "description": "Index of an acoustic data stream within a recording.",
+            "type": "integer",
+            "constraints": {
+              "required": false,
+              "minimum": 1
+            },
+            "example": 2
           },
           {
             "name": "mediaDuration",
-            "type": "number"
+            "description": "The playback duration of an audio or video file in seconds. This might be different from the time in seconds calculated as the difference of ac:endTimestamp and ac:startTimestamp if ac:mediaSpeed is not equal to 1.",
+            "skos:broadMatch": "http://rs.tdwg.org/ac/terms/mediaDuration",
+            "type": "string",
+            "constraints": {
+              "required": false
+            },
+            "example": ""
+          },
+          {
+            "name": "exifData",
+            "description": "EXIF data of the media file. Formatted as a valid JSON object.",
+            "type": "any",
+            "constraints": {
+              "required": false
+            },
+            "example": "{\"EXIF\":{\"ISO\":200,\"Make\":\"RECONYX\"}}"
+          },
+          {
+            "name": "favorite",
+            "description": "`true` if the media file is deemed of interest (e.g. an exemplar image of an individual).",
+            "type": "boolean",
+            "constraints": {
+              "required": false
+            },
+            "example": true
+          },
+          {
+            "name": "mediaComments",
+            "description": "Comments or notes about the media file.",
+            "skos:exactMatch": "http://rs.tdwg.org/ac/terms/comments",
+            "type": "string",
+            "constraints": {
+              "required": false
+            },
+            "example": "corrupted file"
+          }
+        ],
+        "missingValues": "",
+        "primaryKey": "mediaID",
+        "foreignKeys": [
+          {
+            "fields": "deploymentID",
+            "reference": {
+              "resource": "deployments",
+              "fields": "deploymentID"
+            }
           }
         ]
       }
@@ -124,62 +486,347 @@
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "schema": {
+        "name": "observations",
+        "title": "Observations",
+        "description": "Table with observations derived from the media files. Associated with deployments (`deploymentID`). Observations can mark non-animal events (camera setup, human, blank) or one or more animal observations (`observationType` = `animal`) of a certain taxon, count, life stage, sex, behavior and/or individual. Observations can be made at different levels (`observationLevel`).",
         "fields": [
           {
-            "name": "eventEnd",
-            "type": "string"
-          },
-          {
-            "name": "scientificName",
-            "type": "string"
-          },
-          {
             "name": "observationID",
-            "type": "string"
+            "description": "Unique identifier of the observation.",
+            "skos:broadMatch": "http://rs.tdwg.org/dwc/terms/occurrenceID",
+            "type": "string",
+            "constraints": {
+              "required": true,
+              "unique": true
+            },
+            "example": "obs1"
           },
           {
             "name": "deploymentID",
-            "type": "string"
+            "description": "Identifier of the deployment the observation belongs to. Foreign key to `deployments.deploymentID`.",
+            "skos:broadMatch": "http://rs.tdwg.org/dwc/terms/parentEventID",
+            "type": "string",
+            "constraints": {
+              "required": true
+            },
+            "example": "dep1"
           },
           {
             "name": "mediaID",
-            "type": "string"
+            "description": "Identifier of the media file that was classified. Only applicable for media-based observations (`observationLevel` = `media`). Foreign key to `media.mediaID`.",
+            "skos:broadMatch": "http://rs.tdwg.org/dwc/terms/associatedMedia",
+            "type": "string",
+            "constraints": {
+              "required": false
+            },
+            "example": "m1"
           },
           {
             "name": "eventID",
-            "type": "string"
+            "description": "Identifier of the event the observation belongs to. Facilitates linking event-based and media-based observations with a permanent identifier.",
+            "skos:broadMatch": "http://rs.tdwg.org/dwc/terms/eventID",
+            "type": "string",
+            "constraints": {
+              "required": false
+            },
+            "example": "sequence1"
           },
           {
             "name": "eventStart",
-            "type": "string"
+            "description": "Date and time at which the event started. Formatted as an ISO 8601 string with timezone designator (`YYYY-MM-DDThh:mm:ssZ` or `YYYY-MM-DDThh:mm:ss±hh:mm`).",
+            "skos:broadMatch": "http://rs.tdwg.org/dwc/terms/eventDate",
+            "skos:narrowMatch": "http://rs.tdwg.org/ac/terms/startTimestamp",
+            "type": "datetime",
+            "format": "%Y-%m-%dT%H:%M:%S%z",
+            "constraints": {
+              "required": true
+            },
+            "example": "2020-03-01T22:00:00Z"
+          },
+          {
+            "name": "eventEnd",
+            "description": "Date and time at which the event ended. Formatted as an ISO 8601 string with timezone designator (`YYYY-MM-DDThh:mm:ssZ` or `YYYY-MM-DDThh:mm:ss±hh:mm`).",
+            "skos:broadMatch": "http://rs.tdwg.org/dwc/terms/eventDate",
+            "skos:narrowMatch": "http://rs.tdwg.org/ac/terms/endTimestamp",
+            "type": "datetime",
+            "format": "%Y-%m-%dT%H:%M:%S%z",
+            "constraints": {
+              "required": true
+            },
+            "example": "2020-04-01T22:00:00Z"
           },
           {
             "name": "observationLevel",
-            "type": "string"
+            "description": "Level at which the observation was classified. `media` for media-based observations that are directly associated with a media file (`mediaID`). These are especially useful for machine learning and don't need to be mutually exclusive (e.g. multiple classifications are allowed). `event` for event-based observations that consider an event (comprising a collection of media files). These are especially useful for ecological research and should be mutually exclusive, so that their `count` can be summed.",
+            "type": "string",
+            "constraints": {
+              "required": true,
+              "enum": ["media", "event", "interval"]
+            },
+            "example": "media"
           },
           {
             "name": "observationType",
-            "type": "string"
+            "description": "Type of the observation. All categories in this vocabulary have to be understandable from an AI point of view. `unknown` describes classifications with a `classificationProbability` below some predefined threshold i.e. neither humans nor AI can say what was recorded.",
+            "type": "string",
+            "constraints": {
+              "required": true,
+              "enum": ["animal", "human", "vehicle", "blank", "unknown", "unclassified"]
+            },
+            "example": "animal"
+          },
+          {
+            "name": "deviceSetupType",
+            "description": "Type of the device setup action (if any) associated with the observation.",
+            "type": "string",
+            "constraints": {
+              "required": false,
+              "enum": ["setup", "calibration"]
+            },
+            "example": "calibration"
+          },
+          {
+            "name": "scientificName",
+            "description": "Scientific name of the observed individual(s).",
+            "skos:exactMatch": "http://rs.tdwg.org/dwc/terms/scientificName",
+            "type": "string",
+            "constraints": {
+              "required": false
+            },
+            "example": "Canis lupus"
+          },
+          {
+            "name": "count",
+            "description": "Number of observed individuals (optionally of given life stage, sex and behavior).",
+            "skos:exactMatch": "http://rs.tdwg.org/dwc/terms/individualCount",
+            "type": "integer",
+            "constraints": {
+              "required": false,
+              "minimum": 1
+            },
+            "example": 5
+          },
+          {
+            "name": "lifeStage",
+            "description": "Age class or life stage of the observed individual(s).",
+            "skos:exactMatch": "http://rs.tdwg.org/dwc/terms/lifeStage",
+            "type": "string",
+            "constraints": {
+              "required": false,
+              "enum": ["adult", "subadult", "juvenile"]
+            },
+            "example": "adult"
+          },
+          {
+            "name": "sex",
+            "description": "Sex of the observed individual(s)",
+            "skos:exactMatch": "http://rs.tdwg.org/dwc/terms/sex",
+            "type": "string",
+            "constraints": {
+              "required": false,
+              "enum": ["female", "male"]
+            },
+            "example": "female"
+          },
+          {
+            "name": "behavior",
+            "description": "Dominant behavior of the observed individual(s), preferably expressed as controlled values (e.g. grazing, browsing, rooting, vigilance, running, walking). Formatted as a pipe (`|`) separated list for multiple values, with the dominant behavior listed first.",
+            "skos:exactMatch": "http://rs.tdwg.org/dwc/terms/behavior",
+            "type": "string",
+            "constraints": {
+              "required": false
+            },
+            "example": "vigilance"
+          },
+          {
+            "name": "individualID",
+            "description": "Identifier of the observed individual.",
+            "skos:exactMatch": "http://rs.tdwg.org/dwc/terms/organismID",
+            "type": "string",
+            "constraints": {
+              "required": false
+            },
+            "example": "RD213"
+          },
+          {
+            "name": "individualPositionRadius",
+            "description": "Distance from the device to the observed individual identified by `individualID`. Expressed in meters. Required for distance analyses (e.g. [Howe et al. 2017](https://doi.org/10.1111/2041-210X.12790)) and random encounter modelling (e.g. [Rowcliffe et al. 2011](https://doi.org/10.1111/j.2041-210X.2011.00094.x)).",
+            "type": "number",
+            "constraints": {
+              "required": false,
+              "minimum": 0
+            },
+            "unit": "m",
+            "example": 6.81
+          },
+          {
+            "name": "individualPositionAngle",
+            "description": "Angular distance from the device view centerline to the observed individual identified by `individualID`. Expressed in degrees, with negative values left, `0` straight ahead and positive values right. Required for distance analyses (e.g. [Howe et al. 2017](https://doi.org/10.1111/2041-210X.12790)) and random encounter modelling (e.g. [Rowcliffe et al. 2011](https://doi.org/10.1111/j.2041-210X.2011.00094.x)).",
+            "type": "number",
+            "constraints": {
+              "required": false,
+              "minimum": -90,
+              "maximum": 90
+            },
+            "unit": "°",
+            "example": -8.56
+          },
+          {
+            "name": "individualSpeed",
+            "description": "Average movement speed of the observed individual identified by `individualID`. Expressed in meters per second. Required for random encounter modelling (e.g. [Rowcliffe et al. 2016](https://doi.org/10.1002/rse2.17)).",
+            "type": "number",
+            "constraints": {
+              "required": false,
+              "minimum": 0
+            },
+            "unit": "m/s",
+            "example": 1.75
+          },
+          {
+            "name": "bboxX",
+            "description": "Horizontal position of the top-left corner of a bounding box that encompasses the observed individual(s) in the media file identified by `mediaID`. Or the horizontal position of an object in that media file. Measured from the left and relative to media file width.",
+            "skos:broadMatch": "http://rs.tdwg.org/ac/terms/XFrac",
+            "type": "number",
+            "constraints": {
+              "required": false,
+              "minimum": 0,
+              "maximum": 1
+            },
+            "example": 0.2
+          },
+          {
+            "name": "bboxY",
+            "description": "Vertical position of the top-left corner of a bounding box that encompasses the observed individual(s) in the media file identified by `mediaID`. Or the vertical position of an object in that media file. Measured from the top and relative to the media file height.",
+            "skos:broadMatch": "http://rs.tdwg.org/ac/terms/YFrac",
+            "type": "number",
+            "constraints": {
+              "required": false,
+              "minimum": 0,
+              "maximum": 1
+            },
+            "example": 0.25
+          },
+          {
+            "name": "bboxWidth",
+            "description": "Width of a bounding box that encompasses the observed individual(s) in the media file identified by `mediaID`. Measured from the left of the bounding box and relative to the media file width.",
+            "skos:broadMatch": "http://rs.tdwg.org/ac/terms/widthFrac",
+            "type": "number",
+            "constraints": {
+              "required": false,
+              "minimum": 1e-15,
+              "maximum": 1
+            },
+            "example": 0.4
+          },
+          {
+            "name": "bboxHeight",
+            "description": "Height of the bounding box that encompasses the observed individual(s) in the media file identified by `mediaID`. Measured from the top of the bounding box and relative to the media file height.",
+            "skos:broadMatch": "http://rs.tdwg.org/ac/terms/heightFrac",
+            "type": "number",
+            "constraints": {
+              "required": false,
+              "minimum": 1e-15,
+              "maximum": 1
+            },
+            "example": 0.5
+          },
+          {
+            "name": "frequencyLow",
+            "description": "Lower limit of the frequency range over which the observation applies. Expressed in Hertz. Must be lower than frequencyHigh.",
+            "type": "number",
+            "constraints": {
+              "required": false
+            },
+            "example": 1000
+          },
+          {
+            "name": "frequencyHigh",
+            "description": "Higher limit of the frequency range over which the observation applies. Expressed in Hertz. Must be higher than frequencyHigh.",
+            "type": "number",
+            "constraints": {
+              "required": false
+            },
+            "example": 5000
           },
           {
             "name": "classificationMethod",
-            "type": "string"
+            "description": "Method (most recently) used to classify the observation.",
+            "type": "string",
+            "constraints": {
+              "required": false,
+              "enum": ["human", "machine"]
+            },
+            "example": "human"
           },
           {
             "name": "classifiedBy",
-            "type": "string"
+            "description": "Name or identifier of the person or AI algorithm that (most recently) classified the observation.",
+            "skos:exactMatch": "http://rs.tdwg.org/dwc/terms/identifiedBy",
+            "type": "string",
+            "constraints": {
+              "required": false
+            },
+            "example": "MegaDetector V5"
           },
           {
             "name": "classificationTimestamp",
-            "type": "string"
+            "description": "Date and time of the (most recent) classification. Formatted as an ISO 8601 string with timezone designator (`YYYY-MM-DDThh:mm:ssZ` or `YYYY-MM-DDThh:mm:ss±hh:mm`).",
+            "skos:broadMatch": "http://rs.tdwg.org/dwc/terms/dateIdentified",
+            "type": "datetime",
+            "format": "%Y-%m-%dT%H:%M:%S%z",
+            "constraints": {
+              "required": false
+            },
+            "example": "2020-08-22T10:25:19Z"
           },
           {
             "name": "classificationProbability",
-            "type": "number"
+            "description": "Degree of certainty of the (most recent) classification. Expressed as a probability, with `1` being maximum certainty. Omit or provide an approximate probability for human classifications.",
+            "type": "number",
+            "constraints": {
+              "required": false,
+              "minimum": 0,
+              "maximum": 1
+            },
+            "example": 0.95
           },
           {
             "name": "observationTags",
-            "type": "string"
+            "description": "Tag(s) associated with the observation. Formatted as a pipe (`|`) separated list for multiple values, with values optionally formatted as `key:value` pairs.",
+            "skos:exactMatch": "http://rs.tdwg.org/ac/terms/tag",
+            "type": "string",
+            "constraints": {
+              "required": false
+            },
+            "example": "travelDirection:left"
+          },
+          {
+            "name": "observationComments",
+            "description": "Comments or notes about the observation.",
+            "skos:exactMatch": "http://rs.tdwg.org/dwc/terms/occurrenceRemarks",
+            "type": "string",
+            "constraints": {
+              "required": false
+            },
+            "example": ""
+          }
+        ],
+        "missingValues": "",
+        "primaryKey": "observationID",
+        "foreignKeys": [
+          {
+            "fields": "deploymentID",
+            "reference": {
+              "resource": "deployments",
+              "fields": "deploymentID"
+            }
+          },
+          {
+            "fields": "mediaID",
+            "reference": {
+              "resource": "media",
+              "fields": "mediaID"
+            }
           }
         ]
       }
@@ -187,7 +834,7 @@
   ],
   "name": "camtrap-dp-acoustic-example-dataset",
   "profile": "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0.1/camtrap-dp-profile.json",
-  "created": "2025-04-30T13:28:53Z",
+  "created": "2025-05-27T10:35:15Z",
   "title": "The Sound of Norway: bird detections",
   "version": "1.0",
   "keywords1": "acoustic",
