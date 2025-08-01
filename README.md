@@ -35,9 +35,9 @@ manually.
     ├─ LICENSE                           : Repository license
     ├─ .gitignore                        : Files and directories to be ignored by git
     ├─ src
-    │   ├─ insectai_to_camtrapdp.Rmd     : Empty source script to copy
+    │   ├─ acoustic_to_camtrapdp.Rmd     : Empty source script to copy
     │   └─ project_name                  : Folder per project
-    │       └─ insectai_to_camtrapdp.Rmd : Source script per project
+    │       └─ acoustic_to_camtrapdp.Rmd : Source script per project
     └─ data
         └─ project_name                  : Folder per project
             ├─ raw                       : Source data, input for mapping script
