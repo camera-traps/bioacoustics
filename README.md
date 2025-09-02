@@ -55,8 +55,8 @@ This repository is open to contributions from the community. If you have a bioac
 5.  Create a folder in `data` with the name of your project.
 6.  Copy your raw data to the `raw` folder.
 7.  Edit the `acoustic_to_camtrapdp.Rmd` file to include your project-specific code.
-8.  Run `acoustic_to_camtrapdp.Rmd` to generate the Camtrap DP iles.
-9.  Throughout all the previous steps: commit your changes and push to your branch. You don’t need to wait to commit until your finished.
+8.  Run `acoustic_to_camtrapdp.Rmd` to generate the Camtrap DP files.
+9.  Throughout all the previous steps: commit your changes and push to your branch. You don’t need to wait to commit until you're finished.
 10.  Create a pull request to merge your changes into the main branch.
 
 ## Relevant sources
