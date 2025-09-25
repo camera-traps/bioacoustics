@@ -1,0 +1,9 @@
+# Raven sound speed data
+# Values shound be in meters/second
+$begin$
+    # Timestamp
+    constant
+    # Sound speed.  
+    # Format is: speed speed_uncertainty
+    1489  7.5
+$end$
