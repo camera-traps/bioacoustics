@@ -1,0 +1,343 @@
+---
+title: "acoustic_to_camtrapdp"
+author: 
+- "Sanne Govaert"
+- "Julia Wiel"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(here)
+library(dplyr)
+library(tidyr)
+library(frictionless)
+library(camtrapdp)
+library(lubridate)
+library(readxl)
+```
+
+# Import data
+
+```{r}
+data_raw <- read_xlsx(here::here("data", "raw", "maryland",
+ "2018_UnivMD_Maryland_86896 DEP1.xlsx"), sheet = 'DATA TABLE FOR EXPORT')
+selections <- read.delim2(here::here("data", "raw", "maryland",
+ "Fin_merged.selections.txt")) %>% sample_n(500)
+```
+
+# Create resources
+
+## Inspect data
+
+```{r}
+(data_raw_unique_values_per_column <-
+  data_raw %>%
+  dplyr::summarise(dplyr::across(dplyr::everything(), ~ dplyr::n_distinct(.))) %>%
+  tidyr::pivot_longer(dplyr::everything(), names_to = "column", values_to = "n_unique"))
+
+(selections_unique_values_per_column <-
+  selections %>%
+  dplyr::summarise(dplyr::across(dplyr::everything(), ~ dplyr::n_distinct(.))) %>%
+  tidyr::pivot_longer(dplyr::everything(), names_to = "column", values_to = "n_unique"))
+```
+
+## Add information to dataset
+
+# data
+```{r}
+# Parse deploymentStart and deploymentEnd in UTC
+data <- data_raw %>%
+  dplyr::mutate(
+    # Clean deployTime and recoveryTime
+    deployTime_clean = sub("^\\d{4}-\\d{2}-\\d{2} ", "", deployTime),
+    recoveryTime_clean = sub("^\\d{4}-\\d{2}-\\d{2} ", "", recoveryTime),
+    # Combine date and time for deployment start/end
+    deploy_datetime_str = paste(deployDate, deployTime_clean),
+    recovery_datetime_str = paste(recoveryDate, recoveryTime_clean)
+  ) %>%
+  dplyr::rowwise() %>%
+  dplyr::mutate(
+    deploymentStart = format(lubridate::ymd_hms(deploy_datetime_str, tz = "UTC"),
+     "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"),
+    deploymentEnd = format(lubridate::ymd_hms(recovery_datetime_str, tz = "UTC"),
+     "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+  ) %>%
+  dplyr::ungroup()
+
+```
+
+# selections
+```{r}
+## Create deploymentID from Begin.Path in selections
+
+# Split Begin.Path by "/"
+split_path <- strsplit(selections$Begin.Path, '\\\\')
+# Extract elements by position (e.g., 5th, 6th, 7th)
+deploymentID <- sapply(split_path, function(x) {
+  # Split x[7] by "_"
+  parts <- strsplit(x[7], "_")[[1]]
+  # Remove the first term and paste the rest back together
+  new_x7 <- paste(parts[-1], collapse = "_")
+  new_x7 <- gsub("MD", "Dep", new_x7)
+  # Combine x[6] and the modified x[7]
+  paste(x[6], new_x7, sep = "_")
+})
+# Add to selections
+selections$deploymentID <- deploymentID
+
+## Timestamp of the selection
+selections$timestamp <- format(
+  lubridate::mdy_hms(paste(selections$Date.Check, selections$Time.Check), tz = "UTC"),
+  "%Y-%m-%dT%H:%M:%OS3Z", tz = "UTC"
+)
+
+## ObservationID
+selections$observationID <- paste(selections$Begin.File, selections$Selection,
+ sep = "_")
+```
+## Create deployments resource
+
+```{r}
+deployments <-
+  data %>% 
+  dplyr::mutate(
+    deploymentID = data$KEY_deployment_ID, # Required
+    locationID = data$nominalID,
+    locationName = NA_character_,
+    latitude = data$latitudeDeployed_DecDeg, # Required
+    longitude = data$longitudeDeployed_DecDeg, # Required
+    coordinateUncertainty = NA_integer_,
+    deploymentStart = data$deploymentStart, # Required
+    deploymentEnd = data$deploymentEnd, # Required
+    setupBy = NA_character_,
+    deviceID = data$containerID,
+    deviceModel = data$recorderDeviceType,
+    deviceDelay = NA_integer_,
+    deviceHeight = NA_real_,
+    deviceDepth = data$deploymentDepth_Meters,
+    deviceTilt = NA_integer_,
+    deviceHeading = NA_integer_,
+    dutyCycle = "continuous",
+    detectionDistance = NA_real_,
+    timestampIssues = NA,
+    devicePlatform = NA_character_,
+    baitUse = NA,
+    featureType = NA_character_,
+    habitat = NA_character_,
+    deploymentGroups = data$arrayName,
+    deploymentTags = NA_character_,
+    deploymentComments = data$notes,
+    .keep = "none"
+  ) %>% 
+  dplyr::arrange(deploymentID) %>%
+  dplyr::select(
+    deploymentID, locationID, locationName, latitude, longitude,
+    coordinateUncertainty, deploymentStart, deploymentEnd, setupBy,
+    deviceID, deviceModel, deviceDelay, deviceHeight, deviceDepth,
+    deviceTilt, deviceHeading, dutyCycle, detectionDistance, timestampIssues,
+    devicePlatform, baitUse, featureType, habitat, deploymentGroups,
+    deploymentTags, deploymentComments
+  )
+```
+
+## Create media resource
+
+```{r}
+media <-
+  selections %>% 
+  dplyr::mutate(
+    mediaID = selections$Begin.File, # Required
+    deploymentID = selections$deploymentID, # Required
+    captureMethod = "dutyCycle",
+    timestamp = selections$timestamp, # Required 
+    filePath = selections$Begin.Path,# Required
+    filePublic = FALSE, # Required
+    fileName = NA_character_,
+    fileMediatype = "audio/aif", # Required
+    samplingFrequency = 16000,
+    bitDepth = 16,
+    gain = 23.5,
+    channels = NA_integer_,
+    duration = NA_real_,
+    exifselections = NA,
+    favorite = NA,
+    mediaComments = NA_character_,
+    .keep = "none"
+  ) %>% 
+  dplyr::arrange(mediaID) %>%
+  dplyr::distinct() %>% 
+  dplyr::select(
+    mediaID, deploymentID, captureMethod, timestamp, filePath, 
+    filePublic, fileName, fileMediatype, samplingFrequency, bitDepth, 
+    gain, channels, duration, exifselections, favorite, mediaComments
+  )
+```
+
+## Create observations resource
+
+```{r}
+observations <-
+  selections %>% 
+  dplyr::mutate(
+    observationID = selections$observationID, # Required
+    deploymentID = selections$deploymentID, # Required
+    mediaID = selections$Begin.File,
+    eventID = NA_character_, # Necessary to use read_camtrapdp(), see https://github.com/inbo/camtrapdp/issues/162
+    eventStart = selections$Begin.Time..s., # format(data$detected_time_parsed, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"), # Required
+    eventEnd = selections$End.Time..s., # Required
+    observationLevel = "interval", # Required
+    observationType = "animal", # Required 
+    deviceSetupType = NA_character_,
+    scientificName = NA_character_,  # Required
+    count = NA_integer_,
+    lifeStage = NA_character_,
+    sex = NA_character_,
+    behavior = NA_character_,
+    individualID = NA_character_,
+    individualPositionRadius = NA_real_,
+    individualPositionAngle = NA_real_,
+    individualSpeed = NA_real_,
+    bboxX = NA_real_,
+    bboxY = NA_real_,
+    bboxWidth = NA_real_,
+    bboxHeight = NA_real_,
+    frequencyLow = NA_real_,
+    frequencyHigh = NA_real_,
+    classificationMethod = "machine",
+    classifiedBy = NA_character_,
+    classificationTimestamp = NA_character_,
+    classificationProbability = selections$Score,
+    observationTags = selections$Tags,
+    observationComments = selections$Notes,
+    .keep = "none"
+  ) %>% 
+  dplyr::arrange(observationID) %>% 
+  dplyr::select(
+    observationID, deploymentID, mediaID, eventID, eventStart,
+    eventEnd, observationLevel, observationType, deviceSetupType,
+    scientificName, count, lifeStage, sex, behavior, individualID,
+    individualPositionRadius, individualPositionAngle, individualSpeed,
+    bboxX, bboxY, bboxWidth, bboxHeight, frequencyLow, frequencyHigh,
+    classificationMethod, classifiedBy, classificationTimestamp,
+    classificationProbability, observationTags, observationComments
+  )
+```
+
+# Create data package
+
+```{r}
+acoustic <-
+  frictionless::create_package() %>%
+  add_resource(resource_name = "deployments", data = deployments, schema = here::here("camtrap-dp", "deployments-table-schema-acoustic.json")) %>%
+  add_resource(resource_name = "media", data = media, schema = here::here("camtrap-dp", "media-table-schema-acoustic.json")) %>%
+  add_resource(resource_name = "observations", data = observations, schema = here::here("camtrap-dp", "observations-table-schema-acoustic.json")) %>%
+  append(c(
+    name = "camtrap-dp-acoustic-maryland-dataset", # Required
+    profile = "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0.1/camtrap-dp-profile.json", # Required (incorrect, hack to use read_camtrapdp())
+    id = NULL,
+    created = format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"), # Required
+    title = "Maryland: marine mammals detections",
+    description = NULL,
+    version = "1.0",
+    keywords = c("acoustic", "marine mammals", "passive acoustic monitoring"),
+    image = NULL,
+    homepage = NULL,
+    sources = NULL,
+    bibliographicCitation = "Bailey H, Rice A, Wingfield JE, Hodge KB, Estabrook BJ, Hawthorne D, Garrod A, Fandel AD, Fouda
+        L, McDonald E, Grzyb E, Fletcher W, Hoover AL. 2018. Determining habitat use by marine
+        mammals and ambient noise levels using passive acoustic monitoring offshore of Maryland. Sterling
+        (VA): US Department of the Interior, Bureau of Ocean Energy Management. OCS Study BOEM
+        2019-018. 232 p.",
+    coordinatePrecision = NULL,
+    spatial = NULL, # Required, but keep this empty, this comes later
+    temporal = NULL, # Required, but keep this empty, this comes later
+    taxonomic = NULL, # Required, but keep this empty, this comes later
+    relatedIdentifiers = NULL,
+    references = NULL
+  )) %>%
+  frictionless::create_package()
+
+acoustic$contributors <- list( # Required
+  list(
+    title = "Aaron N. Rice",
+    email = "arice@cornell.edu",
+    path = "https://orcid.org/0000-0002-8598-9705",
+    role = "Science director",
+    organization = "Bioacoustics Research Program, Cornell Laboratory of Ornithology"
+  ),
+  list(
+    title = "",
+    email = "",
+    path = "",
+    role = "",
+    organization = ""
+  ),
+)
+
+acoustic$licenses <- list(
+  list(
+    name = "CC0-1.0",
+    scope = "data" # Required
+  ),
+  list(
+    path = "http://creativecommons.org/licenses/by/4.0/",
+    scope = "media" # Required
+  )
+)
+
+acoustic$project <- list( # Required
+  # id = "",
+  title = "Maryland", # Required
+  # acronym = "",
+  description = "Determining Habitat Use by Marine Mammals and Ambient Noise Levels Using Passive Acoustic Monitoring Offshore of Maryland",
+  protocolType = list(c("acoustic")), # Required
+  samplingDesign = "systematicRandom", # Required
+  path = "https://thesoundofnorway.com/",
+  captureMethod = list(c("continuous")), # Required | Bug, see https://github.com/frictionlessdata/frictionless-r/issues/276
+  individualAnimals = FALSE, # Required
+  observationLevel = list(c("media")) # Required | Bug, see https://github.com/frictionlessdata/frictionless-r/issues/276
+)
+```
+
+## Create taxonomy
+
+```{r}
+map_taxonomy <- function(taxonomy) {
+  list(
+    scientificName = taxonomy$scientificName,
+    vernacularNames = list(
+      eng = taxonomy$EnglishName
+      )
+  )
+}
+```
+
+```{r}
+taxonomy_list <- apply(taxonomy, 1, as.list)
+acoustic$taxonomic <- purrr::map(taxonomy_list, map_taxonomy)
+```
+
+# Write Data Package
+
+```{r}
+frictionless::write_package(acoustic, here::here("data", "interim", "maryland"))
+```
+
+# Read with camtrapdp
+
+This automatically updates the spatial, temporal and taxonomic coverage in the metadata, based on the data.
+
+```{r}
+acoustic_dp <- camtrapdp::read_camtrapdp(here::here("data", "interim", "maryland", "datapackage.json"))
+```
+
+# Write Camtrap DP
+
+```{r}
+camtrapdp::write_camtrapdp(acoustic_dp, here::here("data", "processed", "maryland"))
+```
