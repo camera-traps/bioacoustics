@@ -62,10 +62,10 @@ data <- data_raw %>%
   ) %>%
   dplyr::rowwise() %>%
   dplyr::mutate(
-    deploymentStart = format(lubridate::ymd_hms(deploy_datetime_str, tz = "UTC"),
-     "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"),
-    deploymentEnd = format(lubridate::ymd_hms(recovery_datetime_str, tz = "UTC"),
-     "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+    deploymentStart = format(lubridate::ymd_hms(deploy_datetime_str, tz = "UTC"), "%Y-%m-%dT%H:%M:%S%z", tz = "UTC"),
+    deploymentStart = sub("(\\+\\d{2})(\\d{2})$", "\\1:\\2", deploymentStart),
+    deploymentEnd = format(lubridate::ymd_hms(recovery_datetime_str, tz = "UTC"), "%Y-%m-%dT%H:%M:%S%z", tz = "UTC"),
+    deploymentEnd = sub("(\\+\\d{2})(\\d{2})$", "\\1:\\2", deploymentEnd)
   ) %>%
   dplyr::ungroup()
 
@@ -91,10 +91,18 @@ deploymentID <- sapply(split_path, function(x) {
 selections$deploymentID <- deploymentID
 
 ## Timestamp of the selection
-selections$timestamp <- format(
-  lubridate::mdy_hms(paste(selections$Date.Check, selections$Time.Check), tz = "UTC"),
-  "%Y-%m-%dT%H:%M:%OS3Z", tz = "UTC"
-)
+selections$timestamp <- sapply(sub("\\.aif$", "", selections$Begin.File), function(x) {
+  parts <- strsplit(x, "_")[[1]]
+  # Assume last two substrings are date and time
+  date_str <- parts[length(parts)-1]
+  time_str <- parts[length(parts)]
+  # Try to parse date and time
+  dt <- suppressWarnings(lubridate::ymd_hms(paste(date_str, time_str), tz = "UTC"))
+  # Format as ISO 8601 with offset
+  ts <- format(dt, "%Y-%m-%dT%H:%M:%S%z", tz = "UTC")
+  ts <- sub("(\\+\\d{2})(\\d{2})$", "\\1:\\2", ts)
+  return(ts)
+})
 
 ## ObservationID
 selections$observationID <- paste(selections$Begin.File, selections$Selection,
@@ -117,7 +125,7 @@ deployments <-
     setupBy = NA_character_,
     deviceID = data$containerID,
     deviceModel = data$recorderDeviceType,
-    devicePlatform = NA_character_,
+    devicePlatform = "mooring",
     deviceDelay = NA_integer_,
     deviceHeight = NA_real_,
     deviceDepth = data$deploymentDepth_Meters,
@@ -158,7 +166,7 @@ media <-
     filePath = selections$Begin.Path,# Required
     filePublic = FALSE, # Required
     fileName = NA_character_,
-    fileMediatype = "audio/aif", # Required
+    fileMediatype = "audio/aiff", # Required
     samplingFrequency = 16000,
     bitDepth = 16,
     gain = 23.5,
