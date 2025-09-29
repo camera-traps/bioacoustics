@@ -138,9 +138,9 @@ deployments <-
   dplyr::select(
     deploymentID, locationID, locationName, latitude, longitude,
     coordinateUncertainty, deploymentStart, deploymentEnd, setupBy,
-    deviceID, deviceModel, deviceDelay, deviceHeight, deviceDepth,
+    deviceID, deviceModel, devicePlatform, deviceDelay, deviceHeight, deviceDepth,
     deviceTilt, deviceHeading, dutyCycle, detectionDistance, timestampIssues,
-    devicePlatform, baitUse, featureType, habitat, deploymentGroups,
+    baitUse, featureType, habitat, deploymentGroups,
     deploymentTags, deploymentComments
   )
 ```
@@ -163,8 +163,8 @@ media <-
     bitDepth = 16,
     gain = 23.5,
     channels = NA_integer_,
-    duration = NA_real_,
-    exifselections = NA,
+    mediaDuration = NA_real_,
+    exifData = NA,
     favorite = NA,
     mediaComments = NA_character_,
     .keep = "none"
@@ -174,7 +174,7 @@ media <-
   dplyr::select(
     mediaID, deploymentID, captureMethod, timestamp, filePath, 
     filePublic, fileName, fileMediatype, samplingFrequency, bitDepth, 
-    gain, channels, duration, exifselections, favorite, mediaComments
+    gain, channels, mediaDuration, exifData, favorite, mediaComments
   )
 ```
 
