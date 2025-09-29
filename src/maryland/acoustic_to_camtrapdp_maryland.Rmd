@@ -269,14 +269,14 @@ acoustic$contributors <- list( # Required
     path = "https://orcid.org/0000-0002-8598-9705",
     role = "Science director",
     organization = "Bioacoustics Research Program, Cornell Laboratory of Ornithology"
-  ),
-  list(
-    title = "",
-    email = "",
-    path = "",
-    role = "",
-    organization = ""
-  ),
+  )
+  # list(
+  #   title = "",
+  #   email = "",
+  #   path = "",
+  #   role = "",
+  #   organization = ""
+  # ),
 )
 
 acoustic$licenses <- list(
