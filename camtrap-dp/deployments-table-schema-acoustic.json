@@ -214,8 +214,8 @@
       "example": 225
     },
     {
-      "name": "dutyCycle",
-      "description": "Description of the duty cycle settings",
+      "name": "recordingSchedule",
+      "description": "Description of the recordinding schedule.",
       "type": "string",
       "constraints": {
         "required": false
