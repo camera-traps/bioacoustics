@@ -93,6 +93,7 @@ deployments <-
     latitude = .data$latitude, # Required
     longitude = .data$longitude, # Required
     coordinateUncertainty = NA_integer_,
+    elevation = NA_real_,
     deploymentStart = .data$deploymentStart, # Required
     deploymentEnd = .data$deploymentEnd, # Required
     setupBy = NA_character_,
@@ -104,7 +105,7 @@ deployments <-
     deviceDepth = NA_real_,
     deviceTilt = NA_integer_,
     deviceHeading = NA_integer_,
-    dutyCycle = "continuous",
+    recordingSchedule = "continuous",
     detectionDistance = NA_real_,
     timestampIssues = NA,
     baitUse = NA,
@@ -118,9 +119,9 @@ deployments <-
   dplyr::arrange(deploymentID) %>% 
   dplyr::select(
     deploymentID, locationID, locationName, latitude, longitude, 
-    coordinateUncertainty, deploymentStart, deploymentEnd, setupBy, 
+    coordinateUncertainty, elevation, deploymentStart, deploymentEnd, setupBy, 
     deviceID, deviceModel, devicePlatform, deviceDelay, deviceHeight, 
-    deviceDepth, deviceTilt, deviceHeading, dutyCycle, detectionDistance,
+    deviceDepth, deviceTilt, deviceHeading, recordingSchedule, detectionDistance,
     timestampIssues, baitUse, featureType, habitat, deploymentGroups,
     deploymentTags, deploymentComments
   )
@@ -134,7 +135,7 @@ media <-
   dplyr::mutate(
     mediaID = .data$audio_id, # Required
     deploymentID = .data$site, # Required
-    captureMethod = "dutyCycle",
+    captureMethod = "schedule",
     timestamp = .data$timestamp, # Required 
     filePath = .data$audio_link,# Required
     filePublic = FALSE, # Required

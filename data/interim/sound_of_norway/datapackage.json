@@ -80,6 +80,17 @@
             "example": 100
           },
           {
+            "name": "elevation",
+            "description": "Elevation (altitude, usually above sea level) in meters",
+            "skos:broadMatch": "http://rs.tdwg.org/dwc/terms/minimumElevationInMeters",
+            "type": "integer",
+            "constraints": {
+              "required": false
+            },
+            "unit": "m",
+            "example": 100
+          },
+          {
             "name": "deploymentStart",
             "description": "Date and time at which the deployment was started. Formatted as an ISO 8601 string with timezone designator (`YYYY-MM-DDThh:mm:ssZ` or `YYYY-MM-DDThh:mm:ss±hh:mm`).",
             "skos:broadMatch": "http://rs.tdwg.org/dwc/terms/eventDate",
@@ -199,8 +210,8 @@
             "example": 225
           },
           {
-            "name": "dutyCycle",
-            "description": "Description of the duty cycle settings",
+            "name": "recordingSchedule",
+            "description": "Description of the recordinding schedule.",
             "type": "string",
             "constraints": {
               "required": false
@@ -330,7 +341,7 @@
             "type": "string",
             "constraints": {
               "required": false,
-              "enum": ["activityDetection", "timeLapse", "dutyCycle"]
+              "enum": ["activityDetection", "schedule", "timeLapse"]
             },
             "example": "activityDetection"
           },
@@ -834,7 +845,7 @@
   ],
   "name": "camtrap-dp-acoustic-example-dataset",
   "profile": "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0.1/camtrap-dp-profile.json",
-  "created": "2025-05-27T10:35:15Z",
+  "created": "2025-10-02T14:39:03Z",
   "title": "The Sound of Norway: bird detections",
   "version": "1.0",
   "keywords1": "acoustic",
