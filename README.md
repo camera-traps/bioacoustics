@@ -31,29 +31,28 @@ Science](http://drivendata.github.io/cookiecutter-data-science/). Files
 and directories indicated with `GENERATED` should not be edited
 manually.
 
-    ├─ README.md                         : Description of this repository
-    ├─ LICENSE                           : Repository license
-    ├─ .gitignore                        : Files and directories to be ignored by git
-    ├─ src
-    │   ├─ acoustic_to_camtrapdp.Rmd     : Empty source script to copy
-    │   └─ project_name                  : Folder per project
-    │       └─ acoustic_to_camtrapdp.Rmd : Source script per project
-    └─ data
-        └─ project_name                  : Folder per project
-            ├─ raw                       : Source data, input for mapping script
-            ├─ interim                   : Intermediate Camtrap DP - GENERATED
-            └─ processed                 : Final Camtrap DP - GENERATED
+    ├─ README.md                                 : Description of this repository
+    ├─ LICENSE                                   : Repository license
+    ├─ .gitignore                                : Files and directories to be ignored by git
+    └── datasets
+        └── procject_name                        : Folder per project
+            ├─ src
+            │   └─ acoustic_to_camtrapdp.Rmd     : Source script
+            └─ data
+                ├─ raw                           : Source data, input for mapping script
+                ├─ interim                       : Intermediate Camtrap DP - GENERATED
+                └─ processed                     : Final Camtrap DP - GENERATED
+        
 
 ## How to contribute
 
 This repository is open to contributions from the community. If you have a bioacoustic dataset that you would like to map to Camtrap DP, please follow the guidelines below.
 
-1. Ask access to @sannegovaert to collaborate on this repo.
+1.  Ask access to @sannegovaert to collaborate on this repo.
 2.  Create a branch for your project.
-3.  Create a folder in `src` with the name of your project.
+3.  Create a folder in `datasets` with the name of your project.
 4.  Copy the `acoustic_to_camtrapdp.Rmd` file to your project folder.
-5.  Create a folder in `data` with the name of your project.
-6.  Copy your raw data to the `raw` folder.
+6.  Copy your raw data to the `data/raw` folder.
 7.  Edit the `acoustic_to_camtrapdp.Rmd` file to include your project-specific code.
 8.  Run `acoustic_to_camtrapdp.Rmd` to generate the Camtrap DP files.
 9.  Throughout all the previous steps: commit your changes and push to your branch. You don’t need to wait to commit until you're finished.
