@@ -207,7 +207,7 @@
               "type": "string",
               "enum": [
                 "camera-trapping",
-                "bioacoustics"
+                "acoustic"
               ],
             },
             "samplingDesign": {
