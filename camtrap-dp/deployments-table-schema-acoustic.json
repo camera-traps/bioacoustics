@@ -70,6 +70,17 @@
       "unit": "m",
       "example": 100
     },
+        {
+      "name": "elevation",
+      "description": "Elevation (altitude, usually above sea level) in meters",
+      "skos:broadMatch": "http://rs.tdwg.org/dwc/terms/minimumElevationInMeters",
+      "type": "integer",
+      "constraints": {
+        "required": false
+      },
+      "unit": "m",
+      "example": 100
+    },
     {
       "name": "deploymentStart",
       "description": "Date and time at which the deployment was started. Formatted as an ISO 8601 string with timezone designator (`YYYY-MM-DDThh:mm:ssZ` or `YYYY-MM-DDThh:mm:ss±hh:mm`).",
@@ -203,8 +214,8 @@
       "example": 225
     },
     {
-      "name": "dutyCycle",
-      "description": "Description of the duty cycle settings",
+      "name": "recordingSchedule",
+      "description": "Description of the recordinding schedule.",
       "type": "string",
       "constraints": {
         "required": false
