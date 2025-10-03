@@ -742,7 +742,7 @@
             "example": 0.5
           },
           {
-            "name": "frequencyLow",
+            "name": "freqLow",
             "description": "Lower limit of the frequency range over which the observation applies. Expressed in Hertz. Must be lower than frequencyHigh.",
             "type": "number",
             "constraints": {
@@ -751,7 +751,7 @@
             "example": 1000
           },
           {
-            "name": "frequencyHigh",
+            "name": "freqHigh",
             "description": "Higher limit of the frequency range over which the observation applies. Expressed in Hertz. Must be higher than frequencyHigh.",
             "type": "number",
             "constraints": {
@@ -845,7 +845,7 @@
   ],
   "name": "camtrap-dp-acoustic-example-dataset",
   "profile": "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0.1/camtrap-dp-profile.json",
-  "created": "2025-10-03T08:38:55Z",
+  "created": "2025-10-03T11:54:32Z",
   "title": "The Sound of Norway: bird detections",
   "version": "1.0",
   "keywords1": "acoustic",
