@@ -24,9 +24,9 @@ library(readxl)
 # Import data
 
 ```{r}
-data_raw <- read_xlsx(here::here("data", "raw", "maryland",
+data_raw <- read_xlsx(here::here("datasets", "maryland", "data", "raw",
  "2018_UnivMD_Maryland_86896 DEP1.xlsx"), sheet = 'DATA TABLE FOR EXPORT')
-selections <- read.delim2(here::here("data", "raw", "maryland",
+selections <- read.delim2(here::here("datasets", "maryland", "data", "raw",
  "Fin_merged.selections.txt")) %>% sample_n(500)
 ```
 
@@ -336,7 +336,7 @@ map_taxonomy <- function(taxonomy) {
 # Write Data Package
 
 ```{r}
-frictionless::write_package(acoustic, here::here("data", "interim", "maryland"))
+frictionless::write_package(acoustic, here::here("datasets", "maryland", "data", "interim"))
 ```
 
 # Read with camtrapdp
@@ -344,11 +344,11 @@ frictionless::write_package(acoustic, here::here("data", "interim", "maryland"))
 This automatically updates the spatial, temporal and taxonomic coverage in the metadata, based on the data.
 
 ```{r}
-acoustic_dp <- camtrapdp::read_camtrapdp(here::here("data", "interim", "maryland", "datapackage.json"))
+acoustic_dp <- camtrapdp::read_camtrapdp(here::here("datasets", "maryland", "data", "interim", "datapackage.json"))
 ```
 
 # Write Camtrap DP
 
 ```{r}
-camtrapdp::write_camtrapdp(acoustic_dp, here::here("data", "processed", "maryland"))
+camtrapdp::write_camtrapdp(acoustic_dp, here::here("datasets", "maryland", "data", "processed"))
 ```
