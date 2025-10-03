@@ -23,9 +23,9 @@ library(lubridate)
 # Import data
 
 ```{r}
-data_raw <- read.csv(here::here("data", "raw", "sound_of_norway", "sound_of_norway_subsample.csv"))
+data_raw <- read.csv(here::here("datasets", "sound_of_norway", "data", "raw", "sound_of_norway_subsample.csv"))
 taxonomy_raw <- read.delim2(
-  file = here::here("data", "raw", "sound_of_norway", "labels_en.txt"),
+  file = here::here("datasets", "sound_of_norway", "data", "raw", "labels_en.txt"),
   sep = "_",
   header = FALSE,
   col.names = c("scientificName", "EnglishName")
@@ -324,7 +324,7 @@ acoustic$taxonomic <- purrr::map(taxonomy_list, map_taxonomy)
 # Write Data Package
 
 ```{r}
-frictionless::write_package(acoustic, here::here("data", "interim", "sound_of_norway"))
+frictionless::write_package(acoustic, here::here("datasets", "sound_of_norway", "data", "interim"))
 ```
 
 # Read with camtrapdp
@@ -332,11 +332,11 @@ frictionless::write_package(acoustic, here::here("data", "interim", "sound_of_no
 This automatically updates the spatial, temporal and taxonomic coverage in the metadata, based on the data.
 
 ```{r}
-acoustic_dp <- camtrapdp::read_camtrapdp(here::here("data", "interim", "sound_of_norway", "datapackage.json"))
+acoustic_dp <- camtrapdp::read_camtrapdp(here::here("datasets", "sound_of_norway", "data", "interim", "datapackage.json"))
 ```
 
 # Write Camtrap DP
 
 ```{r}
-camtrapdp::write_camtrapdp(acoustic_dp, here::here("data", "processed", "sound_of_norway"))
+camtrapdp::write_camtrapdp(acoustic_dp, here::here("datasets", "sound_of_norway", "data", "processed"))
 ```
