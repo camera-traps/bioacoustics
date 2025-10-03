@@ -80,6 +80,17 @@
             "example": 100
           },
           {
+            "name": "elevation",
+            "description": "Elevation (altitude, usually above sea level) in meters",
+            "skos:broadMatch": "http://rs.tdwg.org/dwc/terms/minimumElevationInMeters",
+            "type": "integer",
+            "constraints": {
+              "required": false
+            },
+            "unit": "m",
+            "example": 100
+          },
+          {
             "name": "deploymentStart",
             "description": "Date and time at which the deployment was started. Formatted as an ISO 8601 string with timezone designator (`YYYY-MM-DDThh:mm:ssZ` or `YYYY-MM-DDThh:mm:ss±hh:mm`).",
             "skos:broadMatch": "http://rs.tdwg.org/dwc/terms/eventDate",
@@ -199,8 +210,8 @@
             "example": 225
           },
           {
-            "name": "dutyCycle",
-            "description": "Description of the duty cycle settings",
+            "name": "recordingSchedule",
+            "description": "Description of the recordinding schedule.",
             "type": "string",
             "constraints": {
               "required": false
@@ -330,7 +341,7 @@
             "type": "string",
             "constraints": {
               "required": false,
-              "enum": ["activityDetection", "timeLapse", "dutyCycle"]
+              "enum": ["activityDetection", "schedule", "timeLapse"]
             },
             "example": "activityDetection"
           },
@@ -427,7 +438,7 @@
             "example": 2
           },
           {
-            "name": "mediaDuration",
+            "name": "duration",
             "description": "The playback duration of an audio or video file in seconds. This might be different from the time in seconds calculated as the difference of ac:endTimestamp and ac:startTimestamp if ac:mediaSpeed is not equal to 1.",
             "skos:broadMatch": "http://rs.tdwg.org/ac/terms/mediaDuration",
             "type": "string",
@@ -731,7 +742,7 @@
             "example": 0.5
           },
           {
-            "name": "frequencyLow",
+            "name": "freqLow",
             "description": "Lower limit of the frequency range over which the observation applies. Expressed in Hertz. Must be lower than frequencyHigh.",
             "type": "number",
             "constraints": {
@@ -740,7 +751,7 @@
             "example": 1000
           },
           {
-            "name": "frequencyHigh",
+            "name": "freqHigh",
             "description": "Higher limit of the frequency range over which the observation applies. Expressed in Hertz. Must be higher than frequencyHigh.",
             "type": "number",
             "constraints": {
@@ -834,7 +845,7 @@
   ],
   "name": "camtrap-dp-acoustic-maryland-dataset",
   "profile": "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0.1/camtrap-dp-profile.json",
-  "created": "2025-09-29T16:07:28Z",
+  "created": "2025-10-03T14:32:24Z",
   "title": "Maryland: marine mammals detections",
   "version": "1.0",
   "keywords1": "acoustic",
@@ -867,6 +878,7 @@
     "samplingDesign": "systematicRandom",
     "path": "https://thesoundofnorway.com/",
     "captureMethod": "continuous",
+    "classificationEffort": null,
     "individualAnimals": false,
     "observationLevel": "media"
   },

@@ -120,6 +120,7 @@ deployments <-
     latitude = data$latitudeDeployed_DecDeg, # Required
     longitude = data$longitudeDeployed_DecDeg, # Required
     coordinateUncertainty = NA_integer_,
+    elevation = NA_real_,
     deploymentStart = data$deploymentStart, # Required
     deploymentEnd = data$deploymentEnd, # Required
     setupBy = NA_character_,
@@ -131,7 +132,7 @@ deployments <-
     deviceDepth = data$deploymentDepth_Meters,
     deviceTilt = NA_integer_,
     deviceHeading = NA_integer_,
-    dutyCycle = "continuous",
+    recordingSchedule = "continuous",
     detectionDistance = NA_real_,
     timestampIssues = NA,
     baitUse = NA,
@@ -145,11 +146,11 @@ deployments <-
   dplyr::arrange(deploymentID) %>%
   dplyr::select(
     deploymentID, locationID, locationName, latitude, longitude,
-    coordinateUncertainty, deploymentStart, deploymentEnd, setupBy,
-    deviceID, deviceModel, devicePlatform, deviceDelay, deviceHeight, deviceDepth,
-    deviceTilt, deviceHeading, dutyCycle, detectionDistance, timestampIssues,
-    baitUse, featureType, habitat, deploymentGroups,
-    deploymentTags, deploymentComments
+    coordinateUncertainty, elevation, deploymentStart, deploymentEnd, setupBy,
+    deviceID, deviceModel, devicePlatform, deviceDelay, deviceHeight,
+    deviceDepth, deviceTilt, deviceHeading, recordingSchedule,
+    detectionDistance, timestampIssues, baitUse, featureType, habitat,
+    deploymentGroups, deploymentTags, deploymentComments
   )
 ```
 
@@ -161,7 +162,7 @@ media <-
   dplyr::mutate(
     mediaID = selections$Begin.File, # Required
     deploymentID = selections$deploymentID, # Required
-    captureMethod = "dutyCycle",
+    captureMethod = "schedule",
     timestamp = selections$timestamp, # Required 
     filePath = selections$Begin.Path,# Required
     filePublic = FALSE, # Required
@@ -171,7 +172,7 @@ media <-
     bitDepth = 16,
     gain = 23.5,
     channels = NA_integer_,
-    mediaDuration = NA_real_,
+    duration = NA_real_,
     exifData = NA,
     favorite = NA,
     mediaComments = NA_character_,
@@ -180,9 +181,9 @@ media <-
   dplyr::arrange(mediaID) %>%
   dplyr::distinct() %>% 
   dplyr::select(
-    mediaID, deploymentID, captureMethod, timestamp, filePath, 
-    filePublic, fileName, fileMediatype, samplingFrequency, bitDepth, 
-    gain, channels, mediaDuration, exifData, favorite, mediaComments
+    mediaID, deploymentID, captureMethod, timestamp, filePath, filePublic,
+    fileName, fileMediatype, samplingFrequency, bitDepth, gain, channels,
+    duration, exifData, favorite, mediaComments
   )
 ```
 
@@ -214,8 +215,8 @@ observations <-
     bboxY = NA_real_,
     bboxWidth = NA_real_,
     bboxHeight = NA_real_,
-    frequencyLow = NA_real_,
-    frequencyHigh = NA_real_,
+    freqLow = NA_real_,
+    freqHigh = NA_real_,
     classificationMethod = "machine",
     classifiedBy = NA_character_,
     classificationTimestamp = NA_character_,
@@ -226,13 +227,13 @@ observations <-
   ) %>% 
   dplyr::arrange(observationID) %>% 
   dplyr::select(
-    observationID, deploymentID, mediaID, eventID, eventStart,
-    eventEnd, observationLevel, observationType, deviceSetupType,
-    scientificName, count, lifeStage, sex, behavior, individualID,
-    individualPositionRadius, individualPositionAngle, individualSpeed,
-    bboxX, bboxY, bboxWidth, bboxHeight, frequencyLow, frequencyHigh,
-    classificationMethod, classifiedBy, classificationTimestamp,
-    classificationProbability, observationTags, observationComments
+    observationID, deploymentID, mediaID, eventID, eventStart, eventEnd,
+    observationLevel, observationType, deviceSetupType, scientificName, count,
+    lifeStage, sex, behavior, individualID, individualPositionRadius,
+    individualPositionAngle, individualSpeed, bboxX, bboxY, bboxWidth,
+    bboxHeight, freqLow, freqHigh, classificationMethod, classifiedBy,
+    classificationTimestamp, classificationProbability, observationTags,
+    observationComments
   )
 ```
 
@@ -307,6 +308,7 @@ acoustic$project <- list( # Required
   samplingDesign = "systematicRandom", # Required
   path = "https://thesoundofnorway.com/",
   captureMethod = list(c("continuous")), # Required | Bug, see https://github.com/frictionlessdata/frictionless-r/issues/276
+  classificationEffort = NA_character_,
   individualAnimals = FALSE, # Required
   observationLevel = list(c("media")) # Required | Bug, see https://github.com/frictionlessdata/frictionless-r/issues/276
 )
