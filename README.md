@@ -35,7 +35,7 @@ manually.
     ├─ LICENSE                                   : Repository license
     ├─ .gitignore                                : Files and directories to be ignored by git
     └── datasets
-        └── procject_name                        : Folder per project
+        └── project_name                         : Folder per project
             ├─ src
             │   └─ acoustic_to_camtrapdp.Rmd     : Source script
             └─ data
