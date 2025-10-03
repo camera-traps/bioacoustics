@@ -137,7 +137,7 @@
       "example": 2
     },
     {
-      "name": "mediaDuration",
+      "name": "duration",
       "description": "The playback duration of an audio or video file in seconds. This might be different from the time in seconds calculated as the difference of ac:endTimestamp and ac:startTimestamp if ac:mediaSpeed is not equal to 1.",
       "skos:broadMatch": "http://rs.tdwg.org/ac/terms/mediaDuration",
       "type": "string",

@@ -145,7 +145,7 @@ media <-
     bitDepth = 16,
     gain = NA_real_,
     channels = 1,
-    mediaDuration = 300,
+    duration = 300,
     exifData = NA,
     favorite = NA,
     mediaComments = NA_character_,
@@ -156,7 +156,7 @@ media <-
   dplyr::select(
     mediaID, deploymentID, captureMethod, timestamp, filePath, 
     filePublic, fileName, fileMediatype, samplingFrequency, bitDepth, 
-    gain, channels, mediaDuration, exifData, favorite, mediaComments
+    gain, channels, duration, exifData, favorite, mediaComments
   )
 ```
 

@@ -438,7 +438,7 @@
             "example": 2
           },
           {
-            "name": "mediaDuration",
+            "name": "duration",
             "description": "The playback duration of an audio or video file in seconds. This might be different from the time in seconds calculated as the difference of ac:endTimestamp and ac:startTimestamp if ac:mediaSpeed is not equal to 1.",
             "skos:broadMatch": "http://rs.tdwg.org/ac/terms/mediaDuration",
             "type": "string",
@@ -845,7 +845,7 @@
   ],
   "name": "camtrap-dp-acoustic-example-dataset",
   "profile": "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0.1/camtrap-dp-profile.json",
-  "created": "2025-10-02T14:39:03Z",
+  "created": "2025-10-03T08:38:55Z",
   "title": "The Sound of Norway: bird detections",
   "version": "1.0",
   "keywords1": "acoustic",
