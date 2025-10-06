@@ -234,15 +234,6 @@
       "example": 9.5
     },
     {
-      "name": "timestampIssues",
-      "description": "`true` if timestamps in the `media` resource for the deployment are known to have (unsolvable) issues (e.g. unknown timezone, am/pm switch).",
-      "type": "boolean",
-      "constraints": {
-        "required": false
-      },
-      "example": false
-    },
-    {
       "name": "baitUse",
       "description": "`true` if bait was used for the deployment. More information can be provided in `tags` or `comments`.",
       "type": "boolean",
