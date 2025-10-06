@@ -215,7 +215,7 @@
     },
     {
       "name": "recordingSchedule",
-      "description": "Description of the recordinding schedule.",
+      "description": "Description of the recording schedule.",
       "type": "string",
       "constraints": {
         "required": false
