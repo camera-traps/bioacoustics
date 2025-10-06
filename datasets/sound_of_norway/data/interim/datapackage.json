@@ -211,7 +211,7 @@
           },
           {
             "name": "recordingSchedule",
-            "description": "Description of the recordinding schedule.",
+            "description": "Description of the recording schedule.",
             "type": "string",
             "constraints": {
               "required": false
@@ -230,15 +230,6 @@
             "example": 9.5
           },
           {
-            "name": "timestampIssues",
-            "description": "`true` if timestamps in the `media` resource for the deployment are known to have (unsolvable) issues (e.g. unknown timezone, am/pm switch).",
-            "type": "boolean",
-            "constraints": {
-              "required": false
-            },
-            "example": false
-          },
-          {
             "name": "baitUse",
             "description": "`true` if bait was used for the deployment. More information can be provided in `tags` or `comments`.",
             "type": "boolean",
@@ -248,7 +239,7 @@
             "example": true
           },
           {
-            "name": "featureType",
+            "name": "locationType",
             "description": "Type of the feature (if any) associated with the deployment.",
             "type": "string",
             "constraints": {
@@ -845,7 +836,7 @@
   ],
   "name": "camtrap-dp-acoustic-example-dataset",
   "profile": "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0.1/camtrap-dp-profile.json",
-  "created": "2025-10-03T14:49:03Z",
+  "created": "2025-10-06T14:36:17Z",
   "title": "The Sound of Norway: bird detections",
   "version": "1.0",
   "keywords1": "acoustic",
