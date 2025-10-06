@@ -134,9 +134,8 @@ deployments <-
     deviceHeading = NA_integer_,
     recordingSchedule = "continuous",
     detectionDistance = NA_real_,
-    timestampIssues = NA,
     baitUse = NA,
-    featureType = NA_character_,
+    locationType = NA_character_,
     habitat = NA_character_,
     deploymentGroups = data$arrayName,
     deploymentTags = NA_character_,
@@ -149,8 +148,8 @@ deployments <-
     coordinateUncertainty, elevation, deploymentStart, deploymentEnd, setupBy,
     deviceID, deviceModel, devicePlatform, deviceDelay, deviceHeight,
     deviceDepth, deviceTilt, deviceHeading, recordingSchedule,
-    detectionDistance, timestampIssues, baitUse, featureType, habitat,
-    deploymentGroups, deploymentTags, deploymentComments
+    detectionDistance, baitUse, locationType, habitat, deploymentGroups,
+    deploymentTags, deploymentComments
   )
 ```
 
