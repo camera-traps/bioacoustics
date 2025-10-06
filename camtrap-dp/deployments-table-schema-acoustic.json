@@ -243,7 +243,7 @@
       "example": true
     },
     {
-      "name": "featureType",
+      "name": "locationType",
       "description": "Type of the feature (if any) associated with the deployment.",
       "type": "string",
       "constraints": {
