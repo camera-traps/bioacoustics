@@ -2,6 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+.DS_Store
 
 # Too big
 data/raw/birdnet_lite_detections-proj_sound-of-norway-yr2complete.csv
