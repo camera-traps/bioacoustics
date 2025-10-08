@@ -5,3 +5,7 @@
 
 # Too big
 data/raw/birdnet_lite_detections-proj_sound-of-norway-yr2complete.csv
+.DS_Store
+datasets/.DS_Store
+datasets/.DS_Store
+datasets/sound_of_norway/.DS_Store
