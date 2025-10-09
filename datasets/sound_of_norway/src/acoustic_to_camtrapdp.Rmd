@@ -73,7 +73,7 @@ deployments_raw <- data %>%
     # Deployment start and end based on first and last detection for each site
     deploymentStart = min(detected_time_parsed),
     deploymentEnd = max(detected_time_parsed),
-    deploymentID = paste(site, deploymentStart, sep = "_")
+    deploymentID = .data$site,
     ) %>%
   dplyr::select(site, latitude, longitude, deploymentStart, deploymentEnd, 
                 deploymentID, recorder) %>% 
