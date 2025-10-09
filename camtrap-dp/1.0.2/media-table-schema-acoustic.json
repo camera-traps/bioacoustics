@@ -51,6 +51,16 @@
       "example": "2020-03-24T11:21:46Z"
     },
     {
+      "name": "duration",
+      "description": "The playback duration of an audio or video file in seconds. This might be different from the time in seconds calculated as the difference of ac:endTimestamp and ac:startTimestamp if ac:mediaSpeed is not equal to 1.",
+      "skos:broadMatch": "http://rs.tdwg.org/ac/terms/mediaDuration",
+      "type": "string",
+      "constraints": {
+        "required": false
+      },
+      "example": ""
+    },
+    {
       "name": "filePath",
       "description": "URL or relative path to the media file, respectively for externally hosted files or files that are part of the package.",
       "skos:broadMatch": "http://rs.tdwg.org/ac/terms/accessURI",
@@ -92,13 +102,13 @@
       "example": "image/jpeg"
     },
     {
-      "name": "samplingFrequency",
-      "description": "Frequencies at which measurements are made. Expressed in Hertz.",
-      "type": "integer",
+      "name": "exifData",
+      "description": "EXIF data of the media file. Formatted as a valid JSON object.",
+      "type": "any",
       "constraints": {
         "required": false
       },
-      "example": 44100
+      "example": "{\"EXIF\":{\"ISO\":200,\"Make\":\"RECONYX\"}}"
     },
     {
       "name": "bitDepth",
@@ -115,6 +125,15 @@
         ]
       },
       "example": 8
+    },
+    {
+      "name": "samplingFrequency",
+      "description": "Frequencies at which measurements are made. Expressed in Hertz.",
+      "type": "integer",
+      "constraints": {
+        "required": false
+      },
+      "example": 44100
     },
     {
       "name": "gain",
@@ -135,25 +154,6 @@
         "minimum": 1
       },
       "example": 2
-    },
-    {
-      "name": "duration",
-      "description": "The playback duration of an audio or video file in seconds. This might be different from the time in seconds calculated as the difference of ac:endTimestamp and ac:startTimestamp if ac:mediaSpeed is not equal to 1.",
-      "skos:broadMatch": "http://rs.tdwg.org/ac/terms/mediaDuration",
-      "type": "string",
-      "constraints": {
-        "required": false
-      },
-      "example": ""
-    },
-    {
-      "name": "exifData",
-      "description": "EXIF data of the media file. Formatted as a valid JSON object.",
-      "type": "any",
-      "constraints": {
-        "required": false
-      },
-      "example": "{\"EXIF\":{\"ISO\":200,\"Make\":\"RECONYX\"}}"
     },
     {
       "name": "favorite",
