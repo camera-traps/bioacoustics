@@ -328,6 +328,16 @@
       "example": 0.95
     },
     {
+      "name": "classificationConfirmation",
+      "description": "A confirmation that the classified species was observed via other means.",
+      "type": "string",
+      "enum": [
+        "captured",
+        "heardOnSite",
+        "seenOnSite"
+      ]
+    },
+    {
       "name": "observationTags",
       "description": "Tag(s) associated with the observation. Formatted as a pipe (`|`) separated list for multiple values, with values optionally formatted as `key:value` pairs.",
       "skos:exactMatch": "http://rs.tdwg.org/ac/terms/tag",
