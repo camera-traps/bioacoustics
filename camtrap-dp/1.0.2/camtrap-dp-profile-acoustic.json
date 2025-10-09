@@ -218,7 +218,8 @@
                 "type": "string",
                 "enum": [
                   "activityDetection",
-                  "timeLapse"
+                  "continuous",
+                  "recordingSchedule"
                 ]
               },
               "uniqueItems": true,
