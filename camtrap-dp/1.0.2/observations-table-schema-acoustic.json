@@ -265,7 +265,7 @@
       "example": 0.5
     },
     {
-      "name": "freqLow",
+      "name": "frequencyLow",
       "description": "Lower limit of the frequency range over which the observation applies. Expressed in Hertz. Must be lower than frequencyHigh.",
       "type": "number",
       "constraints": {
@@ -274,7 +274,7 @@
       "example": 1000
     },
     {
-      "name": "freqHigh",
+      "name": "frequencyHigh",
       "description": "Higher limit of the frequency range over which the observation applies. Expressed in Hertz. Must be higher than frequencyHigh.",
       "type": "number",
       "constraints": {
