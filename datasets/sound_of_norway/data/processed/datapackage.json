@@ -288,7 +288,7 @@
             "example": ""
           }
         ],
-        "missingValues": "",
+        "missingValues": ["", "NA", "NaN", "nan"],
         "primaryKey": "deploymentID"
       }
     },
@@ -467,7 +467,7 @@
             "example": "corrupted file"
           }
         ],
-        "missingValues": "",
+        "missingValues": ["", "NA", "NaN", "nan"],
         "primaryKey": "mediaID",
         "foreignKeys": [
           {
@@ -813,7 +813,7 @@
             "example": ""
           }
         ],
-        "missingValues": "",
+        "missingValues": ["", "NA", "NaN", "nan"],
         "primaryKey": "observationID",
         "foreignKeys": [
           {
@@ -836,7 +836,7 @@
   ],
   "name": "camtrap-dp-acoustic-example-dataset",
   "profile": "https://raw.githubusercontent.com/camera-traps/bioacoustics/main/camtrap-dp/1.0.2/camtrap-dp-profile-acoustic.json",
-  "created": "2025-10-08T13:58:09Z",
+  "created": "2025-10-09T13:57:22Z",
   "title": "The Sound of Norway: bird detections",
   "version": "1.0",
   "keywords1": "acoustic",
