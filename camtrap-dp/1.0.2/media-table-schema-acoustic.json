@@ -176,7 +176,7 @@
     }
   ],
   "missingValues": [
-    ""
+    "", "NA", "NaN", "nan"
   ],
   "primaryKey": "mediaID",
   "foreignKeys": [
