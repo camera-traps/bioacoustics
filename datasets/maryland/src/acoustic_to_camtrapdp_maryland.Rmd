@@ -163,16 +163,16 @@ media <-
     deploymentID = selections$deploymentID, # Required
     captureMethod = "schedule",
     timestamp = selections$timestamp, # Required 
+    duration = NA_real_,
     filePath = selections$Begin.Path,# Required
     filePublic = FALSE, # Required
     fileName = NA_character_,
     fileMediatype = "audio/aiff", # Required
-    samplingFrequency = 16000,
+    exifData = NA,
     bitDepth = 16,
+    samplingFrequency = 16000,
     gain = 23.5,
     channels = NA_integer_,
-    duration = NA_real_,
-    exifData = NA,
     favorite = NA,
     mediaComments = NA_character_,
     .keep = "none"
@@ -180,9 +180,9 @@ media <-
   dplyr::arrange(mediaID) %>%
   dplyr::distinct() %>% 
   dplyr::select(
-    mediaID, deploymentID, captureMethod, timestamp, filePath, filePublic,
-    fileName, fileMediatype, samplingFrequency, bitDepth, gain, channels,
-    duration, exifData, favorite, mediaComments
+    mediaID, deploymentID, captureMethod, timestamp, duration, filePath,
+    filePublic, fileName, fileMediatype, exifData, bitDepth, samplingFrequency,
+    gain, channels, duration, favorite, mediaComments
   )
 ```
 
@@ -214,24 +214,26 @@ observations <-
     bboxY = NA_real_,
     bboxWidth = NA_real_,
     bboxHeight = NA_real_,
-    freqLow = NA_real_,
-    freqHigh = NA_real_,
+    frequencyLow = NA_real_,
+    frequencyHigh = NA_real_,
     classificationMethod = "machine",
     classifiedBy = NA_character_,
     classificationTimestamp = NA_character_,
     classificationProbability = selections$Score,
+    classificationConfirmation = NA_character_,
     observationTags = selections$Tags,
     observationComments = selections$Notes,
     .keep = "none"
   ) %>% 
   dplyr::arrange(observationID) %>% 
   dplyr::select(
-    observationID, deploymentID, mediaID, eventID, eventStart, eventEnd,
-    observationLevel, observationType, deviceSetupType, scientificName, count,
-    lifeStage, sex, behavior, individualID, individualPositionRadius,
-    individualPositionAngle, individualSpeed, bboxX, bboxY, bboxWidth,
-    bboxHeight, freqLow, freqHigh, classificationMethod, classifiedBy,
-    classificationTimestamp, classificationProbability, observationTags,
+    observationID, deploymentID, mediaID, eventID, eventStart,
+    eventEnd, observationLevel, observationType, deviceSetupType,
+    scientificName, count, lifeStage, sex, behavior, individualID,
+    individualPositionRadius, individualPositionAngle, individualSpeed,
+    bboxX, bboxY, bboxWidth, bboxHeight, frequencyLow, frequencyHigh,
+    classificationMethod, classifiedBy, classificationTimestamp,
+    classificationProbability, classificationConfirmation, observationTags,
     observationComments
   )
 ```
