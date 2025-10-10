@@ -1,0 +1,99 @@
+---
+title: "Create sample dataset from Sound of Norway"
+author: 
+- "Sanne Govaert"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load libraries
+
+```{r}
+library(here)
+library(dplyr)
+```
+
+# Import data
+
+```{r}
+data_raw <- read.csv(here::here("datasets", "sound_of_norway", "data", "raw", "sound_of_norway_subsample.csv"))
+taxonomy <- read.delim2(
+  file = here::here("datasets", "sound_of_norway", "data", "raw", "labels_en.txt"),
+  sep = "_",
+  header = FALSE,
+  col.names = c("scientificName", "englishName")
+)
+```
+
+## Inspect data
+
+```{r}
+# Summarise number of unique values per column in the raw data
+data_raw %>%
+  dplyr::summarise(dplyr::across(dplyr::everything(), dplyr::n_distinct)) %>%
+  tidyr::pivot_longer(dplyr::everything(), names_to = "column", values_to = "n_unique")
+```
+
+# Create sample dataset
+
+## Add and format columns
+
+```{r}
+dataset <- 
+  dplyr::left_join(data_raw, taxonomy, dplyr::join_by(tags == englishName)) %>% 
+  dplyr::rename(englishName = "tags") %>% 
+  dplyr::mutate(
+    # Parse detected time to datetime object in UTC
+    detected_time_parsed = lubridate::ymd_hms(.data$detected_time, tz = "UTC"),
+    # Calculate "eventEnd"
+    detected_time_end_interim = .data$detected_time_parsed + .data$end_secs,
+    # Format event end time to ISO 8601 string
+    detected_time_end = format(
+      .data$detected_time_end_interim, format = "%Y-%m-%dT%H:%M:%OSZ", tz = "UTC"
+      ),
+    # Extract interim timestamp from audio file name
+    timestamp_interim = sub(".mp3", "", basename(.data$audio_link)),
+    # Format timestamp
+    timestamp = gsub("_", ":", .data$timestamp_interim) # format %Y-%m-%dT%H:%M:%S.%f%z
+  )
+```
+
+## Filter data
+
+```{r}
+sites <-
+  dataset %>%
+  dplyr::select("site") %>% 
+  dplyr::pull() %>% 
+  unique()
+
+dataset <-
+  dataset %>% 
+  dplyr::filter(site %in% sites[1:4]) %>% # keep only first 4 sites (deployments)
+  dplyr::group_by(site) %>%
+  group_modify(~ slice_sample(.x, n = 5)) %>%
+  ungroup()
+```
+
+## Select columns
+
+```{r}
+dataset <-
+  dataset %>% 
+  dplyr::select(
+    "id", "analysis", "scientificName", "englishName", "start_secs", "end_secs", "confidence", 
+    "detected_time", "detected_time_end", "audio_id", "project", "recorder", "site", "latitude",
+    "longitude", "audio_link", "timestamp"
+  )
+```
+
+# Write sample dataset
+
+```{r}
+readr::write_csv(dataset, here::here("datasets", "living-data-workshop", "data", "raw", "example_sound_of_norway.csv"), na = "")
+```
+
