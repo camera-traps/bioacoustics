@@ -54,38 +54,19 @@ data_raw %>%
   tidyr::pivot_longer(dplyr::everything(), names_to = "column", values_to = "n_unique")
 ```
 
-## Add information to dataset
-
-```{r}
-# Add new columns to the data for eventEnd, timestamp and formatting
-data <-
-  data_raw %>% 
-  dplyr::mutate(
-    # Parse detected time to datetime object in UTC
-    detected_time_parsed = lubridate::ymd_hms(.data$detected_time, tz = "UTC"),
-    # Calculate eventEnd
-    eventEnd = .data$detected_time_parsed + .data$end_secs,
-    # Format event end time to ISO 8601 string
-    eventEnd_iso = format(
-      .data$eventEnd, format = "%Y-%m-%dT%H:%M:%OSZ", tz = "UTC"
-      ),
-    # Extract interim timestamp from audio file name
-    timestamp_interim = sub(".mp3", "", basename(.data$audio_link)),
-    # Format timestamp
-    timestamp = gsub("_", ":", .data$timestamp_interim) # format %Y-%m-%dT%H:%M:%S.%f%z
-  )
-
-# Extract deployment-level information
-deployments_raw <-
-  data
-# ... Fill in
-```
-
 # Create resources
 
 ## Create deployments resource
 
+Now it is your turn!
+Create the three resources (deployments, media, observations) based on the raw data. You can use the code below as a starting point, but you will need to fill in the missing information (currently all set to `NA`).
+
 ```{r}
+# Extract deployment-level information
+deployments_raw <-
+  data
+# ... Fill in
+
 deployments <-
   deployments_raw %>% 
   dplyr::mutate(
@@ -214,6 +195,8 @@ observations <-
 ```
 
 # Create data package
+
+Here you don't need to change anything, but feel free to inspect the code.
 
 ```{r}
 # Build frictionless data package with each resource and metadata
