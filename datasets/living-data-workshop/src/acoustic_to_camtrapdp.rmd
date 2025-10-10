@@ -12,6 +12,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Install packages
 
+Before we begin, we need to ensure that all required R packages are installed. This includes packages for data handling, working with frictionless data, and the development version of `camtrapdp` from GitHub.
+
 ```{r}
 # Install required packages if not already installed
 rlang::check_installed(c(
@@ -30,6 +32,8 @@ devtools::install_github("inbo/camtrapdp")
 
 ## Load libraries
 
+Next, we load all the necessary libraries.
+
 ```{r}
 library(here)
 library(dplyr)
@@ -41,11 +45,15 @@ library(lubridate)
 
 # Import data
 
+We import the raw acoustic data from a CSV file. This file contains the source data that will be transformed into a Camtrap DP.
+
 ```{r}
 data_raw <- read.csv(here::here("datasets", "living-data-workshop", "data", "raw", "example_sound_of_norway.csv"))
 ```
 
 ## Inspect data
+
+It's good practice to inspect your data before processing it. Here, we summarize the number of unique values in each column, which helps us understand data diversity and potential keys for resource creation.
 
 ```{r}
 # Summarise number of unique values per column in the raw data
@@ -196,6 +204,14 @@ observations <-
 
 # Create data package
 
+A Camtrap DP is a Frictionless Data Package that consists of
+- datapackage.json: Metadata about the data package and camera trap project.
+- deployments.csv: Table with camera trap placements (deployments).
+- media.csv: Table with media files recorded during deployments.
+- observations.csv: Table with observations derived from the media files.
+
+We start with compiling the three resources into a frictionless data package, adding metadata such as schema files and project information.
+
 Here you don't need to change anything, but feel free to inspect the code.
 
 ```{r}
@@ -238,7 +254,11 @@ acoustic <-
     references = NULL
   )) %>%
   frictionless::create_package()
+```
 
+We then add contributor information, licenses, and project metadata to complete the package description.
+
+```{r}
 # Add contributors metadata to data package
 acoustic$contributors <- list( # Required
   list(
@@ -307,6 +327,8 @@ acoustic$project <- list( # Required
 
 ## Create taxonomy
 
+We create a function to format taxonomy rows for inclusion in the metadata, then apply it to the example data.
+
 ```{r}
 # Function to convert taxonomy data into list format for metadata
 map_taxonomy <- function(taxonomy) {
@@ -330,6 +352,8 @@ acoustic$taxonomic <- purrr::map(taxonomy_list, map_taxonomy)
 
 ## Create frictionless data package
 
+Save the frictionless data package, including all resources and metadata, to the designated interim directory.
+
 ```{r}
 # Save frictionless data package (including resources and metadata) to interim directory
 frictionless::write_package(acoustic, here::here("datasets", "living-data-workshop", "data", "interim"))
@@ -337,7 +361,7 @@ frictionless::write_package(acoustic, here::here("datasets", "living-data-worksh
 
 ## Read with camtrapdp
 
-This automatically updates the spatial, temporal and taxonomic coverage in the metadata, based on the data.
+Now, we read the Camtrap DP data package to automatically update the spatial, temporal, and taxonomic coverage fields in the metadata based on the resources.
 
 ```{r}
 # Read camtrap data package to update metadata coverage fields
@@ -346,7 +370,11 @@ acoustic_dp <- camtrapdp::read_camtrapdp(here::here("datasets", "living-data-wor
 
 ## Write Camtrap DP
 
+Finally, we write the completed Camera Trap Data Package to the processed directory.
+
 ```{r}
 # Write final Camera Trap Data Package to processed directory
 camtrapdp::write_camtrapdp(acoustic_dp, here::here("datasets", "living-data-workshop", "data", "processed"))
 ```
+
+This final DP can be validated against the specifications of Camtrap DP (and Frictionless Data Package) with. See https://camtrap-dp.tdwg.org/#validation.
