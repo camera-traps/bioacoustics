@@ -11,6 +11,8 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Load libraries
+
 ```{r}
 library(here)
 library(dplyr)
@@ -23,8 +25,10 @@ library(lubridate)
 # Import data
 
 ```{r}
+# Read main acoustic observations data
 data_raw <- read.csv(here::here("datasets", "sound_of_norway", "data", "raw", "sound_of_norway_subsample.csv"))
-taxonomy_raw <- read.delim2(
+# Read taxonomy mapping (scientific and English names)
+taxonomy <- read.delim2(
   file = here::here("datasets", "sound_of_norway", "data", "raw", "labels_en.txt"),
   sep = "_",
   header = FALSE,
@@ -32,45 +36,44 @@ taxonomy_raw <- read.delim2(
 )
 ```
 
-# Create resources
-
 ## Inspect data
 
 ```{r}
-(unique_values_per_column <-
-  data_raw %>%
-  dplyr::summarise(dplyr::across(dplyr::everything(), ~ dplyr::n_distinct(.))) %>%
-  tidyr::pivot_longer(dplyr::everything(), names_to = "column", values_to = "n_unique"))
+# Summarize number of unique values per column in the raw data
+data_raw %>%
+  dplyr::summarise(dplyr::across(dplyr::everything(), dplyr::n_distinct)) %>%
+  tidyr::pivot_longer(dplyr::everything(), names_to = "column", values_to = "n_unique")
 ```
 
 ## Add information to dataset
 
 ```{r}
+# Add new columns to the data for eventEnd, timestamp and formatting
 data <-
   data_raw %>% 
   dplyr::mutate(
-    # Calculate eventEnd
+    # Parse detected time to datetime object in UTC
     detected_time_parsed = lubridate::ymd_hms(.data$detected_time, tz = "UTC"),
+    # Calculate eventEnd
     eventEnd = .data$detected_time_parsed + .data$end_secs,
+    # Format event end time to ISO 8601 string
     eventEnd_iso = format(
       .data$eventEnd, format = "%Y-%m-%dT%H:%M:%OSZ", tz = "UTC"
       ),
-    # Extract media time stamp from audio_link
+    # Extract interim timestamp from audio file name
     timestamp_interim = sub(".mp3", "", basename(.data$audio_link)),
+    # Format timestamp
     timestamp = gsub("_", ":", .data$timestamp_interim) # format %Y-%m-%dT%H:%M:%S.%f%z
   )
 
-# Add scientificName
-taxonomy <-
-  taxonomy_raw %>%
-  dplyr::distinct()  # Remove duplicates
+# Add scientificName to data by joining by EnglishName (tags)
 data <- dplyr::left_join(data, taxonomy, dplyr::join_by(tags == EnglishName))
 
-# Extra deployment information
+# Extract deployment-level information
 deployments_raw <- data %>%
   group_by(site) %>%
   dplyr::mutate(
-    # Deployment start and end based on first and last detection for each site
+    # deploymentStart and deploymentEnd based on first and last detection for each site
     deploymentStart = min(detected_time_parsed),
     deploymentEnd = max(detected_time_parsed),
     deploymentID = .data$site,
@@ -80,6 +83,8 @@ deployments_raw <- data %>%
   dplyr::distinct() %>% 
   dplyr::ungroup()
 ```
+
+# Create resources
 
 ## Create deployments resource
 
@@ -214,6 +219,7 @@ observations <-
 # Create data package
 
 ```{r}
+# Build frictionless data package with each resource and metadata
 acoustic <-
   frictionless::create_package() %>%
   add_resource(resource_name = "deployments", data = deployments, schema = here::here("camtrap-dp", "1.0.2", "deployments-table-schema-acoustic.json")) %>%
@@ -241,6 +247,7 @@ acoustic <-
   )) %>%
   frictionless::create_package()
 
+# Add contributors metadata to data package
 acoustic$contributors <- list( # Required
   list(
     title = "Julia Wiel",
@@ -279,6 +286,7 @@ acoustic$contributors <- list( # Required
   )
 )
 
+# Add license metadata for data and media files
 acoustic$licenses <- list(
   list(
     name = "CC0-1.0",
@@ -290,6 +298,7 @@ acoustic$licenses <- list(
   )
 )
 
+# Add project metadata describing the overarching study design and protocol
 acoustic$project <- list( # Required
   # id = "",
   title = "The Sound of Norway", # Required
@@ -307,6 +316,7 @@ acoustic$project <- list( # Required
 ## Create taxonomy
 
 ```{r}
+# Function to convert taxonomy data into list format for metadata
 map_taxonomy <- function(taxonomy) {
   list(
     scientificName = taxonomy$scientificName,
@@ -318,26 +328,32 @@ map_taxonomy <- function(taxonomy) {
 ```
 
 ```{r}
+# Apply mapping function to each row in taxonomy for package metadata
 taxonomy_list <- apply(taxonomy, 1, as.list)
 acoustic$taxonomic <- purrr::map(taxonomy_list, map_taxonomy)
 ```
 
 # Write Data Package
 
+## Create frictionless data package
+
 ```{r}
+# Save frictionless data package (including resources and metadata) to interim directory
 frictionless::write_package(acoustic, here::here("datasets", "sound_of_norway", "data", "interim"))
 ```
 
-# Read with camtrapdp
+## Read with camtrapdp
 
 This automatically updates the spatial, temporal and taxonomic coverage in the metadata, based on the data.
 
 ```{r}
+# Read camtrap data package to update metadata coverage fields
 acoustic_dp <- camtrapdp::read_camtrapdp(here::here("datasets", "sound_of_norway", "data", "interim", "datapackage.json"))
 ```
 
-# Write Camtrap DP
+## Write Camtrap DP
 
 ```{r}
+# Write final Camera Trap Data Package to processed directory
 camtrapdp::write_camtrapdp(acoustic_dp, here::here("datasets", "sound_of_norway", "data", "processed"))
 ```
