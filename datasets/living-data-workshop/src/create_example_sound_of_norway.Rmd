@@ -40,6 +40,8 @@ data_raw %>%
 
 # Create sample dataset
 
+## Add and format columns
+
 ```{r}
 dataset <- 
   dplyr::left_join(data_raw, taxonomy, dplyr::join_by(tags == englishName)) %>% 
@@ -59,6 +61,25 @@ dataset <-
     timestamp = gsub("_", ":", .data$timestamp_interim) # format %Y-%m-%dT%H:%M:%S.%f%z
   )
 ```
+
+## Filter data
+
+```{r}
+sites <-
+  dataset %>%
+  dplyr::select("site") %>% 
+  dplyr::pull() %>% 
+  unique()
+
+dataset <-
+  dataset %>% 
+  dplyr::filter(site %in% sites[1:4]) %>% # keep only first 4 sites (deployments)
+  dplyr::group_by(site) %>%
+  group_modify(~ slice_sample(.x, n = 5)) %>%
+  ungroup()
+```
+
+## Select columns
 
 ```{r}
 dataset <-
