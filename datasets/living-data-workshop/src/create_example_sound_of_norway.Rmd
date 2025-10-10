@@ -1,0 +1,55 @@
+---
+title: "Create sample dataset from Sound of Norway"
+author: 
+- "Sanne Govaert"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load libraries
+
+```{r}
+library(here)
+library(dplyr)
+```
+
+# Import data
+
+```{r}
+data_raw <- read.csv(here::here("datasets", "sound_of_norway", "data", "raw", "sound_of_norway_subsample.csv"))
+taxonomy <- read.delim2(
+  file = here::here("datasets", "sound_of_norway", "data", "raw", "labels_en.txt"),
+  sep = "_",
+  header = FALSE,
+  col.names = c("scientificName", "englishName")
+)
+```
+
+# Create sample dataset
+
+```{r}
+dataset <- 
+  dplyr::left_join(data_raw, taxonomy, dplyr::join_by(tags == englishName)) %>% 
+  dplyr::rename(englishName = "tags")
+```
+
+```{r}
+dataset <-
+  dataset %>% 
+  dplyr::select(
+    "id", "analysis", "scientificName", "englishName", "start_secs", "end_secs", "confidence", 
+    "detected_time", "audio_id", "project", "recorder", "site", "latitude",
+    "longitude", "audio_link"
+  )
+```
+
+# Write sample dataset
+
+```{r}
+readr::write_csv(dataset, here::here("datasets", "living-data-workshop", "data", "raw", "example_sound_of_norway.csv"), na = "")
+```
+
