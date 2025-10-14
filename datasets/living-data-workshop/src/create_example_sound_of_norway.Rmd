@@ -88,7 +88,8 @@ dataset <-
     "id", "analysis", "scientificName", "englishName", "start_secs", "end_secs", "confidence", 
     "detected_time", "detected_time_end", "audio_id", "project", "recorder", "site", "latitude",
     "longitude", "audio_link", "timestamp"
-  )
+  ) %>% 
+  dplyr::arrange(site, detected_time)
 ```
 
 # Create metadata
