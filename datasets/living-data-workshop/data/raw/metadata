@@ -1,0 +1,18 @@
+term,definition
+id,The ID of the 3 seconds audio snippet
+analysis,The list of models that has been run on the audio snippet
+scientificName,The species detected by BirdNET in the audio snippet
+englishName,The species detected by BirdNET in the audio snippet
+start_secs,"The time the detection has started, relative to the length of the audio file"
+end_secs,"The time the detection has ended, relative to the length of the audio file"
+confidence,"The model confidence, i.e. how sure is BirdNET of the detection"
+detected_time,"The start time the detection has been made, absolute time CET"
+detected_time_end,"The end time the detection has been made, absolute time CET"
+audio_id,The ID of the file the snippet belongs to
+upload_time,"The time (CET), the file (audio_id) has been uploaded to the Google Cloud bucket"
+project,The project the file (audio_id) belongs to
+recorder,The ID of the acoustic device that has recorded the file (audio_id)
+site,The name of the site where the recorder has been deployed
+latitude,Latitude coordinate of the site where the recorder has been deployed
+longitude,Longitude coordinate of the site where the recorder has been deployed
+audio_link,The link to the raw audio file (audio_id) the snippet belongs to
