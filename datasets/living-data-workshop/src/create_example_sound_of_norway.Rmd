@@ -88,12 +88,41 @@ dataset <-
     "id", "analysis", "scientificName", "englishName", "start_secs", "end_secs", "confidence", 
     "detected_time", "detected_time_end", "audio_id", "project", "recorder", "site", "latitude",
     "longitude", "audio_link", "timestamp"
-  )
+  ) %>% 
+  dplyr::arrange(site, detected_time)
 ```
 
-# Write sample dataset
+# Create metadata
 
 ```{r}
-readr::write_csv(dataset, here::here("datasets", "living-data-workshop", "data", "raw", "example_sound_of_norway.csv"), na = "")
+metadata <- tibble(
+  term = character(),
+  definition = character()
+) %>%
+  add_row(term = "id", definition = "The ID of the 3 seconds audio snippet") %>%
+  add_row(term = "analysis", definition = "The list of models that has been run on the audio snippet") %>%
+  add_row(term = "scientificName", definition = "The species detected by BirdNET in the audio snippet") %>%
+  add_row(term = "englishName", definition = "The species detected by BirdNET in the audio snippet") %>%
+  add_row(term = "start_secs", definition = "The time the detection has started, relative to the length of the audio file") %>%
+  add_row(term = "end_secs", definition = "The time the detection has ended, relative to the length of the audio file") %>%
+  add_row(term = "confidence", definition = "The model confidence, i.e. how sure is BirdNET of the detection") %>%
+  add_row(term = "detected_time", definition = "The start time the detection has been made, absolute time CET") %>%
+  add_row(term = "detected_time_end", definition = "The end time the detection has been made, absolute time CET") %>%
+  add_row(term = "audio_id", definition = "The ID of the file the snippet belongs to") %>%
+  add_row(term = "upload_time", definition = "The time (CET), the file (audio_id) has been uploaded to the Google Cloud bucket") %>%
+  add_row(term = "project", definition = "The project the file (audio_id) belongs to") %>%
+  add_row(term = "recorder", definition = "The ID of the acoustic device that has recorded the file (audio_id)") %>%
+  add_row(term = "site", definition = "The name of the site where the recorder has been deployed") %>%
+  add_row(term = "latitude", definition = "Latitude coordinate of the site where the recorder has been deployed") %>%
+  add_row(term = "longitude", definition = "Longitude coordinate of the site where the recorder has been deployed") %>%
+  add_row(term = "audio_link", definition = "The link to the raw audio file (audio_id) the snippet belongs to")
+```
+
+# Write sample dataset and metadata
+
+```{r}
+directory <- here::here("datasets", "living-data-workshop", "data", "raw")
+readr::write_csv(dataset, file.path(directory, "example_sound_of_norway.csv"), na = "")
+readr::write_csv(metadata, file.path(directory, "metadata"), na = "")
 ```
 
