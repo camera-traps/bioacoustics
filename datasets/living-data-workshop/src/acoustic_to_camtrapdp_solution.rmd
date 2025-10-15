@@ -48,7 +48,7 @@ library(lubridate)
 We import the raw acoustic data from a CSV file. This file contains the source data that will be transformed into a Camtrap DP.
 
 ```{r}
-data_raw <- read.csv(here::here("datasets", "living-data-workshop", "data", "raw", "example_sound_of_norway.csv"))
+data <- read.csv(here::here("datasets", "living-data-workshop", "data", "raw", "example_sound_of_norway.csv"))
 ```
 
 ## Inspect data
@@ -57,7 +57,7 @@ It's good practice to inspect your data before processing it. Here, we summarize
 
 ```{r}
 # Summarise number of unique values per column in the raw data
-data_raw %>%
+data %>%
   dplyr::summarise(dplyr::across(dplyr::everything(), dplyr::n_distinct)) %>%
   tidyr::pivot_longer(dplyr::everything(), names_to = "column", values_to = "n_unique")
 ```
@@ -72,31 +72,43 @@ Create the three resources (deployments, media, observations) based on the raw d
 ```{r}
 # Extract deployment-level information
 deployments_raw <-
-  data
-# ... Fill in
+  data %>% 
+  dplyr::group_by(.data$site) %>% 
+    dplyr::mutate(
+    # deploymentStart and deploymentEnd based on first and last detection for each site
+    deploymentStart = min(detected_time),
+    deploymentEnd = max(detected_time_end),
+    deploymentID = .data$site,
+    ) %>%
+  dplyr::select(
+    site, latitude, longitude, deploymentStart, deploymentEnd, deploymentID, 
+    recorder
+    ) %>% 
+  dplyr::distinct() %>% 
+  dplyr::ungroup()
 
 deployments <-
   deployments_raw %>% 
   dplyr::mutate(
-    deploymentID = NA_character_, # Required
+    deploymentID = .data$deploymentID, # Required
     locationID = NA_character_,
-    locationName = NA_character_,
-    latitude = NA_real_, # Required
-    longitude = NA_real_, # Required
+    locationName = .data$site,
+    latitude = .data$latitude, # Required
+    longitude = .data$longitude, # Required
     coordinateUncertainty = NA_integer_,
     elevation = NA_integer_,
-    deploymentStart = NA_character_, # Required
-    deploymentEnd = NA_character_, # Required
+    deploymentStart = .data$deploymentStart, # Required
+    deploymentEnd = .data$deploymentEnd, # Required
     setupBy = NA_character_,
-    deviceID = NA_character_,
-    deviceModel = NA_character_,
-    devicePlatform = NA_character_,
+    deviceID = .data$recorder,
+    deviceModel = "Bugg v2022",
+    devicePlatform = "platform",
     deviceDelay = NA_integer_,
-    deviceHeight = NA_real_,
+    deviceHeight = 1.5,
     deviceDepth = NA_real_,
     deviceTilt = NA_integer_,
     deviceHeading = NA_integer_,
-    recordingSchedule = NA_character_,
+    recordingSchedule = "continuous",
     detectionDistance = NA_real_,
     baitUse = NA,
     locationType = NA_character_,
@@ -123,20 +135,20 @@ deployments <-
 media <-
   data %>% 
   dplyr::mutate(
-    mediaID = NA_character_, # Required
-    deploymentID = NA_character_, # Required
-    captureMethod = NA_character_,
-    timestamp = NA_character_, # Required 
-    duration = NA_character_,
-    filePath = NA_character_,# Required
-    filePublic = NA, # Required
+    mediaID = .data$audio_id, # Required
+    deploymentID = .data$site, # Required
+    captureMethod = "continuous",
+    timestamp = .data$timestamp, # Required 
+    duration = 600,
+    filePath = .data$audio_link,# Required
+    filePublic = TRUE, # Required
     fileName = NA_character_,
-    fileMediatype = NA_character_, # Required
+    fileMediatype = "audio/mpeg", # Required
     exifData = NA,
-    bitDepth = NA_integer_,
-    samplingFrequency = NA_integer_,
+    bitDepth = 16,
+    samplingFrequency = 44100,
     gain = NA_real_,
-    channels = NA_integer_,
+    channels = 1,
     favorite = NA,
     mediaComments = NA_character_,
     .keep = "none"
@@ -156,16 +168,16 @@ media <-
 observations <-
   data %>% 
   dplyr::mutate(
-    observationID = NA_character_, # Required
-    deploymentID = NA_character_, # Required
-    mediaID = NA_character_,
+    observationID = .data$id, # Required
+    deploymentID = .data$site, # Required
+    mediaID = .data$audio_id,
     eventID = NA_character_,
-    eventStart = NA_character_, # Required
-    eventEnd = NA_character_, # Required
-    observationLevel = NA_character_, # Required
-    observationType = NA_character_, # Required 
+    eventStart = .data$detected_time, # Required
+    eventEnd = .data$detected_time_end, # Required
+    observationLevel = "interval", # Required
+    observationType = "animal", # Required 
     deviceSetupType = NA_character_,
-    scientificName = NA_character_,  # Required
+    scientificName = .data$scientificName,  # Required
     count = NA_integer_,
     lifeStage = NA_character_,
     sex = NA_character_,
@@ -180,10 +192,10 @@ observations <-
     bboxHeight = NA_real_,
     frequencyLow = NA_real_,
     frequencyHigh = NA_real_,
-    classificationMethod = NA_character_,
-    classifiedBy = NA_character_,
+    classificationMethod = "machine",
+    classifiedBy = .data$analysis,
     classificationTimestamp = NA_character_,
-    classificationProbability = NA_real_,
+    classificationProbability = .data$confidence,
     classificationConfirmation = NA_character_,
     observationTags = NA_character_,
     observationComments = NA_character_,
