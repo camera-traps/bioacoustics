@@ -1,0 +1,380 @@
+---
+title: "Create example acoustic dataset in Camtrap DP format"
+author: 
+- "Sanne Govaert"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Install packages
+
+Before we begin, we need to ensure that all required R packages are installed. This includes packages for data handling, working with frictionless data, and the development version of `camtrapdp` from GitHub.
+
+```{r}
+# Install required packages if not already installed
+rlang::check_installed(c(
+  "here",
+  "dplyr",
+  "tidyr",
+  "frictionless",
+  "lubridate",
+  "devtools"
+))
+
+# We need the development version of camtrapdp from Github:
+devtools::install_github("inbo/camtrapdp")
+```
+
+
+## Load libraries
+
+Next, we load all the necessary libraries.
+
+```{r}
+library(here)
+library(dplyr)
+library(tidyr)
+library(frictionless)
+library(camtrapdp)
+library(lubridate)
+```
+
+# Import data
+
+We import the raw acoustic data from a CSV file. This file contains the source data that will be transformed into a Camtrap DP.
+
+```{r}
+data_raw <- read.csv(here::here("datasets", "living-data-workshop", "data", "raw", "example_sound_of_norway.csv"))
+```
+
+## Inspect data
+
+It's good practice to inspect your data before processing it. Here, we summarize the number of unique values in each column, which helps us understand data diversity and potential keys for resource creation.
+
+```{r}
+# Summarise number of unique values per column in the raw data
+data_raw %>%
+  dplyr::summarise(dplyr::across(dplyr::everything(), dplyr::n_distinct)) %>%
+  tidyr::pivot_longer(dplyr::everything(), names_to = "column", values_to = "n_unique")
+```
+
+# Create resources
+
+## Create deployments resource
+
+Now it is your turn!
+Create the three resources (deployments, media, observations) based on the raw data. You can use the code below as a starting point, but you will need to fill in the missing information (currently all set to `NA`).
+
+```{r}
+# Extract deployment-level information
+deployments_raw <-
+  data
+# ... Fill in
+
+deployments <-
+  deployments_raw %>% 
+  dplyr::mutate(
+    deploymentID = NA_character_, # Required
+    locationID = NA_character_,
+    locationName = NA_character_,
+    latitude = NA_real_, # Required
+    longitude = NA_real_, # Required
+    coordinateUncertainty = NA_integer_,
+    elevation = NA_integer_,
+    deploymentStart = NA_character_, # Required
+    deploymentEnd = NA_character_, # Required
+    setupBy = NA_character_,
+    deviceID = NA_character_,
+    deviceModel = NA_character_,
+    devicePlatform = NA_character_,
+    deviceDelay = NA_integer_,
+    deviceHeight = NA_real_,
+    deviceDepth = NA_real_,
+    deviceTilt = NA_integer_,
+    deviceHeading = NA_integer_,
+    recordingSchedule = NA_character_,
+    detectionDistance = NA_real_,
+    baitUse = NA,
+    locationType = NA_character_,
+    habitat = NA_character_,
+    deploymentGroups = NA_character_,
+    deploymentTags = NA_character_,
+    deploymentComments = NA_character_,
+    .keep = "none"
+  ) %>% 
+  dplyr::arrange(deploymentID) %>% 
+  dplyr::select(
+    deploymentID, locationID, locationName, latitude, longitude, 
+    coordinateUncertainty, elevation, deploymentStart, deploymentEnd, setupBy, 
+    deviceID, deviceModel, devicePlatform, deviceDelay, deviceHeight, 
+    deviceDepth, deviceTilt, deviceHeading, recordingSchedule, detectionDistance,
+    baitUse, locationType, habitat, deploymentGroups, deploymentTags,
+    deploymentComments
+  )
+```
+
+## Create media resource
+
+```{r}
+media <-
+  data %>% 
+  dplyr::mutate(
+    mediaID = NA_character_, # Required
+    deploymentID = NA_character_, # Required
+    captureMethod = NA_character_,
+    timestamp = NA_character_, # Required 
+    duration = NA_character_,
+    filePath = NA_character_,# Required
+    filePublic = NA, # Required
+    fileName = NA_character_,
+    fileMediatype = NA_character_, # Required
+    exifData = NA,
+    bitDepth = NA_integer_,
+    samplingFrequency = NA_integer_,
+    gain = NA_real_,
+    channels = NA_integer_,
+    favorite = NA,
+    mediaComments = NA_character_,
+    .keep = "none"
+  ) %>% 
+  dplyr::arrange(mediaID) %>%
+  dplyr::distinct() %>% 
+  dplyr::select(
+    mediaID, deploymentID, captureMethod, timestamp, duration, filePath, 
+    filePublic, fileName, fileMediatype, exifData, bitDepth, 
+    samplingFrequency, gain, channels, duration, favorite, mediaComments
+  )
+```
+
+## Create observations resource
+
+```{r}
+observations <-
+  data %>% 
+  dplyr::mutate(
+    observationID = NA_character_, # Required
+    deploymentID = NA_character_, # Required
+    mediaID = NA_character_,
+    eventID = NA_character_,
+    eventStart = NA_character_, # Required
+    eventEnd = NA_character_, # Required
+    observationLevel = NA_character_, # Required
+    observationType = NA_character_, # Required 
+    deviceSetupType = NA_character_,
+    scientificName = NA_character_,  # Required
+    count = NA_integer_,
+    lifeStage = NA_character_,
+    sex = NA_character_,
+    behavior = NA_character_,
+    individualID = NA_character_,
+    individualPositionRadius = NA_real_,
+    individualPositionAngle = NA_real_,
+    individualSpeed = NA_real_,
+    bboxX = NA_real_,
+    bboxY = NA_real_,
+    bboxWidth = NA_real_,
+    bboxHeight = NA_real_,
+    frequencyLow = NA_real_,
+    frequencyHigh = NA_real_,
+    classificationMethod = NA_character_,
+    classifiedBy = NA_character_,
+    classificationTimestamp = NA_character_,
+    classificationProbability = NA_real_,
+    classificationConfirmation = NA_character_,
+    observationTags = NA_character_,
+    observationComments = NA_character_,
+    .keep = "none"
+  ) %>% 
+  dplyr::arrange(observationID) %>% 
+  dplyr::select(
+    observationID, deploymentID, mediaID, eventID, eventStart,
+    eventEnd, observationLevel, observationType, deviceSetupType,
+    scientificName, count, lifeStage, sex, behavior, individualID,
+    individualPositionRadius, individualPositionAngle, individualSpeed,
+    bboxX, bboxY, bboxWidth, bboxHeight, frequencyLow, frequencyHigh,
+    classificationMethod, classifiedBy, classificationTimestamp,
+    classificationProbability, classificationConfirmation, observationTags,
+    observationComments
+  )
+```
+
+# Create data package
+
+A Camtrap DP is a Frictionless Data Package that consists of
+- datapackage.json: Metadata about the data package and camera trap project.
+- deployments.csv: Table with camera trap placements (deployments).
+- media.csv: Table with media files recorded during deployments.
+- observations.csv: Table with observations derived from the media files.
+
+We start with compiling the three resources into a frictionless data package, adding metadata such as schema files and project information.
+
+Here you don't need to change anything, but feel free to inspect the code.
+
+```{r}
+# Build frictionless data package with each resource and metadata
+acoustic <-
+  frictionless::create_package() %>%
+  add_resource(
+    resource_name = "deployments",
+    data = deployments,
+    schema = here::here("camtrap-dp", "1.0.2", "deployments-table-schema-acoustic.json")
+    ) %>%
+  add_resource(
+    resource_name = "media", 
+    data = media, 
+    schema = here::here("camtrap-dp", "1.0.2", "media-table-schema-acoustic.json")
+    ) %>%
+  add_resource(
+    resource_name = "observations", 
+    data = observations, 
+    schema = here::here("camtrap-dp", "1.0.2", "observations-table-schema-acoustic.json")
+    ) %>%
+  append(c(
+    name = "camtrap-dp-acoustic-example-dataset", # Required
+    profile = "https://raw.githubusercontent.com/camera-traps/bioacoustics/main/camtrap-dp/1.0.2/camtrap-dp-profile-acoustic.json", # Required
+    id = NULL,
+    created = format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"), # Required
+    title = "The Sound of Norway: bird detections",
+    description = NULL,
+    version = "1.0",
+    keywords = c("acoustic", "birds", "passive acoustic monitoring"),
+    image = NULL,
+    homepage = NULL,
+    sources = NULL,
+    bibliographicCitation = "Bick, I. Avery, Vegar Bakkestuen, Benjamin Cretois, Ben Hillier, John A. Kålås, Marius Pedersen, Kiran Raja, et al. ‘National-Scale Acoustic Monitoring of Avian Biodiversity and Phenology’. Ecology, 24 May 2024. https://doi.org/10.1101/2024.05.21.595242",
+    coordinatePrecision = NULL,
+    spatial = NULL, # Required, but keep this empty, this comes later
+    temporal = NULL, # Required, but keep this empty, this comes later
+    taxonomic = NULL, # Required, but keep this empty, this comes later
+    relatedIdentifiers = NULL,
+    references = NULL
+  )) %>%
+  frictionless::create_package()
+```
+
+We then add contributor information, licenses, and project metadata to complete the package description.
+
+```{r}
+# Add contributors metadata to data package
+acoustic$contributors <- list( # Required
+  list(
+    title = "Julia Wiel",
+    email = "julia.wiel@nina.no",
+    path = "https://orcid.org/0009-0009-7224-3953",
+    role = "contributor",
+    organization = "Norwegian Institute for Nature Research (NINA)"
+  ),
+  list(
+    title = "Benjamin Cretois",
+    email = "benjamin.cretois@nina.no",
+    path = "https://orcid.org/0000-0001-8668-3321",
+    role = "rightsHolder",
+    organization = "Norwegian Institute for Nature Research (NINA)"
+  ),
+  list(
+    title = "Carolyn Rosten",
+    email = "carolyn.rosten@nina.no",
+    path = "https://orcid.org/0000-0002-1117-444X",
+    role = "rightsHolder",
+    organization = "Norwegian Institute for Nature Research (NINA)"
+  ),
+  list(
+    title = "Sarab Sethi",
+    email = "sarab.sethi@imperial.ac.uk",
+    path = "https://orcid.org/0000-0002-5939-0432",
+    role = "principalInvestigator",
+    organization = "Imperial College London"
+  ),
+  list(
+    title = "I. Avery Bick",
+    email = "i.avery.bick@gmail.com",
+    path = "https://orcid.org/0000-0002-8007-9649",
+    role = "principalInvestigator",
+    organization = "Norwegian Institute for Nature Research (NINA)"
+  )
+)
+
+# Add license metadata for data and media files
+acoustic$licenses <- list(
+  list(
+    name = "CC0-1.0",
+    scope = "data" # Required
+  ),
+  list(
+    path = "http://creativecommons.org/licenses/by/4.0/",
+    scope = "media" # Required
+  )
+)
+
+# Add project metadata describing the overarching study design and protocol
+acoustic$project <- list( # Required
+  # id = "",
+  title = "The Sound of Norway", # Required
+  # acronym = "",
+  description = "The Sound of Norway project monitors ecosystems across the nation with real- time recording devices. Using machine learning to automatically classify bird vocalisations, we can simultaneously track the distribution and migration patterns of many species on vast scales and over long time-periods.",
+  protocolType = list(c("acoustic")), # Required
+  samplingDesign = "systematicRandom", # Required
+  path = "https://thesoundofnorway.com/",
+  captureMethod = list(c("continuous")), # Required | Bug, see https://github.com/frictionlessdata/frictionless-r/issues/276
+  individualAnimals = FALSE, # Required
+  observationLevel = list(c("media")) # Required | Bug, see https://github.com/frictionlessdata/frictionless-r/issues/276
+)
+```
+
+## Create taxonomy
+
+We create a function to format taxonomy rows for inclusion in the metadata, then apply it to the example data.
+
+```{r}
+# Function to convert taxonomy data into list format for metadata
+map_taxonomy <- function(taxonomy) {
+  list(
+    scientificName = taxonomy$scientificName,
+    vernacularNames = list(
+      eng = taxonomy$englishName
+      )
+  )
+}
+```
+
+```{r}
+# Apply mapping function to each row in taxonomy for package metadata
+taxonomy <- data %>% dplyr::select(scientificName, englishName)
+taxaonomy_list <- apply(taxonomy, 1, as.list)
+acoustic$taxonomic <- purrr::map(taxonomy_list, map_taxonomy)
+```
+
+# Write Data Package
+
+## Create frictionless data package
+
+Save the frictionless data package, including all resources and metadata, to the designated interim directory.
+
+```{r}
+# Save frictionless data package (including resources and metadata) to interim directory
+frictionless::write_package(acoustic, here::here("datasets", "living-data-workshop", "data", "interim"))
+```
+
+## Read with camtrapdp
+
+Now, we read the Camtrap DP data package to automatically update the spatial, temporal, and taxonomic coverage fields in the metadata based on the resources.
+
+```{r}
+# Read camtrap data package to update metadata coverage fields
+acoustic_dp <- camtrapdp::read_camtrapdp(here::here("datasets", "living-data-workshop", "data", "interim", "datapackage.json"))
+```
+
+## Write Camtrap DP
+
+Finally, we write the completed Camera Trap Data Package to the processed directory.
+
+```{r}
+# Write final Camera Trap Data Package to processed directory
+camtrapdp::write_camtrapdp(acoustic_dp, here::here("datasets", "living-data-workshop", "data", "processed"))
+```
+
+This final DP can be validated against the specifications of Camtrap DP (and Frictionless Data Package) with. See https://camtrap-dp.tdwg.org/#validation.
