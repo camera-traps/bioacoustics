@@ -842,7 +842,7 @@
   ],
   "name": "camtrap-dp-acoustic-example-dataset",
   "profile": "https://raw.githubusercontent.com/camera-traps/bioacoustics/main/camtrap-dp/1.0.2/camtrap-dp-profile-acoustic.json",
-  "created": "2025-10-15T12:49:22Z",
+  "created": "2025-10-15T13:18:15Z",
   "title": "The Sound of Norway: bird detections",
   "version": "1.0",
   "keywords1": "acoustic",
@@ -911,5 +911,73 @@
     "observationLevel": [
       "media"
     ]
-  }
+  },
+  "taxonomic": [
+    {
+      "scientificName": "Porzana porzana",
+      "vernacularNames": {
+        "eng": "Spotted Crake"
+      }
+    },
+    {
+      "scientificName": "Sitta europaea",
+      "vernacularNames": {
+        "eng": "Eurasian Nuthatch"
+      }
+    },
+    {
+      "scientificName": "Dendrocopos major",
+      "vernacularNames": {
+        "eng": "Great Spotted Woodpecker"
+      }
+    },
+    {
+      "scientificName": "Loxia curvirostra",
+      "vernacularNames": {
+        "eng": "Red Crossbill"
+      }
+    },
+    {
+      "scientificName": "Phylloscopus collybita",
+      "vernacularNames": {
+        "eng": "Common Chiffchaff"
+      }
+    },
+    {
+      "scientificName": "Regulus regulus",
+      "vernacularNames": {
+        "eng": "Goldcrest"
+      }
+    },
+    {
+      "scientificName": "Corvus frugilegus",
+      "vernacularNames": {
+        "eng": "Rook"
+      }
+    },
+    {
+      "scientificName": "Tetrao urogallus",
+      "vernacularNames": {
+        "eng": "Western Capercaillie"
+      }
+    },
+    {
+      "scientificName": "Turdus iliacus",
+      "vernacularNames": {
+        "eng": "Redwing"
+      }
+    },
+    {
+      "scientificName": "Troglodytes troglodytes",
+      "vernacularNames": {
+        "eng": "Eurasian Wren"
+      }
+    },
+    {
+      "scientificName": "Botaurus stellaris",
+      "vernacularNames": {
+        "eng": "Great Bittern"
+      }
+    }
+  ]
 }

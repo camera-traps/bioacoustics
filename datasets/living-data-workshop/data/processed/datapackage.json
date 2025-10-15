@@ -842,7 +842,7 @@
   ],
   "name": "camtrap-dp-acoustic-example-dataset",
   "profile": "https://raw.githubusercontent.com/camera-traps/bioacoustics/main/camtrap-dp/1.0.2/camtrap-dp-profile-acoustic.json",
-  "created": "2025-10-15T12:49:22Z",
+  "created": "2025-10-15T13:18:15Z",
   "title": "The Sound of Norway: bird detections",
   "version": "1.0",
   "keywords1": "acoustic",
@@ -908,37 +908,70 @@
   },
   "taxonomic": [
     {
-      "scientificName": "Botaurus stellaris"
+      "scientificName": "Botaurus stellaris",
+      "vernacularNames": {
+        "eng": "Great Bittern"
+      }
     },
     {
-      "scientificName": "Corvus frugilegus"
+      "scientificName": "Corvus frugilegus",
+      "vernacularNames": {
+        "eng": "Rook"
+      }
     },
     {
-      "scientificName": "Dendrocopos major"
+      "scientificName": "Dendrocopos major",
+      "vernacularNames": {
+        "eng": "Great Spotted Woodpecker"
+      }
     },
     {
-      "scientificName": "Loxia curvirostra"
+      "scientificName": "Loxia curvirostra",
+      "vernacularNames": {
+        "eng": "Red Crossbill"
+      }
     },
     {
-      "scientificName": "Phylloscopus collybita"
+      "scientificName": "Phylloscopus collybita",
+      "vernacularNames": {
+        "eng": "Common Chiffchaff"
+      }
     },
     {
-      "scientificName": "Porzana porzana"
+      "scientificName": "Porzana porzana",
+      "vernacularNames": {
+        "eng": "Spotted Crake"
+      }
     },
     {
-      "scientificName": "Regulus regulus"
+      "scientificName": "Regulus regulus",
+      "vernacularNames": {
+        "eng": "Goldcrest"
+      }
     },
     {
-      "scientificName": "Sitta europaea"
+      "scientificName": "Sitta europaea",
+      "vernacularNames": {
+        "eng": "Eurasian Nuthatch"
+      }
     },
     {
-      "scientificName": "Tetrao urogallus"
+      "scientificName": "Tetrao urogallus",
+      "vernacularNames": {
+        "eng": "Western Capercaillie"
+      }
     },
     {
-      "scientificName": "Troglodytes troglodytes"
+      "scientificName": "Troglodytes troglodytes",
+      "vernacularNames": {
+        "eng": "Eurasian Wren"
+      }
     },
     {
-      "scientificName": "Turdus iliacus"
+      "scientificName": "Turdus iliacus",
+      "vernacularNames": {
+        "eng": "Redwing"
+      }
     }
   ],
   "temporal": {
