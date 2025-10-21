@@ -48,7 +48,7 @@ library(lubridate)
 We import the raw acoustic data from a CSV file. This file contains the source data that will be transformed into a Camtrap DP.
 
 ```{r}
-data_raw <- read.csv(here::here("datasets", "living-data-workshop", "data", "raw", "example_sound_of_norway.csv"))
+data <- read.csv(here::here("datasets", "living-data-workshop", "data", "raw", "example_sound_of_norway.csv"))
 ```
 
 ## Inspect data
@@ -57,7 +57,7 @@ It's good practice to inspect your data before processing it. Here, we summarize
 
 ```{r}
 # Summarise number of unique values per column in the raw data
-data_raw %>%
+data %>%
   dplyr::summarise(dplyr::across(dplyr::everything(), dplyr::n_distinct)) %>%
   tidyr::pivot_longer(dplyr::everything(), names_to = "column", values_to = "n_unique")
 ```
@@ -343,7 +343,10 @@ map_taxonomy <- function(taxonomy) {
 
 ```{r}
 # Apply mapping function to each row in taxonomy for package metadata
-taxonomy <- data %>% dplyr::select(scientificName, englishName)
+taxonomy <- 
+  data %>% 
+  dplyr::select(scientificName, englishName) %>% 
+  dplyr::distinct()
 taxaonomy_list <- apply(taxonomy, 1, as.list)
 acoustic$taxonomic <- purrr::map(taxonomy_list, map_taxonomy)
 ```
