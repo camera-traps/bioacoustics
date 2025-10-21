@@ -145,7 +145,7 @@ media <-
     fileName = NA_character_,
     fileMediatype = "audio/mpeg", # Required
     exifData = NA,
-    bitDepth = 16,
+    bitDepth = 32,
     samplingFrequency = 44100,
     gain = NA_real_,
     channels = 1,
