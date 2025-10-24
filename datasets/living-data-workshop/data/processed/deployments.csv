@@ -1,0 +1,5 @@
+deploymentID,locationID,locationName,latitude,longitude,coordinateUncertainty,elevation,deploymentStart,deploymentEnd,setupBy,deviceID,deviceModel,devicePlatform,deviceDelay,deviceHeight,deviceDepth,deviceTilt,deviceHeading,recordingSchedule,detectionDistance,baitUse,locationType,habitat,deploymentGroups,deploymentTags,deploymentComments
+TOV-E Østfold 10617,,TOV-E Østfold 10617,59.697562,11.2003972,,,2022-09-06T12:32:50Z,2022-09-20T06:31:17Z,,bugg_RPiID-10000000a122d275,Bugg v2022,,,1.5,,,,continuous,,,,,,,
+TOV-E: Bergen 120718,,TOV-E: Bergen 120718,60.0603424,5.6645948,,,2022-09-11T13:28:07Z,2022-10-18T13:54:38Z,,bugg_RPiID-1000000022fb515e,Bugg v2022,,,1.5,,,,continuous,,,,,,,
+TOV-E: Stavanger 110204,,TOV-E: Stavanger 110204,58.4811381,6.090253,,,2022-09-15T15:56:58Z,2022-10-14T07:19:00Z,,bugg_RPiID-1000000027dd31af,Bugg v2022,,,1.5,,,,continuous,,,,,,,
+TOV-E: Østfold 10618,,TOV-E: Østfold 10618,59.6976029,11.2049245,,,2022-09-05T04:00:48Z,2022-10-14T11:12:18Z,,bugg_RPiID-100000006b720339,Bugg v2022,,,1.5,,,,continuous,,,,,,,
