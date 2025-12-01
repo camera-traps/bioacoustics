@@ -26,7 +26,7 @@ library(readxl)
 ```{r}
 data_raw <- read_xlsx(here::here("datasets", "maryland", "data", "raw",
  "2018_UnivMD_Maryland_86896 DEP1.xlsx"), sheet = 'DATA TABLE FOR EXPORT')
-selections <- read.delim2(here::here("datasets", "maryland", "data", "raw",
+selections_raw <- read.delim2(here::here("datasets", "maryland", "data", "raw",
  "Fin_merged.selections.txt")) %>% sample_n(500)
 ```
 
@@ -73,6 +73,7 @@ data <- data_raw %>%
 
 # selections
 ```{r}
+selections
 ## Create deploymentID from Begin.Path in selections
 
 # Split Begin.Path by "/"
@@ -105,8 +106,19 @@ selections$timestamp <- sapply(sub("\\.aif$", "", selections$Begin.File), functi
 })
 
 ## ObservationID
-selections$observationID <- paste(selections$Begin.File, selections$Selection,
+selections$observationID <- paste(sub("\\.aif$", "", selections$Begin.File), selections$Selection,
  sep = "_")
+
+## scientificName from Tags
+selections <- selections %>%
+  dplyr::mutate(
+    scientificName = dplyr::case_when(
+      Tags == "1-4-f" ~ "Balaenoptera physalus",
+      Tags == "1-2-f" ~ "Balaenoptera physalus",
+      Tags == "1-1-f" ~ "Balaenoptera physalus",
+      TRUE ~ NA_character_
+    )
+  )
 ```
 ## Create deployments resource
 
@@ -201,7 +213,7 @@ observations <-
     observationLevel = "interval", # Required
     observationType = "animal", # Required 
     deviceSetupType = NA_character_,
-    scientificName = NA_character_,  # Required
+    scientificName = selections$scientificName,  # Required
     count = NA_integer_,
     lifeStage = NA_character_,
     sex = NA_character_,
@@ -221,7 +233,7 @@ observations <-
     classificationTimestamp = NA_character_,
     classificationProbability = selections$Score,
     classificationConfirmation = NA_character_,
-    observationTags = selections$Tags,
+    observationTags = NA_character_,
     observationComments = selections$Notes,
     .keep = "none"
   ) %>% 
@@ -248,7 +260,7 @@ acoustic <-
   add_resource(resource_name = "observations", data = observations, schema = here::here("camtrap-dp", "1.0.2", "observations-table-schema-acoustic.json")) %>%
   append(c(
     name = "camtrap-dp-acoustic-maryland-dataset", # Required
-    profile = "https://raw.githubusercontent.com/camera-traps/bioacoustics/main/camtrap-dp/1.0.2/camtrap-dp-profile-acoustic.json", # Required
+    profile = here::here("camtrap-dp", "1.0.2", "camtrap-dp-profile-acoustic.json"), # Required
     id = NULL,
     created = format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"), # Required
     title = "Maryland: marine mammals detections",
@@ -328,12 +340,6 @@ map_taxonomy <- function(taxonomy) {
 }
 ```
 
-```{r}
-#TODO Add Taxonomy
-# taxonomy_list <- apply(taxonomy, 1, as.list)
-# acoustic$taxonomic <- purrr::map(taxonomy_list, map_taxonomy)
-```
-
 # Write Data Package
 
 ```{r}
@@ -352,4 +358,146 @@ acoustic_dp <- camtrapdp::read_camtrapdp(here::here("datasets", "maryland", "dat
 
 ```{r}
 camtrapdp::write_camtrapdp(acoustic_dp, here::here("datasets", "maryland", "data", "processed"))
+```
+
+# Inspect final tables and compare with raw data
+```{r}
+# Create inspection tables
+inspect_data_raw <- data_raw %>%
+  dplyr::summarise(dplyr::across(dplyr::everything(), ~ dplyr::n_distinct(.))) %>%
+  tidyr::pivot_longer(dplyr::everything(), names_to = "column", values_to = "n_unique")
+
+inspect_selections <- selections %>%
+  dplyr::summarise(dplyr::across(dplyr::everything(), ~ dplyr::n_distinct(.))) %>%
+  tidyr::pivot_longer(dplyr::everything(), names_to = "column", values_to = "n_unique")
+
+inspect_deployments <- deployments %>%
+  dplyr::summarise(dplyr::across(dplyr::everything(), ~ dplyr::n_distinct(.))) %>%
+  tidyr::pivot_longer(dplyr::everything(), names_to = "column", values_to = "n_unique")
+
+inspect_media <- media %>%
+  dplyr::summarise(dplyr::across(dplyr::everything(), ~ dplyr::n_distinct(.))) %>%
+  tidyr::pivot_longer(dplyr::everything(), names_to = "column", values_to = "n_unique")
+
+inspect_observations <- observations %>%
+  dplyr::summarise(dplyr::across(dplyr::everything(), ~ dplyr::n_distinct(.))) %>%
+  tidyr::pivot_longer(dplyr::everything(), names_to = "column", values_to = "n_unique")
+
+# Export inspection tables to a single text file
+inspection_tables <- list(
+  inspect_data_raw = inspect_data_raw, # data_raw
+  inspect_selections = inspect_selections, # selections
+  inspect_deployments = inspect_deployments, # deployments
+  inspect_media = inspect_media, # media
+  inspect_observations = inspect_observations  # observations
+)
+
+inspect_txt_path <- here::here("datasets", "maryland", "data", "interim", "inspect_tables_concat.txt")
+fileConn <- file(inspect_txt_path, open = "wt")
+for (tbl_name in names(inspection_tables)) {
+  tbl <- inspection_tables[[tbl_name]]
+  # Write table name
+  writeLines(paste0("## ", tbl_name), fileConn)
+  # Write table content
+  write.table(tbl, fileConn, sep = "\t", row.names = FALSE, quote = FALSE, col.names = TRUE)
+  # Write empty line
+  writeLines("", fileConn)
+}
+close(fileConn)
+```
+
+# Vizualise first rows from raw and processed data
+```{r}
+# Sample 3 random rows from each table
+set.seed(123) # for reproducibility
+
+sample_data_raw <- data_raw[sample(nrow(data_raw), min(3, nrow(data_raw))), ]
+sample_selections <- selections[sample(nrow(selections), min(3, nrow(selections))), ]
+sample_deployments <- deployments[sample(nrow(deployments), min(3, nrow(deployments))), ]
+sample_media <- media[sample(nrow(media), min(3, nrow(media))), ]
+sample_observations <- observations[sample(nrow(observations), min(3, nrow(observations))), ]
+
+# Create sample tables list
+sample_tables <- list(
+  sample_data_raw = sample_data_raw, # data_raw
+  sample_selections = sample_selections, # selections
+  sample_deployments = sample_deployments, # deployments
+  sample_media = sample_media, # media
+  sample_observations = sample_observations  # observations
+)
+
+# Create table structure comparison
+library(knitr)
+library(kableExtra)
+
+# Function to get table structure info
+get_table_structure <- function(df, table_name) {
+  structure_info <- data.frame(
+    table = table_name,
+    column = names(df),
+    type = sapply(df, class),
+    n_unique = sapply(df, function(x) length(unique(x[!is.na(x)]))),
+    n_missing = sapply(df, function(x) sum(is.na(x))),
+    example_values = sapply(df, function(x) {
+      unique_vals <- unique(x[!is.na(x)])
+      if(length(unique_vals) > 0) {
+        paste(head(unique_vals, 2), collapse = ", ")
+      } else {
+        "All NA"
+      }
+    }),
+    stringsAsFactors = FALSE
+  )
+  return(structure_info)
+}
+
+# Get structure for all tables
+all_structures <- list()
+all_structures[["data_raw"]] <- get_table_structure(data_raw, "data_raw")
+all_structures[["selections"]] <- get_table_structure(selections, "selections") 
+all_structures[["deployments"]] <- get_table_structure(deployments, "deployments")
+all_structures[["media"]] <- get_table_structure(media, "media")
+all_structures[["observations"]] <- get_table_structure(observations, "observations")
+
+# Combine all structures
+combined_structure <- do.call(rbind, all_structures)
+
+# Display structure comparison
+print("=== TABLE STRUCTURE COMPARISON ===")
+print(combined_structure)
+
+# Show sample data from each table
+print("\n=== SAMPLE DATA FROM EACH TABLE ===")
+for (tbl_name in names(sample_tables)) {
+  cat("\n## ", toupper(tbl_name), " (", nrow(sample_tables[[tbl_name]]), " rows, ", ncol(sample_tables[[tbl_name]]), " columns) ##\n")
+  print(head(sample_tables[[tbl_name]], 2))
+}
+
+# Export structure comparison to CSV
+structure_csv_path <- here::here("datasets", "maryland", "data", "interim", "table_structure_comparison.csv")
+write.csv(combined_structure, structure_csv_path, row.names = FALSE)
+
+# Export to Excel with multiple sheets
+library(openxlsx)
+excel_path <- here::here("datasets", "maryland", "data", "interim", "table_comparison.xlsx")
+wb <- createWorkbook()
+
+# Add sample data sheets for each table
+for (tbl_name in names(sample_tables)) {
+  # Remove "sample_" prefix from sheet names
+  sheet_name <- gsub("^sample_", "", tbl_name)
+  # Change selections to selections_raw
+  if (sheet_name == "selections") {
+    sheet_name <- "selections_raw"
+  }
+  addWorksheet(wb, sheet_name)
+  writeData(wb, sheet_name, sample_tables[[tbl_name]])
+}
+
+# Save Excel file
+saveWorkbook(wb, excel_path, overwrite = TRUE)
+
+cat("\nFiles exported:")
+cat("\n- Structure comparison CSV:", structure_csv_path)
+cat("\n- Excel file with all tables:", excel_path)
 ```
