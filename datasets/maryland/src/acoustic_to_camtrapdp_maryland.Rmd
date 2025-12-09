@@ -49,6 +49,7 @@ library(readxl)
 ```{r}
 data_raw <- read_xlsx(here::here("datasets", "maryland", "data", "raw",
  "2018_UnivMD_Maryland_86896 DEP1.xlsx"), sheet = 'DATA TABLE FOR EXPORT')
+set.seed(123)  # Set seed for reproducible sampling
 selections_raw <- read.delim2(here::here("datasets", "maryland", "data", "raw",
  "Fin_merged.selections.txt")) %>% sample_n(500)
 ```
@@ -129,7 +130,7 @@ selections$timestamp <- sapply(sub("\\.aif$", "", selections$Begin.File), functi
 })
 
 ## ObservationID
-selections$observationID <- paste(sub("\\.aif$", "", selections$Begin.File), selections$Selection,
+selections$observationID <- paste(sub("\\.aif$", "", selections$Begin.File), selections$Channel, selections$Selection,
  sep = "_")
 
 ## scientificName from Tags
@@ -142,6 +143,9 @@ selections <- selections %>%
       TRUE ~ NA_character_
     )
   )
+
+  ## mediaID
+selections$mediaID <- sub("\\.aif$", "", selections$Begin.File)
 ```
 ## Create deployments resource
 
@@ -194,7 +198,7 @@ deployments <-
 media <-
   selections %>% 
   dplyr::mutate(
-    mediaID = selections$Begin.File, # Required
+    mediaID = selections$mediaID, # Required
     deploymentID = selections$deploymentID, # Required
     captureMethod = "schedule",
     timestamp = selections$timestamp, # Required 
@@ -229,7 +233,7 @@ observations <-
   dplyr::mutate(
     observationID = selections$observationID, # Required
     deploymentID = selections$deploymentID, # Required
-    mediaID = selections$Begin.File,
+    mediaID = selections$mediaID,
     eventID = NA_character_, # Necessary to use read_camtrapdp(), see https://github.com/inbo/camtrapdp/issues/162
     eventStart = selections$Begin.Time..s., # format(data$detected_time_parsed, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"), # Required
     eventEnd = selections$End.Time..s., # Required
