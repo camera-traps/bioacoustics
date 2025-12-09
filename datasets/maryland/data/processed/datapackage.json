@@ -841,8 +841,8 @@
     }
   ],
   "name": "camtrap-dp-acoustic-maryland-dataset",
-  "profile": "https://raw.githubusercontent.com/camera-traps/bioacoustics/main/camtrap-dp/1.0.2/camtrap-dp-profile-acoustic.json",
-  "created": "2025-10-10T09:02:48Z",
+  "profile": "C:/Code/safe_and_sound/bioacoustics/camtrap-dp/1.0.2/camtrap-dp-profile-acoustic.json",
+  "created": "2025-12-09T10:17:26Z",
   "title": "Maryland: marine mammals detections",
   "version": "1.0",
   "keywords1": "acoustic",
@@ -873,12 +873,17 @@
     "description": "Determining Habitat Use by Marine Mammals and Ambient Noise Levels Using Passive Acoustic Monitoring Offshore of Maryland",
     "protocolType": "acoustic",
     "samplingDesign": "systematicRandom",
-    "path": "https://thesoundofnorway.com/",
+    "path": null,
     "captureMethod": "continuous",
     "classificationEffort": null,
     "individualAnimals": false,
     "observationLevel": "media"
   },
+  "taxonomic": [
+    {
+      "scientificName": "Balaenoptera physalus"
+    }
+  ],
   "temporal": {
     "start": "2018-07-12",
     "end": "2018-08-21"
@@ -894,6 +899,5 @@
         [-74.7763, 38.3345]
       ]
     ]
-  },
-  "taxonomic": []
+  }
 }

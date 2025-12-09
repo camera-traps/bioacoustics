@@ -11,6 +11,30 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Install packages
+
+Before we begin, we need to ensure that all required R packages are installed. This includes packages for data handling, working with frictionless data, and the development version of `camtrapdp` from GitHub.
+
+```{r}
+# Install required packages if not already installed
+rlang::check_installed(c(
+  "here",
+  "dplyr",
+  "tidyr",
+  "frictionless",
+  "lubridate",
+  "devtools"
+))
+
+# We need the development version of camtrapdp from Github:
+devtools::install_github("inbo/camtrapdp")
+```
+
+
+## Load libraries
+
+Next, we load all the necessary libraries.
+
 ```{r}
 library(here)
 library(dplyr)
@@ -20,7 +44,6 @@ library(camtrapdp)
 library(lubridate)
 library(readxl)
 ```
-
 # Import data
 
 ```{r}
@@ -41,7 +64,7 @@ selections_raw <- read.delim2(here::here("datasets", "maryland", "data", "raw",
   tidyr::pivot_longer(dplyr::everything(), names_to = "column", values_to = "n_unique"))
 
 (selections_unique_values_per_column <-
-  selections %>%
+  selections_raw %>%
   dplyr::summarise(dplyr::across(dplyr::everything(), ~ dplyr::n_distinct(.))) %>%
   tidyr::pivot_longer(dplyr::everything(), names_to = "column", values_to = "n_unique"))
 ```
@@ -73,7 +96,7 @@ data <- data_raw %>%
 
 # selections
 ```{r}
-selections
+selections <- selections_raw
 ## Create deploymentID from Begin.Path in selections
 
 # Split Begin.Path by "/"
@@ -319,7 +342,7 @@ acoustic$project <- list( # Required
   description = "Determining Habitat Use by Marine Mammals and Ambient Noise Levels Using Passive Acoustic Monitoring Offshore of Maryland",
   protocolType = list(c("acoustic")), # Required
   samplingDesign = "systematicRandom", # Required
-  path = "https://thesoundofnorway.com/",
+  path = NULL,
   captureMethod = list(c("continuous")), # Required | Bug, see https://github.com/frictionlessdata/frictionless-r/issues/276
   classificationEffort = NA_character_,
   individualAnimals = FALSE, # Required
@@ -327,18 +350,6 @@ acoustic$project <- list( # Required
 )
 ```
 
-## Create taxonomy
-
-```{r}
-map_taxonomy <- function(taxonomy) {
-  list(
-    scientificName = taxonomy$scientificName,
-    vernacularNames = list(
-      eng = taxonomy$EnglishName
-      )
-  )
-}
-```
 
 # Write Data Package
 

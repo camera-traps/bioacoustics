@@ -841,8 +841,8 @@
     }
   ],
   "name": "camtrap-dp-acoustic-maryland-dataset",
-  "profile": "C:/Users/julia.wiel/OneDrive - NINA/Documents/Safe_and_Sound/marine-dataset_Cornell/biocoustics/bioacoustics/camtrap-dp/1.0.2/camtrap-dp-profile-acoustic.json",
-  "created": "2025-12-01T13:27:29Z",
+  "profile": "C:/Code/safe_and_sound/bioacoustics/camtrap-dp/1.0.2/camtrap-dp-profile-acoustic.json",
+  "created": "2025-12-09T10:17:26Z",
   "title": "Maryland: marine mammals detections",
   "version": "1.0",
   "keywords1": "acoustic",
@@ -875,7 +875,7 @@
       "acoustic"
     ],
     "samplingDesign": "systematicRandom",
-    "path": "https://thesoundofnorway.com/",
+    "path": null,
     "captureMethod": [
       "continuous"
     ],
