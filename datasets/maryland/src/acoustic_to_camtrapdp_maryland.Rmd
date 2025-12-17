@@ -351,7 +351,7 @@ acoustic$contributors <- list( # Required
     title = "Aaron N. Rice",
     email = "arice@cornell.edu",
     path = "https://orcid.org/0000-0002-8598-9705",
-    role = "Science director",
+    role = "principalInvestigator",
     organization = "Bioacoustics Research Program, Cornell Laboratory of Ornithology"
   )
   # list(

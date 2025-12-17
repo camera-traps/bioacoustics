@@ -842,7 +842,7 @@
   ],
   "name": "camtrap-dp-acoustic-maryland-dataset",
   "profile": "https://raw.githubusercontent.com/camera-traps/bioacoustics/main/camtrap-dp/1.0.2/camtrap-dp-profile-acoustic.json",
-  "created": "2025-12-17T14:05:10Z",
+  "created": "2025-12-17T14:07:38Z",
   "title": "Maryland: marine mammals detections",
   "version": "1.0",
   "keywords1": "acoustic",
@@ -854,7 +854,7 @@
       "title": "Aaron N. Rice",
       "email": "arice@cornell.edu",
       "path": "https://orcid.org/0000-0002-8598-9705",
-      "role": "Science director",
+      "role": "principalInvestigator",
       "organization": "Bioacoustics Research Program, Cornell Laboratory of Ornithology"
     }
   ],
