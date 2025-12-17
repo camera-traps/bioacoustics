@@ -842,7 +842,7 @@
   ],
   "name": "camtrap-dp-acoustic-maryland-dataset",
   "profile": "https://raw.githubusercontent.com/camera-traps/bioacoustics/main/camtrap-dp/1.0.2/camtrap-dp-profile-acoustic.json",
-  "created": "2025-12-17T13:56:59Z",
+  "created": "2025-12-17T14:05:10Z",
   "title": "Maryland: marine mammals detections",
   "version": "1.0",
   "keywords1": "acoustic",
@@ -875,11 +875,9 @@
       "acoustic"
     ],
     "samplingDesign": "systematicRandom",
-    "path": null,
     "captureMethod": [
       "continuous"
     ],
-    "classificationEffort": null,
     "individualAnimals": false,
     "observationLevel": [
       "media"

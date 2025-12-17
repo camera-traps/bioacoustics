@@ -381,9 +381,9 @@ acoustic$project <- list( # Required
   description = "Determining Habitat Use by Marine Mammals and Ambient Noise Levels Using Passive Acoustic Monitoring Offshore of Maryland",
   protocolType = list(c("acoustic")), # Required
   samplingDesign = "systematicRandom", # Required
-  path = NULL,
+  # path = NA_character_,
   captureMethod = list(c("continuous")), # Required | Bug, see https://github.com/frictionlessdata/frictionless-r/issues/276
-  classificationEffort = NA_character_,
+  # classificationEffort = NA_character_,
   individualAnimals = FALSE, # Required
   observationLevel = list(c("media")) # Required | Bug, see https://github.com/frictionlessdata/frictionless-r/issues/276
 )
