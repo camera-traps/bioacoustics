@@ -11,7 +11,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Install packages
+## Install packages
 
 Before we begin, we need to ensure that all required R packages are installed. This includes packages for data handling, working with frictionless data, and the development version of `camtrapdp` from GitHub.
 
@@ -30,7 +30,6 @@ rlang::check_installed(c(
 devtools::install_github("inbo/camtrapdp")
 ```
 
-
 ## Load libraries
 
 Next, we load all the necessary libraries.
@@ -44,6 +43,7 @@ library(camtrapdp)
 library(lubridate)
 library(readxl)
 ```
+
 # Import data
 
 ```{r}
@@ -58,9 +58,7 @@ selections_raw <- read.delim2(
   sample_n(500)
 ```
 
-# Create resources
-
-## Inspect data
+# Inspect data
 
 ```{r}
 (data_raw_unique_values_per_column <-
@@ -86,9 +84,10 @@ selections_raw <- read.delim2(
 )
 ```
 
-## Add information to dataset
+# Prepare data
 
-# data
+Deduce ID's and scientificName, and format date-time data.
+
 ```{r}
 # Parse deploymentStart and deploymentEnd in UTC
 data <- data_raw |>
@@ -118,7 +117,6 @@ data <- data_raw |>
   dplyr::ungroup()
 ```
 
-# selections
 ```{r}
 selections <- selections_raw
 ## Create deploymentID from Begin.Path in selections
@@ -174,6 +172,9 @@ selections <- selections |>
 ## mediaID
 selections$mediaID <- sub("\\.aif$", "", selections$Begin.File)
 ```
+
+# Darwin Core mapping
+
 ## Create deployments resource
 
 ```{r}
@@ -354,13 +355,6 @@ acoustic$contributors <- list( # Required
     role = "principalInvestigator",
     organization = "Bioacoustics Research Program, Cornell Laboratory of Ornithology"
   )
-  # list(
-  #   title = "",
-  #   email = "",
-  #   path = "",
-  #   role = "",
-  #   organization = ""
-  # ),
 )
 
 acoustic$licenses <- list(
@@ -388,7 +382,6 @@ acoustic$project <- list( # Required
   observationLevel = list(c("media")) # Required | Bug, see https://github.com/frictionlessdata/frictionless-r/issues/276
 )
 ```
-
 
 # Write Data Package
 
