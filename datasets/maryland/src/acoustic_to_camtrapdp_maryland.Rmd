@@ -54,7 +54,7 @@ data_raw <- read_xlsx(
 set.seed(123) # Set seed for reproducible sampling
 selections_raw <- read.delim2(
   here::here("datasets", "maryland", "data", "raw", "Fin_merged.selections.txt")
-) %>%
+) |>
   sample_n(500)
 ```
 
@@ -64,10 +64,10 @@ selections_raw <- read.delim2(
 
 ```{r}
 (data_raw_unique_values_per_column <-
-  data_raw %>%
+  data_raw |>
   dplyr::summarise(
     dplyr::across(dplyr::everything(), ~ dplyr::n_distinct(.))
-  ) %>%
+  ) |>
   tidyr::pivot_longer(
     dplyr::everything(),
     names_to = "column", values_to = "n_unique"
@@ -75,10 +75,10 @@ selections_raw <- read.delim2(
 )
 
 (selections_unique_values_per_column <-
-  selections_raw %>%
+  selections_raw |>
   dplyr::summarise(
     dplyr::across(dplyr::everything(), ~ dplyr::n_distinct(.))
-  ) %>%
+  ) |>
   tidyr::pivot_longer(
     dplyr::everything(),
     names_to = "column", values_to = "n_unique"
@@ -91,7 +91,7 @@ selections_raw <- read.delim2(
 # data
 ```{r}
 # Parse deploymentStart and deploymentEnd in UTC
-data <- data_raw %>%
+data <- data_raw |>
   dplyr::mutate(
     # Clean deployTime and recoveryTime
     deployTime_clean = sub("^\\d{4}-\\d{2}-\\d{2} ", "", deployTime),
@@ -99,8 +99,8 @@ data <- data_raw %>%
     # Combine date and time for deployment start/end
     deploy_datetime_str = paste(deployDate, deployTime_clean),
     recovery_datetime_str = paste(recoveryDate, recoveryTime_clean)
-  ) %>%
-  dplyr::rowwise() %>%
+  ) |>
+  dplyr::rowwise() |>
   dplyr::mutate(
     deploymentStart = format(
       lubridate::ymd_hms(deploy_datetime_str, tz = "UTC"),
@@ -114,7 +114,7 @@ data <- data_raw %>%
       tz = "UTC"
     ),
     deploymentEnd = sub("(\\+\\d{2})(\\d{2})$", "\\1:\\2", deploymentEnd)
-  ) %>%
+  ) |>
   dplyr::ungroup()
 ```
 
@@ -161,7 +161,7 @@ selections$observationID <- paste(
 )
 
 ## scientificName from Tags
-selections <- selections %>%
+selections <- selections |>
   dplyr::mutate(
     scientificName = dplyr::case_when(
       Tags == "1-4-f" ~ "Balaenoptera physalus",
@@ -178,7 +178,7 @@ selections$mediaID <- sub("\\.aif$", "", selections$Begin.File)
 
 ```{r}
 deployments <-
-  data %>%
+  data |>
   dplyr::mutate(
     deploymentID = data$KEY_deployment_ID, # Required
     locationID = data$nominalID,
@@ -207,8 +207,8 @@ deployments <-
     deploymentTags = NA_character_,
     deploymentComments = data$notes,
     .keep = "none"
-  ) %>%
-  dplyr::arrange(deploymentID) %>%
+  ) |>
+  dplyr::arrange(deploymentID) |>
   dplyr::select(
     deploymentID, locationID, locationName, latitude, longitude,
     coordinateUncertainty, elevation, deploymentStart, deploymentEnd, setupBy,
@@ -223,7 +223,7 @@ deployments <-
 
 ```{r}
 media <-
-  selections %>%
+  selections |>
   dplyr::mutate(
     mediaID = selections$mediaID, # Required
     deploymentID = selections$deploymentID, # Required
@@ -242,9 +242,9 @@ media <-
     favorite = NA,
     mediaComments = NA_character_,
     .keep = "none"
-  ) %>%
-  dplyr::arrange(mediaID) %>%
-  dplyr::distinct() %>%
+  ) |>
+  dplyr::arrange(mediaID) |>
+  dplyr::distinct() |>
   dplyr::select(
     mediaID, deploymentID, captureMethod, timestamp, duration, filePath,
     filePublic, fileName, fileMediatype, exifData, bitDepth, samplingFrequency,
@@ -256,7 +256,7 @@ media <-
 
 ```{r}
 observations <-
-  selections %>%
+  selections |>
   dplyr::mutate(
     observationID = selections$observationID, # Required
     deploymentID = selections$deploymentID, # Required
@@ -290,8 +290,8 @@ observations <-
     observationTags = NA_character_,
     observationComments = selections$Notes,
     .keep = "none"
-  ) %>%
-  dplyr::arrange(observationID) %>%
+  ) |>
+  dplyr::arrange(observationID) |>
   dplyr::select(
     observationID, deploymentID, mediaID, eventID, eventStart,
     eventEnd, observationLevel, observationType, deviceSetupType,
@@ -308,22 +308,22 @@ observations <-
 
 ```{r}
 acoustic <-
-  frictionless::create_package() %>%
+  frictionless::create_package() |>
   add_resource(
     resource_name = "deployments",
     data = deployments,
     schema = here::here("camtrap-dp", "1.0.2", "deployments-table-schema-acoustic.json")
-  ) %>%
+  ) |>
   add_resource(
     resource_name = "media",
     data = media,
     schema = here::here("camtrap-dp", "1.0.2", "media-table-schema-acoustic.json")
-  ) %>%
+  ) |>
   add_resource(
     resource_name = "observations",
     data = observations,
     schema = here::here("camtrap-dp", "1.0.2", "observations-table-schema-acoustic.json")
-  ) %>%
+  ) |>
   append(c(
     name = "camtrap-dp-acoustic-maryland-dataset", # Required
     profile = "https://raw.githubusercontent.com/camera-traps/bioacoustics/main/camtrap-dp/1.0.2/camtrap-dp-profile-acoustic.json", # Required
@@ -343,7 +343,7 @@ acoustic <-
     taxonomic = NULL, # Required, but keep this empty, this comes later
     relatedIdentifiers = NULL,
     references = NULL
-  )) %>%
+  )) |>
   frictionless::create_package()
 
 acoustic$contributors <- list( # Required
