@@ -47,11 +47,15 @@ library(readxl)
 # Import data
 
 ```{r}
-data_raw <- read_xlsx(here::here("datasets", "maryland", "data", "raw",
- "2018_UnivMD_Maryland_86896 DEP1.xlsx"), sheet = 'DATA TABLE FOR EXPORT')
-set.seed(123)  # Set seed for reproducible sampling
-selections_raw <- read.delim2(here::here("datasets", "maryland", "data", "raw",
- "Fin_merged.selections.txt")) %>% sample_n(500)
+data_raw <- read_xlsx(
+  here::here("datasets", "maryland", "data", "raw", "2018_UnivMD_Maryland_86896 DEP1.xlsx"),
+  sheet = "DATA TABLE FOR EXPORT"
+)
+set.seed(123) # Set seed for reproducible sampling
+selections_raw <- read.delim2(
+  here::here("datasets", "maryland", "data", "raw", "Fin_merged.selections.txt")
+) %>%
+  sample_n(500)
 ```
 
 # Create resources
@@ -61,13 +65,25 @@ selections_raw <- read.delim2(here::here("datasets", "maryland", "data", "raw",
 ```{r}
 (data_raw_unique_values_per_column <-
   data_raw %>%
-  dplyr::summarise(dplyr::across(dplyr::everything(), ~ dplyr::n_distinct(.))) %>%
-  tidyr::pivot_longer(dplyr::everything(), names_to = "column", values_to = "n_unique"))
+  dplyr::summarise(
+    dplyr::across(dplyr::everything(), ~ dplyr::n_distinct(.))
+  ) %>%
+  tidyr::pivot_longer(
+    dplyr::everything(),
+    names_to = "column", values_to = "n_unique"
+  )
+)
 
 (selections_unique_values_per_column <-
   selections_raw %>%
-  dplyr::summarise(dplyr::across(dplyr::everything(), ~ dplyr::n_distinct(.))) %>%
-  tidyr::pivot_longer(dplyr::everything(), names_to = "column", values_to = "n_unique"))
+  dplyr::summarise(
+    dplyr::across(dplyr::everything(), ~ dplyr::n_distinct(.))
+  ) %>%
+  tidyr::pivot_longer(
+    dplyr::everything(),
+    names_to = "column", values_to = "n_unique"
+  )
+)
 ```
 
 ## Add information to dataset
@@ -86,13 +102,20 @@ data <- data_raw %>%
   ) %>%
   dplyr::rowwise() %>%
   dplyr::mutate(
-    deploymentStart = format(lubridate::ymd_hms(deploy_datetime_str, tz = "UTC"), "%Y-%m-%dT%H:%M:%S%z", tz = "UTC"),
+    deploymentStart = format(
+      lubridate::ymd_hms(deploy_datetime_str, tz = "UTC"),
+      "%Y-%m-%dT%H:%M:%S%z",
+      tz = "UTC"
+    ),
     deploymentStart = sub("(\\+\\d{2})(\\d{2})$", "\\1:\\2", deploymentStart),
-    deploymentEnd = format(lubridate::ymd_hms(recovery_datetime_str, tz = "UTC"), "%Y-%m-%dT%H:%M:%S%z", tz = "UTC"),
+    deploymentEnd = format(
+      lubridate::ymd_hms(recovery_datetime_str, tz = "UTC"),
+      "%Y-%m-%dT%H:%M:%S%z",
+      tz = "UTC"
+    ),
     deploymentEnd = sub("(\\+\\d{2})(\\d{2})$", "\\1:\\2", deploymentEnd)
   ) %>%
   dplyr::ungroup()
-
 ```
 
 # selections
@@ -101,7 +124,7 @@ selections <- selections_raw
 ## Create deploymentID from Begin.Path in selections
 
 # Split Begin.Path by "/"
-split_path <- strsplit(selections$Begin.Path, '\\\\')
+split_path <- strsplit(selections$Begin.Path, "\\\\")
 # Extract elements by position (e.g., 5th, 6th, 7th)
 deploymentID <- sapply(split_path, function(x) {
   # Split x[7] by "_"
@@ -119,7 +142,7 @@ selections$deploymentID <- deploymentID
 selections$timestamp <- sapply(sub("\\.aif$", "", selections$Begin.File), function(x) {
   parts <- strsplit(x, "_")[[1]]
   # Assume last two substrings are date and time
-  date_str <- parts[length(parts)-1]
+  date_str <- parts[length(parts) - 1]
   time_str <- parts[length(parts)]
   # Try to parse date and time
   dt <- suppressWarnings(lubridate::ymd_hms(paste(date_str, time_str), tz = "UTC"))
@@ -130,8 +153,12 @@ selections$timestamp <- sapply(sub("\\.aif$", "", selections$Begin.File), functi
 })
 
 ## ObservationID
-selections$observationID <- paste(sub("\\.aif$", "", selections$Begin.File), selections$Channel, selections$Selection,
- sep = "_")
+selections$observationID <- paste(
+  sub("\\.aif$", "", selections$Begin.File),
+  selections$Channel,
+  selections$Selection,
+  sep = "_"
+)
 
 ## scientificName from Tags
 selections <- selections %>%
@@ -144,14 +171,14 @@ selections <- selections %>%
     )
   )
 
-  ## mediaID
+## mediaID
 selections$mediaID <- sub("\\.aif$", "", selections$Begin.File)
 ```
 ## Create deployments resource
 
 ```{r}
 deployments <-
-  data %>% 
+  data %>%
   dplyr::mutate(
     deploymentID = data$KEY_deployment_ID, # Required
     locationID = data$nominalID,
@@ -180,7 +207,7 @@ deployments <-
     deploymentTags = NA_character_,
     deploymentComments = data$notes,
     .keep = "none"
-  ) %>% 
+  ) %>%
   dplyr::arrange(deploymentID) %>%
   dplyr::select(
     deploymentID, locationID, locationName, latitude, longitude,
@@ -196,14 +223,14 @@ deployments <-
 
 ```{r}
 media <-
-  selections %>% 
+  selections %>%
   dplyr::mutate(
     mediaID = selections$mediaID, # Required
     deploymentID = selections$deploymentID, # Required
     captureMethod = "schedule",
-    timestamp = selections$timestamp, # Required 
+    timestamp = selections$timestamp, # Required
     duration = NA_real_,
-    filePath = selections$Begin.Path,# Required
+    filePath = selections$Begin.Path, # Required
     filePublic = FALSE, # Required
     fileName = NA_character_,
     fileMediatype = "audio/aiff", # Required
@@ -215,9 +242,9 @@ media <-
     favorite = NA,
     mediaComments = NA_character_,
     .keep = "none"
-  ) %>% 
+  ) %>%
   dplyr::arrange(mediaID) %>%
-  dplyr::distinct() %>% 
+  dplyr::distinct() %>%
   dplyr::select(
     mediaID, deploymentID, captureMethod, timestamp, duration, filePath,
     filePublic, fileName, fileMediatype, exifData, bitDepth, samplingFrequency,
@@ -229,7 +256,7 @@ media <-
 
 ```{r}
 observations <-
-  selections %>% 
+  selections %>%
   dplyr::mutate(
     observationID = selections$observationID, # Required
     deploymentID = selections$deploymentID, # Required
@@ -238,9 +265,9 @@ observations <-
     eventStart = selections$Begin.Time..s., # format(data$detected_time_parsed, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"), # Required
     eventEnd = selections$End.Time..s., # Required
     observationLevel = "interval", # Required
-    observationType = "animal", # Required 
+    observationType = "animal", # Required
     deviceSetupType = NA_character_,
-    scientificName = selections$scientificName,  # Required
+    scientificName = selections$scientificName, # Required
     count = NA_integer_,
     lifeStage = NA_character_,
     sex = NA_character_,
@@ -263,8 +290,8 @@ observations <-
     observationTags = NA_character_,
     observationComments = selections$Notes,
     .keep = "none"
-  ) %>% 
-  dplyr::arrange(observationID) %>% 
+  ) %>%
+  dplyr::arrange(observationID) %>%
   dplyr::select(
     observationID, deploymentID, mediaID, eventID, eventStart,
     eventEnd, observationLevel, observationType, deviceSetupType,
@@ -282,9 +309,21 @@ observations <-
 ```{r}
 acoustic <-
   frictionless::create_package() %>%
-  add_resource(resource_name = "deployments", data = deployments, schema = here::here("camtrap-dp", "1.0.2", "deployments-table-schema-acoustic.json")) %>%
-  add_resource(resource_name = "media", data = media, schema = here::here("camtrap-dp", "1.0.2",  "media-table-schema-acoustic.json")) %>%
-  add_resource(resource_name = "observations", data = observations, schema = here::here("camtrap-dp", "1.0.2", "observations-table-schema-acoustic.json")) %>%
+  add_resource(
+    resource_name = "deployments",
+    data = deployments,
+    schema = here::here("camtrap-dp", "1.0.2", "deployments-table-schema-acoustic.json")
+  ) %>%
+  add_resource(
+    resource_name = "media",
+    data = media,
+    schema = here::here("camtrap-dp", "1.0.2", "media-table-schema-acoustic.json")
+  ) %>%
+  add_resource(
+    resource_name = "observations",
+    data = observations,
+    schema = here::here("camtrap-dp", "1.0.2", "observations-table-schema-acoustic.json")
+  ) %>%
   append(c(
     name = "camtrap-dp-acoustic-maryland-dataset", # Required
     profile = "https://raw.githubusercontent.com/camera-traps/bioacoustics/main/camtrap-dp/1.0.2/camtrap-dp-profile-acoustic.json", # Required
@@ -297,11 +336,7 @@ acoustic <-
     image = NULL,
     homepage = NULL,
     sources = NULL,
-    bibliographicCitation = "Bailey H, Rice A, Wingfield JE, Hodge KB, Estabrook BJ, Hawthorne D, Garrod A, Fandel AD, Fouda
-        L, McDonald E, Grzyb E, Fletcher W, Hoover AL. 2018. Determining habitat use by marine
-        mammals and ambient noise levels using passive acoustic monitoring offshore of Maryland. Sterling
-        (VA): US Department of the Interior, Bureau of Ocean Energy Management. OCS Study BOEM
-        2019-018. 232 p.",
+    bibliographicCitation = "Bailey H, Rice A, Wingfield JE, Hodge KB, Estabrook BJ, Hawthorne D, Garrod A, Fandel AD, Fouda L, McDonald E, Grzyb E, Fletcher W, Hoover AL. 2018. Determining habitat use by marine mammals and ambient noise levels using passive acoustic monitoring offshore of Maryland. Sterling (VA): US Department of the Interior, Bureau of Ocean Energy Management. OCS Study BOEM 2019-018. 232 p.",
     coordinatePrecision = NULL,
     spatial = NULL, # Required, but keep this empty, this comes later
     temporal = NULL, # Required, but keep this empty, this comes later
