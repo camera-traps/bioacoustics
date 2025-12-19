@@ -842,7 +842,7 @@
   ],
   "name": "camtrap-dp-acoustic-maryland-dataset",
   "profile": "https://raw.githubusercontent.com/camera-traps/bioacoustics/main/camtrap-dp/1.0.2/camtrap-dp-profile-acoustic.json",
-  "created": "2025-12-19T08:13:45Z",
+  "created": "2025-12-19T16:22:41Z",
   "title": "Maryland: marine mammals detections",
   "version": "1.0",
   "keywords1": "acoustic",
@@ -856,6 +856,20 @@
       "path": "https://orcid.org/0000-0002-8598-9705",
       "role": "principalInvestigator",
       "organization": "Bioacoustics Research Program, Cornell Laboratory of Ornithology"
+    },
+    {
+      "title": "Julia Wiel",
+      "email": "julia.wiel@nina.no",
+      "path": "https://orcid.org/0009-0009-7224-3953",
+      "role": "contributor",
+      "organization": "Norwegian Institute for Nature Research (NINA)"
+    },
+    {
+      "title": "Sanne Govaert",
+      "email": "sanne.govaert@inbo.be",
+      "path": "https://orcid.org/0000-0002-8939-1305",
+      "role": "contributor",
+      "organization": "Research Institute for Nature and Forest (INBO)"
     }
   ],
   "licenses": [

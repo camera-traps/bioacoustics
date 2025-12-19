@@ -334,6 +334,20 @@ acoustic$contributors <- list( # Required
     path = "https://orcid.org/0000-0002-8598-9705",
     role = "principalInvestigator",
     organization = "Bioacoustics Research Program, Cornell Laboratory of Ornithology"
+  ),
+    list(
+    title = "Julia Wiel",
+    email = "julia.wiel@nina.no",
+    path = "https://orcid.org/0009-0009-7224-3953",
+    role = "contributor",
+    organization = "Norwegian Institute for Nature Research (NINA)"
+  ),
+    list(
+    title = "Sanne Govaert",
+    email = "sanne.govaert@inbo.be",
+    path = "https://orcid.org/0000-0002-8939-1305",
+    role = "contributor",
+    organization = "Research Institute for Nature and Forest (INBO)"
   )
 )
 
