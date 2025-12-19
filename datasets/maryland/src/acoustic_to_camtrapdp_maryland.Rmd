@@ -91,9 +91,6 @@ Deduce ID's and scientificName, and format date-time data.
 ```{r}
 data <- data_raw
 
-# Generate deploymentID
-data$deploymentID <- paste(data$KEY_deployment_ID, data$nominalID, sep = "_")
-
 # Parse deploymentStart and deploymentEnd in UTC
 data <- data |>
   dplyr::mutate(
@@ -104,7 +101,6 @@ data <- data |>
     deploy_datetime_str = paste(deployDate, deployTime_clean),
     recovery_datetime_str = paste(recoveryDate, recoveryTime_clean)
   ) |>
-  dplyr::rowwise() |>
   dplyr::mutate(
     deploymentStart = format(
       lubridate::ymd_hms(deploy_datetime_str, tz = "UTC"),
@@ -118,8 +114,7 @@ data <- data |>
       tz = "UTC"
     ),
     deploymentEnd = sub("(\\+\\d{2})(\\d{2})$", "\\1:\\2", deploymentEnd)
-  ) |>
-  dplyr::ungroup()
+  )
 ```
 
 ```{r}
@@ -200,7 +195,7 @@ selections$eventID <- paste0("event_", sprintf("%06d", sample(100000:999999, nro
 deployments <-
   data |>
   dplyr::mutate(
-    deploymentID = data$deploymentID, # Required
+    deploymentID = paste(KEY_deployment_ID, nominalID, sep = "_"), # Required
     locationID = data$nominalID,
     locationName = NA_character_,
     latitude = data$latitudeDeployed_DecDeg, # Required
