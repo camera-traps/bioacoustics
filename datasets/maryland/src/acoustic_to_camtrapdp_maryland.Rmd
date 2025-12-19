@@ -48,12 +48,12 @@ library(readxl)
 
 ```{r}
 data_raw <- read_xlsx(
-  here::here("bioacoustics","datasets", "maryland", "data", "raw", "2018_UnivMD_Maryland_86896 DEP1.xlsx"),
+  here::here("datasets", "maryland", "data", "raw", "2018_UnivMD_Maryland_86896 DEP1.xlsx"),
   sheet = "DATA TABLE FOR EXPORT"
 )
 set.seed(123) # Set seed for reproducible sampling
 selections_raw <- read.delim2(
-  here::here("bioacoustics", "datasets", "maryland", "data", "raw", "Fin_merged.selections.txt")
+  here::here( "datasets", "maryland", "data", "raw", "Fin_merged.selections.txt")
 ) |>
   sample_n(500)
 ```
@@ -332,17 +332,17 @@ acoustic <-
   add_resource(
     resource_name = "deployments",
     data = deployments,
-    schema = here::here("bioacoustics", "camtrap-dp", "1.0.2", "deployments-table-schema-acoustic.json")
+    schema = here::here( "camtrap-dp", "1.0.2", "deployments-table-schema-acoustic.json")
   ) |>
   add_resource(
     resource_name = "media",
     data = media,
-    schema = here::here("bioacoustics", "camtrap-dp", "1.0.2", "media-table-schema-acoustic.json")
+    schema = here::here( "camtrap-dp", "1.0.2", "media-table-schema-acoustic.json")
   ) |>
   add_resource(
     resource_name = "observations",
     data = observations,
-    schema = here::here("bioacoustics", "camtrap-dp", "1.0.2", "observations-table-schema-acoustic.json")
+    schema = here::here( "camtrap-dp", "1.0.2", "observations-table-schema-acoustic.json")
   ) |>
   append(c(
     name = "camtrap-dp-acoustic-maryland-dataset", # Required
@@ -405,7 +405,7 @@ acoustic$project <- list( # Required
 # Write Data Package
 
 ```{r}
-frictionless::write_package(acoustic, here::here("bioacoustics", "datasets", "maryland", "data", "interim"))
+frictionless::write_package(acoustic, here::here( "datasets", "maryland", "data", "interim"))
 ```
 
 # Read with camtrapdp
@@ -413,11 +413,11 @@ frictionless::write_package(acoustic, here::here("bioacoustics", "datasets", "ma
 This automatically updates the spatial, temporal and taxonomic coverage in the metadata, based on the data.
 
 ```{r}
-acoustic_dp <- camtrapdp::read_camtrapdp(here::here("bioacoustics", "datasets", "maryland", "data", "interim", "datapackage.json"))
+acoustic_dp <- camtrapdp::read_camtrapdp(here::here( "datasets", "maryland", "data", "interim", "datapackage.json"))
 ```
 
 # Write Camtrap DP
 
 ```{r}
-camtrapdp::write_camtrapdp(acoustic_dp, here::here("bioacoustics", "datasets", "maryland", "data", "processed"))
+camtrapdp::write_camtrapdp(acoustic_dp, here::here( "datasets", "maryland", "data", "processed"))
 ```
