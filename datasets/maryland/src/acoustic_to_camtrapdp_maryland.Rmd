@@ -149,13 +149,13 @@ selections <- selections |>
 selections$mediaID <- sub("\\.aif$", "", selections$Begin.File)
 
 ## event start and end
-selections <- selections %>%
+selections <- selections |>
   dplyr::mutate(
     eventStart = format(
       lubridate::mdy_hms(paste(Date.Check, Time.Check), tz = "UTC"),
       "%Y-%m-%dT%H:%M:%S%z",
       tz = "UTC"
-    ) %>%
+    ) |>
       sub("(\\+\\d{2})(\\d{2})$", "\\1:\\2", x = .),
     # Calculate duration in seconds and add to eventStart
     duration_seconds = as.numeric(End.Time..s.) - as.numeric(Begin.Time..s.),
@@ -163,9 +163,9 @@ selections <- selections %>%
       lubridate::mdy_hms(paste(Date.Check, Time.Check), tz = "UTC") + lubridate::seconds(duration_seconds),
       "%Y-%m-%dT%H:%M:%S%z",
       tz = "UTC"
-    ) %>%
+    ) |>
       sub("(\\+\\d{2})(\\d{2})$", "\\1:\\2", x = .)
-  ) %>%
+  ) |>
   dplyr::select(-duration_seconds)
 
 ## Generate fixed random eventID for repeatability
