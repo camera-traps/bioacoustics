@@ -97,23 +97,9 @@ data <- data |>
     # Clean deployTime and recoveryTime
     deployTime_clean = sub("^\\d{4}-\\d{2}-\\d{2} ", "", deployTime),
     recoveryTime_clean = sub("^\\d{4}-\\d{2}-\\d{2} ", "", recoveryTime),
-    # Combine date and time for deployment start/end
-    deploy_datetime_str = paste(deployDate, deployTime_clean),
-    recovery_datetime_str = paste(recoveryDate, recoveryTime_clean)
-  ) |>
-  dplyr::mutate(
-    deploymentStart = format(
-      lubridate::ymd_hms(deploy_datetime_str, tz = "UTC"),
-      "%Y-%m-%dT%H:%M:%S%z",
-      tz = "UTC"
-    ),
-    deploymentStart = sub("(\\+\\d{2})(\\d{2})$", "\\1:\\2", deploymentStart),
-    deploymentEnd = format(
-      lubridate::ymd_hms(recovery_datetime_str, tz = "UTC"),
-      "%Y-%m-%dT%H:%M:%S%z",
-      tz = "UTC"
-    ),
-    deploymentEnd = sub("(\\+\\d{2})(\\d{2})$", "\\1:\\2", deploymentEnd)
+    # Combine date and time for deploymentStart and End
+    deploymentStart = lubridate::ymd_hms(paste(deployDate, deployTime_clean)),
+    deploymentEnd = lubridate::ymd_hms(paste(recoveryDate, recoveryTime_clean))
   )
 ```
 
