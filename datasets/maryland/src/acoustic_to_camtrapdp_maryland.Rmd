@@ -61,8 +61,8 @@ selections_raw <- read.delim2(
 # Inspect data
 
 ```{r}
-(data_raw_unique_values_per_column <-
-  data_raw |>
+# Unique values per column for data_raw
+data_raw |>
   dplyr::summarise(
     dplyr::across(dplyr::everything(), ~ dplyr::n_distinct(.))
   ) |>
@@ -70,10 +70,9 @@ selections_raw <- read.delim2(
     dplyr::everything(),
     names_to = "column", values_to = "n_unique"
   )
-)
 
-(selections_unique_values_per_column <-
-  selections_raw |>
+# Unique values per column for selections_raw
+selections_raw |>
   dplyr::summarise(
     dplyr::across(dplyr::everything(), ~ dplyr::n_distinct(.))
   ) |>
@@ -81,18 +80,15 @@ selections_raw <- read.delim2(
     dplyr::everything(),
     names_to = "column", values_to = "n_unique"
   )
-)
 ```
 
 # Prepare data
 
-Deduce ID's and scientificName, and format date-time data.
+Deduce ID's and format date-time data.
 
 ```{r}
-data <- data_raw
-
 # Parse deploymentStart and deploymentEnd in UTC
-data <- data |>
+data <- data_raw |>
   dplyr::mutate(
     # Clean deployTime and recoveryTime
     deployTime_clean = sub("^\\d{4}-\\d{2}-\\d{2} ", "", deployTime),
@@ -104,13 +100,12 @@ data <- data |>
 ```
 
 ```{r}
-selections <- selections_raw
-
-# Build deploymentID
-# Extract 6th element from Begin.Path (split by single backslash)
-split_paths <- strsplit(selections$Begin.Path, "\\", fixed = TRUE)
-selections$path_element_6 <- sapply(split_paths, function(x) if(length(x) >= 6) x[6] else NA_character_)
-selections$deploymentID <- paste(selections$path_element_6, "_Dep01_20180711_M", selections$Channel, sep = "")
+selections <-
+  selections_raw |>
+  dplyr::mutate(
+    project_code = sub(".*projects\\\\([^\\\\]+)\\\\.*", "\\1", Begin.Path),
+    deploymentID = paste(project_code, "_Dep01_20180711_M", Channel, sep = "")
+    )
 
 ## Timestamp of the selection
 selections$timestamp <- sapply(sub("\\.aif$", "", selections$Begin.File), function(x) {
@@ -126,31 +121,10 @@ selections$timestamp <- sapply(sub("\\.aif$", "", selections$Begin.File), functi
   return(ts)
 })
 
-## ObservationID
-selections$observationID <- paste(
-  sub("\\.aif$", "", selections$Begin.File),
-  selections$Channel,
-  selections$Selection,
-  sep = "_"
-)
-
-## scientificName from Tags
-selections <- selections |>
+selections <-
+  selections |>
   dplyr::mutate(
-    scientificName = dplyr::case_when(
-      Tags == "1-4-f" ~ "Balaenoptera physalus",
-      Tags == "1-2-f" ~ "Balaenoptera physalus",
-      Tags == "1-1-f" ~ "Balaenoptera physalus",
-      TRUE ~ NA_character_
-    )
-  )
-
-## mediaID
-selections$mediaID <- sub("\\.aif$", "", selections$Begin.File)
-
-## event start and end
-selections <- selections %>%
-  dplyr::mutate(
+    mediaID = sub("\\.aif$", "", Begin.File),
     eventStart = format(
       lubridate::mdy_hms(paste(Date.Check, Time.Check), tz = "UTC"),
       "%Y-%m-%dT%H:%M:%S%z",
@@ -182,21 +156,21 @@ deployments <-
   data |>
   dplyr::mutate(
     deploymentID = paste(KEY_deployment_ID, nominalID, sep = "_"), # Required
-    locationID = data$nominalID,
+    locationID = nominalID,
     locationName = NA_character_,
-    latitude = data$latitudeDeployed_DecDeg, # Required
-    longitude = data$longitudeDeployed_DecDeg, # Required
+    latitude = latitudeDeployed_DecDeg, # Required
+    longitude = longitudeDeployed_DecDeg, # Required
     coordinateUncertainty = NA_integer_,
     elevation = NA_real_,
-    deploymentStart = data$deploymentStart, # Required
-    deploymentEnd = data$deploymentEnd, # Required
+    deploymentStart = deploymentStart, # Required
+    deploymentEnd = deploymentEnd, # Required
     setupBy = NA_character_,
-    deviceID = data$containerID,
-    deviceModel = data$recorderDeviceType,
+    deviceID = containerID,
+    deviceModel = recorderDeviceType,
     devicePlatform = "buoy",
     deviceDelay = NA_integer_,
     deviceHeight = NA_real_,
-    deviceDepth = data$deploymentDepth_Meters,
+    deviceDepth = deploymentDepth_Meters,
     deviceTilt = NA_integer_,
     deviceHeading = NA_integer_,
     recordingSchedule = "continuous",
@@ -204,9 +178,9 @@ deployments <-
     baitUse = NA,
     locationType = NA_character_,
     habitat = NA_character_,
-    deploymentGroups = data$arrayName,
+    deploymentGroups = arrayName,
     deploymentTags = NA_character_,
-    deploymentComments = data$notes,
+    deploymentComments = notes,
     .keep = "none"
   ) |>
   dplyr::arrange(deploymentID) |>
@@ -226,12 +200,12 @@ deployments <-
 media <-
   selections |>
   dplyr::mutate(
-    mediaID = selections$mediaID, # Required
-    deploymentID = selections$deploymentID, # Required
+    mediaID = mediaID, # Required
+    deploymentID = deploymentID, # Required
     captureMethod = "schedule",
-    timestamp = selections$timestamp, # Required
+    timestamp = timestamp, # Required
     duration = NA_real_,
-    filePath = selections$Begin.Path, # Required
+    filePath = Begin.Path, # Required
     filePublic = FALSE, # Required
     fileName = NA_character_,
     fileMediatype = "audio/aiff", # Required
@@ -259,16 +233,22 @@ media <-
 observations <-
   selections |>
   dplyr::mutate(
-    observationID = selections$observationID, # Required
-    deploymentID = selections$deploymentID, # Required
-    mediaID = selections$mediaID,
-    eventID = selections$eventID, # Fixed random IDs for repeatability
-    eventStart = selections$eventStart, # Required
-    eventEnd = selections$eventEnd, # Required
+    mediaID = mediaID, 
+    observationID = paste(mediaID, Channel, Selection, sep = "_"), # Required
+    deploymentID = deploymentID, # Required
+    mediaID = mediaID,
+    eventID = eventID, # Fixed random IDs for repeatability
+    eventStart = eventStart, # Required
+    eventEnd = eventEnd, # Required
     observationLevel = "interval", # Required
     observationType = "animal", # Required
     deviceSetupType = NA_character_,
-    scientificName = selections$scientificName, # Required
+    scientificName = dplyr::case_when(  # Required
+      Tags == "1-4-f" ~ "Balaenoptera physalus",
+      Tags == "1-2-f" ~ "Balaenoptera physalus",
+      Tags == "1-1-f" ~ "Balaenoptera physalus",
+      .default = NA_character_
+    ),
     count = NA_integer_,
     lifeStage = NA_character_,
     sex = NA_character_,
@@ -286,10 +266,10 @@ observations <-
     classificationMethod = "machine",
     classifiedBy = NA_character_,
     classificationTimestamp = NA_character_,
-    classificationProbability = selections$Score,
+    classificationProbability = Score,
     classificationConfirmation = NA_character_,
     observationTags = NA_character_,
-    observationComments = selections$Notes,
+    observationComments = Notes,
     .keep = "none"
   ) |>
   dplyr::arrange(observationID) |>
