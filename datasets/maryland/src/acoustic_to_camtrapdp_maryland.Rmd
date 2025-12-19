@@ -48,12 +48,12 @@ library(readxl)
 
 ```{r}
 data_raw <- read_xlsx(
-  here::here("datasets", "maryland", "data", "raw", "2018_UnivMD_Maryland_86896 DEP1.xlsx"),
+  here::here("bioacoustics","datasets", "maryland", "data", "raw", "2018_UnivMD_Maryland_86896 DEP1.xlsx"),
   sheet = "DATA TABLE FOR EXPORT"
 )
 set.seed(123) # Set seed for reproducible sampling
 selections_raw <- read.delim2(
-  here::here("datasets", "maryland", "data", "raw", "Fin_merged.selections.txt")
+  here::here("bioacoustics", "datasets", "maryland", "data", "raw", "Fin_merged.selections.txt")
 ) |>
   sample_n(500)
 ```
@@ -89,8 +89,13 @@ selections_raw <- read.delim2(
 Deduce ID's and scientificName, and format date-time data.
 
 ```{r}
+data <- data_raw
+
+# Generate deploymentID
+data$deploymentID <- paste(data$KEY_deployment_ID, data$nominalID, sep = "_")
+
 # Parse deploymentStart and deploymentEnd in UTC
-data <- data_raw |>
+data <- data |>
   dplyr::mutate(
     # Clean deployTime and recoveryTime
     deployTime_clean = sub("^\\d{4}-\\d{2}-\\d{2} ", "", deployTime),
@@ -119,22 +124,12 @@ data <- data_raw |>
 
 ```{r}
 selections <- selections_raw
-## Create deploymentID from Begin.Path in selections
 
-# Split Begin.Path by "/"
-split_path <- strsplit(selections$Begin.Path, "\\\\")
-# Extract elements by position (e.g., 5th, 6th, 7th)
-deploymentID <- sapply(split_path, function(x) {
-  # Split x[7] by "_"
-  parts <- strsplit(x[7], "_")[[1]]
-  # Remove the first term and paste the rest back together
-  new_x7 <- paste(parts[-1], collapse = "_")
-  new_x7 <- gsub("MD", "Dep", new_x7)
-  # Combine x[6] and the modified x[7]
-  paste(x[6], new_x7, sep = "_")
-})
-# Add to selections
-selections$deploymentID <- deploymentID
+# Build deploymentID
+# Extract 6th element from Begin.Path (split by single backslash)
+split_paths <- strsplit(selections$Begin.Path, "\\", fixed = TRUE)
+selections$path_element_6 <- sapply(split_paths, function(x) if(length(x) >= 6) x[6] else NA_character_)
+selections$deploymentID <- paste(selections$path_element_6, "_Dep01_20180711_M", selections$Channel, sep = "")
 
 ## Timestamp of the selection
 selections$timestamp <- sapply(sub("\\.aif$", "", selections$Begin.File), function(x) {
@@ -171,6 +166,30 @@ selections <- selections |>
 
 ## mediaID
 selections$mediaID <- sub("\\.aif$", "", selections$Begin.File)
+
+## event start and end
+selections <- selections %>%
+  dplyr::mutate(
+    eventStart = format(
+      lubridate::mdy_hms(paste(Date.Check, Time.Check), tz = "UTC"),
+      "%Y-%m-%dT%H:%M:%S%z",
+      tz = "UTC"
+    ) %>%
+      sub("(\\+\\d{2})(\\d{2})$", "\\1:\\2", x = .),
+    # Calculate duration in seconds and add to eventStart
+    duration_seconds = as.numeric(End.Time..s.) - as.numeric(Begin.Time..s.),
+    eventEnd = format(
+      lubridate::mdy_hms(paste(Date.Check, Time.Check), tz = "UTC") + lubridate::seconds(duration_seconds),
+      "%Y-%m-%dT%H:%M:%S%z",
+      tz = "UTC"
+    ) %>%
+      sub("(\\+\\d{2})(\\d{2})$", "\\1:\\2", x = .)
+  ) %>%
+  dplyr::select(-duration_seconds)
+
+## Generate fixed random eventID for repeatability
+set.seed(456) # Fixed seed for repeatability
+selections$eventID <- paste0("event_", sprintf("%06d", sample(100000:999999, nrow(selections), replace = FALSE)))
 ```
 
 # Darwin Core mapping
@@ -181,7 +200,7 @@ selections$mediaID <- sub("\\.aif$", "", selections$Begin.File)
 deployments <-
   data |>
   dplyr::mutate(
-    deploymentID = data$KEY_deployment_ID, # Required
+    deploymentID = data$deploymentID, # Required
     locationID = data$nominalID,
     locationName = NA_character_,
     latitude = data$latitudeDeployed_DecDeg, # Required
@@ -193,7 +212,7 @@ deployments <-
     setupBy = NA_character_,
     deviceID = data$containerID,
     deviceModel = data$recorderDeviceType,
-    devicePlatform = "mooring",
+    devicePlatform = "buoy",
     deviceDelay = NA_integer_,
     deviceHeight = NA_real_,
     deviceDepth = data$deploymentDepth_Meters,
@@ -262,9 +281,9 @@ observations <-
     observationID = selections$observationID, # Required
     deploymentID = selections$deploymentID, # Required
     mediaID = selections$mediaID,
-    eventID = NA_character_, # Necessary to use read_camtrapdp(), see https://github.com/inbo/camtrapdp/issues/162
-    eventStart = selections$Begin.Time..s., # format(data$detected_time_parsed, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"), # Required
-    eventEnd = selections$End.Time..s., # Required
+    eventID = selections$eventID, # Fixed random IDs for repeatability
+    eventStart = selections$eventStart, # Required
+    eventEnd = selections$eventEnd, # Required
     observationLevel = "interval", # Required
     observationType = "animal", # Required
     deviceSetupType = NA_character_,
@@ -313,17 +332,17 @@ acoustic <-
   add_resource(
     resource_name = "deployments",
     data = deployments,
-    schema = here::here("camtrap-dp", "1.0.2", "deployments-table-schema-acoustic.json")
+    schema = here::here("bioacoustics", "camtrap-dp", "1.0.2", "deployments-table-schema-acoustic.json")
   ) |>
   add_resource(
     resource_name = "media",
     data = media,
-    schema = here::here("camtrap-dp", "1.0.2", "media-table-schema-acoustic.json")
+    schema = here::here("bioacoustics", "camtrap-dp", "1.0.2", "media-table-schema-acoustic.json")
   ) |>
   add_resource(
     resource_name = "observations",
     data = observations,
-    schema = here::here("camtrap-dp", "1.0.2", "observations-table-schema-acoustic.json")
+    schema = here::here("bioacoustics", "camtrap-dp", "1.0.2", "observations-table-schema-acoustic.json")
   ) |>
   append(c(
     name = "camtrap-dp-acoustic-maryland-dataset", # Required
@@ -386,7 +405,7 @@ acoustic$project <- list( # Required
 # Write Data Package
 
 ```{r}
-frictionless::write_package(acoustic, here::here("datasets", "maryland", "data", "interim"))
+frictionless::write_package(acoustic, here::here("bioacoustics", "datasets", "maryland", "data", "interim"))
 ```
 
 # Read with camtrapdp
@@ -394,11 +413,11 @@ frictionless::write_package(acoustic, here::here("datasets", "maryland", "data",
 This automatically updates the spatial, temporal and taxonomic coverage in the metadata, based on the data.
 
 ```{r}
-acoustic_dp <- camtrapdp::read_camtrapdp(here::here("datasets", "maryland", "data", "interim", "datapackage.json"))
+acoustic_dp <- camtrapdp::read_camtrapdp(here::here("bioacoustics", "datasets", "maryland", "data", "interim", "datapackage.json"))
 ```
 
 # Write Camtrap DP
 
 ```{r}
-camtrapdp::write_camtrapdp(acoustic_dp, here::here("datasets", "maryland", "data", "processed"))
+camtrapdp::write_camtrapdp(acoustic_dp, here::here("bioacoustics", "datasets", "maryland", "data", "processed"))
 ```
