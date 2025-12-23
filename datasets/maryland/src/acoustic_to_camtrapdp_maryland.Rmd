@@ -125,22 +125,10 @@ selections <-
   selections |>
   dplyr::mutate(
     mediaID = sub("\\.aif$", "", Begin.File),
-    eventStart = format(
-      lubridate::mdy_hms(paste(Date.Check, Time.Check), tz = "UTC"),
-      "%Y-%m-%dT%H:%M:%S%z",
-      tz = "UTC"
-    ) %>%
-      sub("(\\+\\d{2})(\\d{2})$", "\\1:\\2", x = .),
-    # Calculate duration in seconds and add to eventStart
-    duration_seconds = as.numeric(End.Time..s.) - as.numeric(Begin.Time..s.),
-    eventEnd = format(
-      lubridate::mdy_hms(paste(Date.Check, Time.Check), tz = "UTC") + lubridate::seconds(duration_seconds),
-      "%Y-%m-%dT%H:%M:%S%z",
-      tz = "UTC"
-    ) %>%
-      sub("(\\+\\d{2})(\\d{2})$", "\\1:\\2", x = .)
-  ) %>%
-  dplyr::select(-duration_seconds)
+    snippet_duration = as.numeric(selections$End.Time..s.) - as.numeric(selections$Begin.Time..s.),
+    eventStart = lubridate::parse_date_time(paste(Date.Check, Time.Check), "mdy HMS", tz = "UTC"),
+    eventEnd = lubridate::parse_date_time(paste(Date.Check, Time.Check), "mdy HMS", tz = "UTC") + lubridate::seconds(snippet_duration)
+    )
 
 ## Generate fixed random eventID for repeatability
 set.seed(456) # Fixed seed for repeatability
@@ -219,7 +207,7 @@ media <-
     .keep = "none"
   ) |>
   dplyr::arrange(mediaID) |>
-  dplyr::distinct() |>
+  dplyr::distinct(mediaID, .keep_all = TRUE) |>
   dplyr::select(
     mediaID, deploymentID, captureMethod, timestamp, duration, filePath,
     filePublic, fileName, fileMediatype, exifData, bitDepth, samplingFrequency,
@@ -313,7 +301,7 @@ acoustic <-
     title = "Maryland: marine mammals detections",
     description = NULL,
     version = "1.0",
-    keywords = c("acoustic", "marine mammals", "passive acoustic monitoring"),
+    keywords = list(c("acoustic", "marine mammals", "passive acoustic monitoring")),
     image = NULL,
     homepage = NULL,
     sources = NULL,
