@@ -842,12 +842,14 @@
   ],
   "name": "camtrap-dp-acoustic-maryland-dataset",
   "profile": "https://raw.githubusercontent.com/camera-traps/bioacoustics/main/camtrap-dp/1.0.2/camtrap-dp-profile-acoustic.json",
+<<<<<<< HEAD
   "created": "2025-12-19T16:22:41Z",
+=======
+  "created": "2025-12-23T14:50:49Z",
+>>>>>>> f27d584 (Make mediaID unique by removing duplicated deploymentID.)
   "title": "Maryland: marine mammals detections",
   "version": "1.0",
-  "keywords1": "acoustic",
-  "keywords2": "marine mammals",
-  "keywords3": "passive acoustic monitoring",
+  "keywords": ["acoustic", "marine mammals", "passive acoustic monitoring"],
   "bibliographicCitation": "Bailey H, Rice A, Wingfield JE, Hodge KB, Estabrook BJ, Hawthorne D, Garrod A, Fandel AD, Fouda L, McDonald E, Grzyb E, Fletcher W, Hoover AL. 2018. Determining habitat use by marine mammals and ambient noise levels using passive acoustic monitoring offshore of Maryland. Sterling (VA): US Department of the Interior, Bureau of Ocean Energy Management. OCS Study BOEM 2019-018. 232 p.",
   "contributors": [
     {
