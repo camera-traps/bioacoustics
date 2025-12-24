@@ -842,11 +842,7 @@
   ],
   "name": "camtrap-dp-acoustic-maryland-dataset",
   "profile": "https://raw.githubusercontent.com/camera-traps/bioacoustics/main/camtrap-dp/1.0.2/camtrap-dp-profile-acoustic.json",
-<<<<<<< HEAD
-  "created": "2025-12-19T16:22:41Z",
-=======
-  "created": "2025-12-23T14:50:49Z",
->>>>>>> f27d584 (Make mediaID unique by removing duplicated deploymentID.)
+  "created": "2025-12-24T11:01:57Z",
   "title": "Maryland: marine mammals detections",
   "version": "1.0",
   "keywords": ["acoustic", "marine mammals", "passive acoustic monitoring"],
@@ -889,9 +885,9 @@
     "description": "Determining Habitat Use by Marine Mammals and Ambient Noise Levels Using Passive Acoustic Monitoring Offshore of Maryland",
     "protocolType": "acoustic",
     "samplingDesign": "systematicRandom",
-    "captureMethod": ["continuous"],
+    "captureMethod": "continuous",
     "individualAnimals": false,
-    "observationLevel": ["media"]
+    "observationLevel": "media"
   },
   "taxonomic": [
     {
