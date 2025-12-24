@@ -129,7 +129,6 @@ selections <-
     eventStart = lubridate::parse_date_time(paste(Date.Check, Time.Check), "mdy HMS", tz = "UTC"),
     eventEnd = lubridate::parse_date_time(paste(Date.Check, Time.Check), "mdy HMS", tz = "UTC") + lubridate::seconds(snippet_duration)
     )
-  )
 
 ## Generate fixed random eventID for repeatability
 set.seed(456) # Fixed seed for repeatability
