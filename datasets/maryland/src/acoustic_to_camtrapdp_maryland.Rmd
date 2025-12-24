@@ -9,6 +9,12 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+# Make sure fractional seconds are shown
+options(digits.secs = 6)
+```
+
+
+```{r setup, include=FALSE}
 ```
 
 ## Install packages
@@ -116,7 +122,7 @@ selections$timestamp <- sapply(sub("\\.aif$", "", selections$Begin.File), functi
   # Try to parse date and time
   dt <- suppressWarnings(lubridate::ymd_hms(paste(date_str, time_str), tz = "UTC"))
   # Format as ISO 8601 with offset
-  ts <- format(dt, "%Y-%m-%dT%H:%M:%S%z", tz = "UTC")
+  ts <- format(dt, "%Y-%m-%dT%H:%M:%OS6Z", tz = "UTC")
   ts <- sub("(\\+\\d{2})(\\d{2})$", "\\1:\\2", ts)
   return(ts)
 })
