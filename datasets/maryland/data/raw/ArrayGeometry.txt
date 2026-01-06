@@ -1,0 +1,27 @@
+# 2018_UnivMD_Maryland_86896 Dep 01 MARU array            
+# 20180711 - 20180816            
+            
+$header$            
+  Georeferenced          
+  Georeference centroid          
+$end$            
+            
+$begin$            
+  #timestamp          
+  constant          
+            
+  #  ch. 1  (site M1)          
+  38.37031  -74.75384  -27  0.0001  0.0001  3
+            
+  #  ch. 2  (site M2)          
+  38.35305  -74.7309  -27  0.0001  0.0001  3
+            
+  #  ch. 3  (site M3)          
+  38.33452  -74.75369  -25  0.0001  0.0001  3
+            
+  #  ch. 4  (site M4)          
+  38.35279  -74.77635  -28  0.0001  0.0001  3
+                    
+
+            
+$end$            

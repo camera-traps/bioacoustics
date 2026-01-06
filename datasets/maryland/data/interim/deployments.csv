@@ -1,0 +1,5 @@
+deploymentID,locationID,locationName,latitude,longitude,coordinateUncertainty,elevation,deploymentStart,deploymentEnd,setupBy,deviceID,deviceModel,devicePlatform,deviceDelay,deviceHeight,deviceDepth,deviceTilt,deviceHeading,recordingSchedule,detectionDistance,baitUse,locationType,habitat,deploymentGroups,deploymentTags,deploymentComments
+2018_UnivMD_Maryland_86896_Dep01_20180711_M1,M1,,38.37031,-74.75384,,,2018-07-12T17:03:00Z,2018-08-21T12:42:00Z,,168,V2.5 Popup,buoy,,,27,,,continuous,,,,,UMD,,
+2018_UnivMD_Maryland_86896_Dep01_20180711_M2,M2,,38.35305,-74.7309,,,2018-07-12T17:14:00Z,2018-08-21T13:16:00Z,,89,V2.5 Popup,buoy,,,27,,,continuous,,,,,UMD,,CTD# S7958
+2018_UnivMD_Maryland_86896_Dep01_20180711_M3,M3,,38.33452,-74.75369,,,2018-07-12T16:42:00Z,2018-08-21T11:33:00Z,,188,V2.5 Popup,buoy,,,25,,,continuous,,,,,UMD,,"CTD# S8044     SURFACED EARLY, RECOVERED ON RETRIEVAL DAY"
+2018_UnivMD_Maryland_86896_Dep01_20180711_M4,M4,,38.35279,-74.77635,,,2018-07-12T16:53:00Z,2018-08-21T13:47:00Z,,142,V2.5 Popup,buoy,,,28,,,continuous,,,,,UMD,,CTD# S7959
