@@ -10,7 +10,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 # Make sure fractional seconds are shown
-options(digits.secs = 6)
+options(digits.secs = 0)
 ```
 
 
