@@ -194,7 +194,7 @@ media <-
   dplyr::mutate(
     mediaID = mediaID, # Required
     deploymentID = deploymentID, # Required
-    captureMethod = "schedule",
+    captureMethod = "recordingSchedule",
     timestamp = timestamp, # Required
     duration = NA_real_,
     filePath = Begin.Path, # Required
