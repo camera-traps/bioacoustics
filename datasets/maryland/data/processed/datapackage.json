@@ -341,11 +341,11 @@
             "description": "Date and time at which the media file was recorded. Formatted as an ISO 8601 string with timezone designator (`YYYY-MM-DDThh:mm:ssZ` or `YYYY-MM-DDThh:mm:ss±hh:mm`).",
             "skos:exactMatch": "http://ns.adobe.com/xap/1.0/CreateDate",
             "type": "datetime",
-            "format": "%Y-%m-%dT%H:%M:%S%z",
+            "format": "%Y-%m-%dT%H:%M:%S.%f%z",
             "constraints": {
               "required": true
             },
-            "example": "2020-03-24T11:21:46Z"
+            "example": "2020-03-24T11:21:46.356Z"
           },
           {
             "name": "duration",
@@ -539,11 +539,11 @@
             "skos:broadMatch": "http://rs.tdwg.org/dwc/terms/eventDate",
             "skos:narrowMatch": "http://rs.tdwg.org/ac/terms/startTimestamp",
             "type": "datetime",
-            "format": "%Y-%m-%dT%H:%M:%S%z",
+            "format": "%Y-%m-%dT%H:%M:%S.%f%z",
             "constraints": {
               "required": true
             },
-            "example": "2020-03-01T22:00:00Z"
+            "example": "2020-03-01T22:12:03.937Z"
           },
           {
             "name": "eventEnd",
@@ -551,11 +551,11 @@
             "skos:broadMatch": "http://rs.tdwg.org/dwc/terms/eventDate",
             "skos:narrowMatch": "http://rs.tdwg.org/ac/terms/endTimestamp",
             "type": "datetime",
-            "format": "%Y-%m-%dT%H:%M:%S%z",
+            "format": "%Y-%m-%dT%H:%M:%S.%f%z",
             "constraints": {
               "required": true
             },
-            "example": "2020-04-01T22:00:00Z"
+            "example": "2020-03-01T22:15:07.061Z"
           },
           {
             "name": "observationLevel",
@@ -842,7 +842,7 @@
   ],
   "name": "camtrap-dp-acoustic-maryland-dataset",
   "profile": "https://raw.githubusercontent.com/camera-traps/bioacoustics/main/camtrap-dp/1.0.2/camtrap-dp-profile-acoustic.json",
-  "created": "2025-12-24T11:01:57Z",
+  "created": "2026-01-07T16:40:57Z",
   "title": "Maryland: marine mammals detections",
   "version": "1.0",
   "keywords": ["acoustic", "marine mammals", "passive acoustic monitoring"],
