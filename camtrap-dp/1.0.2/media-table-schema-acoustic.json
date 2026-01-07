@@ -44,11 +44,11 @@
       "description": "Date and time at which the media file was recorded. Formatted as an ISO 8601 string with timezone designator (`YYYY-MM-DDThh:mm:ssZ` or `YYYY-MM-DDThh:mm:ss±hh:mm`).",
       "skos:exactMatch": "http://ns.adobe.com/xap/1.0/CreateDate",
       "type": "datetime",
-      "format": "%Y-%m-%dT%H:%M:%S%z",
+      "format": "%Y-%m-%dT%H:%M:%S.%f%z",
       "constraints": {
         "required": true
       },
-      "example": "2020-03-24T11:21:46Z"
+      "example": "2020-03-24T11:21:46.356Z"
     },
     {
       "name": "duration",
