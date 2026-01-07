@@ -139,7 +139,7 @@ media <-
   dplyr::mutate(
     mediaID = .data$audio_id, # Required
     deploymentID = .data$site, # Required
-    captureMethod = "schedule",
+    captureMethod = "recordingSchedule",
     timestamp = .data$timestamp, # Required 
     duration = 300,
     filePath = .data$audio_link,# Required
