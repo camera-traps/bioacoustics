@@ -226,7 +226,7 @@ acoustic <-
   add_resource(resource_name = "media", data = media, schema = here::here("camtrap-dp", "1.0.2", "media-table-schema-acoustic.json")) %>%
   add_resource(resource_name = "observations", data = observations, schema = here::here("camtrap-dp", "1.0.2", "observations-table-schema-acoustic.json")) %>%
   append(c(
-    name = "camtrap-dp-acoustic-example-dataset", # Required
+    name = "sound-of-norway", # Required
     profile = "https://raw.githubusercontent.com/camera-traps/bioacoustics/main/camtrap-dp/1.0.2/camtrap-dp-profile-acoustic.json", # Required
     id = NULL,
     created = format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"), # Required

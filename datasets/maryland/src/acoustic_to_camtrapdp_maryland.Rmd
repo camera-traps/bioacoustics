@@ -298,7 +298,7 @@ acoustic <-
     schema = here::here( "camtrap-dp", "1.0.2", "observations-table-schema-acoustic.json")
   ) |>
   append(c(
-    name = "camtrap-dp-acoustic-maryland-dataset", # Required
+    name = "maryland-marine-mammals", # Required
     profile = "https://raw.githubusercontent.com/camera-traps/bioacoustics/main/camtrap-dp/1.0.2/camtrap-dp-profile-acoustic.json", # Required
     id = NULL,
     created = format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"), # Required
