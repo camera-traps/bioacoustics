@@ -19,7 +19,6 @@ library(dplyr)
 library(tidyr)
 library(frictionless)
 library(camtrapdp)
-library(lubridate)
 ```
 
 # Import data
@@ -53,17 +52,17 @@ data <-
   data_raw %>% 
   dplyr::mutate(
     # Parse detected time to datetime object in UTC
-    detected_time_parsed = lubridate::ymd_hms(.data$detected_time, tz = "UTC"),
+    detected_time_parsed = as.POSIXct(.data$detected_time, "%Y-%m-%dT%H:%M:%OSZ", tz = "UTC"),
     # Calculate eventEnd
     eventEnd = .data$detected_time_parsed + .data$end_secs,
     # Format event end time to ISO 8601 string
     eventEnd_iso = format(
-      .data$eventEnd, format = "%Y-%m-%dT%H:%M:%OSZ", tz = "UTC"
+      .data$eventEnd, format = "%Y-%m-%dT%H:%M:%OS3Z", tz = "UTC"
       ),
     # Extract interim timestamp from audio file name
     timestamp_interim = sub(".mp3", "", basename(.data$audio_link)),
     # Format timestamp
-    timestamp = gsub("_", ":", .data$timestamp_interim) # format %Y-%m-%dT%H:%M:%S.%f%z
+    timestamp = gsub("_", ":", .data$timestamp_interim)
   )
 
 # Add scientificName to data by joining by EnglishName (tags)
@@ -139,7 +138,7 @@ media <-
   dplyr::mutate(
     mediaID = .data$audio_id, # Required
     deploymentID = .data$site, # Required
-    captureMethod = "schedule",
+    captureMethod = "recordingSchedule",
     timestamp = .data$timestamp, # Required 
     duration = 300,
     filePath = .data$audio_link,# Required
@@ -174,7 +173,7 @@ observations <-
     deploymentID = .data$site, # Required
     mediaID = .data$audio_id,
     eventID = NA_character_, # Necessary to use read_camtrapdp(), see https://github.com/inbo/camtrapdp/issues/162
-    eventStart = .data$detected_time, # format(.data$detected_time_parsed, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"), # Required
+    eventStart = .data$detected_time, # Required
     eventEnd = .data$eventEnd_iso, # Required
     observationLevel = "interval", # Required
     observationType = "animal", # Required 
@@ -226,7 +225,7 @@ acoustic <-
   add_resource(resource_name = "media", data = media, schema = here::here("camtrap-dp", "1.0.2", "media-table-schema-acoustic.json")) %>%
   add_resource(resource_name = "observations", data = observations, schema = here::here("camtrap-dp", "1.0.2", "observations-table-schema-acoustic.json")) %>%
   append(c(
-    name = "camtrap-dp-acoustic-example-dataset", # Required
+    name = "sound-of-norway", # Required
     profile = "https://raw.githubusercontent.com/camera-traps/bioacoustics/main/camtrap-dp/1.0.2/camtrap-dp-profile-acoustic.json", # Required
     id = NULL,
     created = format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"), # Required
