@@ -256,7 +256,7 @@ observations <-
     frequencyLow = .data$Low.Freq..Hz.,
     frequencyHigh = .data$High.Freq..Hz.,
     classificationMethod = "machine",
-    classifiedBy = NA_character_,
+    classifiedBy = "Fin Whale DTD",
     classificationTimestamp = NA_character_,
     classificationProbability = Score,
     classificationConfirmation = NA_character_,
