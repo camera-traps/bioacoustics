@@ -194,7 +194,7 @@ media <-
   dplyr::mutate(
     mediaID = mediaID, # Required
     deploymentID = deploymentID, # Required
-    captureMethod = "recordingSchedule",
+    captureMethod = "continuous",
     timestamp = timestamp, # Required
     duration = NA_real_,
     filePath = Begin.Path, # Required
@@ -253,10 +253,10 @@ observations <-
     bboxY = NA_real_,
     bboxWidth = NA_real_,
     bboxHeight = NA_real_,
-    frequencyLow = NA_real_,
-    frequencyHigh = NA_real_,
+    frequencyLow = .data$Low.Freq..Hz.,
+    frequencyHigh = .data$High.Freq..Hz.,
     classificationMethod = "machine",
-    classifiedBy = NA_character_,
+    classifiedBy = "Fin Whale DTD",
     classificationTimestamp = NA_character_,
     classificationProbability = Score,
     classificationConfirmation = NA_character_,
