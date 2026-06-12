@@ -147,7 +147,14 @@
             "type": "string",
             "constraints": {
               "required": false,
-              "enum": ["buoy", "vegetation", "building", "structure", "pole", "unattached"]
+              "enum": [
+                "buoy",
+                "vegetation",
+                "building",
+                "structure",
+                "pole",
+                "unattached"
+              ]
             },
             "example": "unattached"
           },
@@ -164,7 +171,10 @@
           {
             "name": "deviceHeight",
             "description": "Height at which the device was deployed. Expressed in meters. Not to be combined with `deviceDepth`.",
-            "skos:narrowMatch": ["http://rs.tdwg.org/dwc/terms/minimumDistanceAboveSurfaceInMeters", "http://rs.tdwg.org/dwc/terms/maximumDistanceAboveSurfaceInMeters"],
+            "skos:narrowMatch": [
+              "http://rs.tdwg.org/dwc/terms/minimumDistanceAboveSurfaceInMeters",
+              "http://rs.tdwg.org/dwc/terms/maximumDistanceAboveSurfaceInMeters"
+            ],
             "type": "number",
             "constraints": {
               "required": false,
@@ -176,7 +186,10 @@
           {
             "name": "deviceDepth",
             "description": "Depth at which the device was deployed. Expressed in meters. Not to be combined with `deviceHeight`.",
-            "skos:narrowMatch": ["http://rs.tdwg.org/dwc/terms/minimumDepthInMeters", "http://rs.tdwg.org/dwc/terms/maximumDepthInMeters"],
+            "skos:narrowMatch": [
+              "http://rs.tdwg.org/dwc/terms/minimumDepthInMeters",
+              "http://rs.tdwg.org/dwc/terms/maximumDepthInMeters"
+            ],
             "type": "number",
             "constraints": {
               "required": false,
@@ -244,7 +257,21 @@
             "type": "string",
             "constraints": {
               "required": false,
-              "enum": ["roadPaved", "roadDirt", "trailHiking", "trailGame", "roadUnderpass", "roadOverpass", "roadBridge", "culvert", "burrow", "nestSite", "carcass", "waterSource", "fruitingTree"]
+              "enum": [
+                "roadPaved",
+                "roadDirt",
+                "trailHiking",
+                "trailGame",
+                "roadUnderpass",
+                "roadOverpass",
+                "roadBridge",
+                "culvert",
+                "burrow",
+                "nestSite",
+                "carcass",
+                "waterSource",
+                "fruitingTree"
+              ]
             },
             "example": "culvert"
           },
@@ -288,7 +315,12 @@
             "example": ""
           }
         ],
-        "missingValues": ["", "NA", "NaN", "nan"],
+        "missingValues": [
+          "",
+          "NA",
+          "NaN",
+          "nan"
+        ],
         "primaryKey": "deploymentID"
       }
     },
@@ -332,7 +364,11 @@
             "type": "string",
             "constraints": {
               "required": false,
-              "enum": ["activityDetection", "continuous", "recordingSchedule"]
+              "enum": [
+                "activityDetection",
+                "continuous",
+                "recordingSchedule"
+              ]
             },
             "example": "activityDetection"
           },
@@ -414,7 +450,12 @@
             "type": "integer",
             "constraints": {
               "required": false,
-              "enum": [8, 16, 24, 32]
+              "enum": [
+                8,
+                16,
+                24,
+                32
+              ]
             },
             "example": 8
           },
@@ -467,7 +508,12 @@
             "example": "corrupted file"
           }
         ],
-        "missingValues": ["", "NA", "NaN", "nan"],
+        "missingValues": [
+          "",
+          "NA",
+          "NaN",
+          "nan"
+        ],
         "primaryKey": "mediaID",
         "foreignKeys": [
           {
@@ -563,7 +609,11 @@
             "type": "string",
             "constraints": {
               "required": true,
-              "enum": ["media", "event", "interval"]
+              "enum": [
+                "media",
+                "event",
+                "interval"
+              ]
             },
             "example": "media"
           },
@@ -573,7 +623,14 @@
             "type": "string",
             "constraints": {
               "required": true,
-              "enum": ["animal", "human", "vehicle", "blank", "unknown", "unclassified"]
+              "enum": [
+                "animal",
+                "human",
+                "vehicle",
+                "blank",
+                "unknown",
+                "unclassified"
+              ]
             },
             "example": "animal"
           },
@@ -583,7 +640,10 @@
             "type": "string",
             "constraints": {
               "required": false,
-              "enum": ["setup", "calibration"]
+              "enum": [
+                "setup",
+                "calibration"
+              ]
             },
             "example": "calibration"
           },
@@ -615,7 +675,11 @@
             "type": "string",
             "constraints": {
               "required": false,
-              "enum": ["adult", "subadult", "juvenile"]
+              "enum": [
+                "adult",
+                "subadult",
+                "juvenile"
+              ]
             },
             "example": "adult"
           },
@@ -626,7 +690,10 @@
             "type": "string",
             "constraints": {
               "required": false,
-              "enum": ["female", "male"]
+              "enum": [
+                "female",
+                "male"
+              ]
             },
             "example": "female"
           },
@@ -756,7 +823,10 @@
             "type": "string",
             "constraints": {
               "required": false,
-              "enum": ["human", "machine"]
+              "enum": [
+                "human",
+                "machine"
+              ]
             },
             "example": "human"
           },
@@ -796,7 +866,11 @@
             "name": "classificationConfirmation",
             "description": "A confirmation that the classified species was observed via other means.",
             "type": "string",
-            "enum": ["captured", "heardOnSite", "seenOnSite"]
+            "enum": [
+              "captured",
+              "heardOnSite",
+              "seenOnSite"
+            ]
           },
           {
             "name": "observationTags",
@@ -819,7 +893,12 @@
             "example": ""
           }
         ],
-        "missingValues": ["", "NA", "NaN", "nan"],
+        "missingValues": [
+          "",
+          "NA",
+          "NaN",
+          "nan"
+        ],
         "primaryKey": "observationID",
         "foreignKeys": [
           {
@@ -842,7 +921,7 @@
   ],
   "name": "sound-of-norway",
   "profile": "https://raw.githubusercontent.com/camera-traps/bioacoustics/main/camtrap-dp/1.0.2/camtrap-dp-profile-acoustic.json",
-  "created": "2026-01-07T17:08:26Z",
+  "created": "2026-06-12T10:20:27Z",
   "title": "The Sound of Norway: bird detections",
   "version": "1.0",
   "keywords1": "acoustic",
@@ -899,12 +978,18 @@
   "project": {
     "title": "The Sound of Norway",
     "description": "The Sound of Norway project monitors ecosystems across the nation with real- time recording devices. Using machine learning to automatically classify bird vocalisations, we can simultaneously track the distribution and migration patterns of many species on vast scales and over long time-periods.",
-    "protocolType": "acoustic",
+    "protocolType": [
+      "acoustic"
+    ],
     "samplingDesign": "systematicRandom",
     "path": "https://thesoundofnorway.com/",
-    "captureMethod": ["continuous"],
+    "captureMethod": [
+      "continuous"
+    ],
     "individualAnimals": false,
-    "observationLevel": ["media"]
+    "observationLevel": [
+      "media"
+    ]
   },
   "taxonomic": [
     {
