@@ -2,7 +2,7 @@
 
 ## Mapping bioacoustic datasets to Camtrap DP
 
-This repository is dedicated to testing the [suggested modifications](https://docs.google.com/document/d/1bPODHowsJtEkI8z8GQJKoywU9EWALt_d2ldMNvqA0hM/edit?tab=t.0#heading=h.f8q281dn4opv) to Camtrap DP by the bioacoustic community. We aim to evaluate these changes by mapping datasets to Camtrap DP.
+This repository is dedicated to **testing** the suggested modifications ([Wiel et al. 2026](https://hdl.handle.net/11250/5343743)) to Camtrap DP by the bioacoustic community. We aim to evaluate these changes by mapping datasets to Camtrap DP.
 
 ## Background: Safe and Sound pilot project
 
@@ -48,35 +48,25 @@ manually.
 
 This repository is open to contributions from the community. If you have a bioacoustic dataset that you would like to map to Camtrap DP, please follow the guidelines below.
 
-1.  Ask access to @sannegovaert to collaborate on this repo.
-2.  Create a branch for your project.
-3.  Create a folder in `datasets` with the name of your project.
-4.  Copy the `acoustic_to_camtrapdp.Rmd` file to your project folder.
-6.  Copy your raw data to the `data/raw` folder.
-7.  Edit the `acoustic_to_camtrapdp.Rmd` file to include your project-specific code.
-8.  Run `acoustic_to_camtrapdp.Rmd` to generate the Camtrap DP files.
-9.  Throughout all the previous steps: commit your changes and push to your branch. You don’t need to wait to commit until you're finished.
-10.  Create a pull request to merge your changes into the main branch.
+1.  Create a fork for your project.
+2.  Create a folder in `datasets` with the name of your project. Follow the repo structure.
+3.  Create a pull request to merge your changes into the main branch.
+
+If you map your data in `r`, you can make use of the template:
+1.  Copy the `acoustic_to_camtrapdp.Rmd` file to your project folder.
+2.  Edit the `acoustic_to_camtrapdp.Rmd` file to include your project-specific code.
+3.  Run `acoustic_to_camtrapdp.Rmd` to generate the Camtrap DP files.
+4.  Throughout all the previous steps: commit your changes and push to your branch. You don’t need to wait to commit until you're finished.
 
 ## Relevant sources
 
 - [Camtrap DP - documentation website](https://camtrap-dp.tdwg.org/)
 - [Camtrap DP - Github](https://github.com/tdwg/camtrap-dp)
-- [Safe and soud](https://wildlabs.net/discussion/safe-and-sound-standard-bioacoustic-data)
-- [Summary report](https://docs.google.com/document/d/1bPODHowsJtEkI8z8GQJKoywU9EWALt_d2ldMNvqA0hM/edit?tab=t.0#heading=h.7z7cgy7v2giy)
+- [Safe and Sound Summary report](https://hdl.handle.net/11250/5343743)
+- [Recording Wildlabs webinar: A standard for bioacoustic data - Safe and Sound](https://wildlabs.net/en/event/standard-bioacoustic-data-safe-and-sound)
+- [Wildlabs discussion - Safe and soud](https://wildlabs.net/discussion/safe-and-sound-standard-bioacoustic-data)
 - [Collection of use-cases](https://docs.google.com/document/d/14xhtmahleHlPPDMSNpRm6TkHq8AbuOOsLqTUNjYI2zA/edit?tab=t.qocym0lvapag#heading=h.avhlbhurvh3v)
-- Comment and reply to comments in the working document [Suggested Camtrap DP changes](https://docs.google.com/document/d/17qTjZdw8ohqfK0lSH9DPCXiJcSqSAeFRyUdWcYCdwRc/edit?tab=t.0)
 - [Mapping InsectAI data to Camtrap DP](https://github.com/camera-traps/insectai)
-
-## Webinar
-
-In this webinar, we present an acoustic extension of Camtrap DP and outline the plan for further development of the standard. Participants will be invited to join the discussion.
-
-📅 5 Jun 2025 4:00 pm ~ 5:00 pm CEST (UTC +2)
-
-🎥 Recording available
-
-📝 [Register](https://wildlabs.net/event/standard-bioacoustic-data-safe-and-sound)
 
 
 # Contacts
