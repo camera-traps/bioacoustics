@@ -11,6 +11,25 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Install packages
+
+Before we begin, we need to ensure that all required R packages are installed. This includes packages for data handling, working with frictionless data, and min version 0.6.0 of `camtrapdp`.
+
+```{r}
+# Install required packages if not already installed
+rlang::check_installed(c(
+  "here",
+  "dplyr",
+  "tidyr",
+  "frictionless",
+  "lubridate",
+  "devtools"
+))
+
+# We need camtrapdp >= 0.6.0, install the development version from Github:
+pak::pak("inbo/camtrapdp")
+```
+
 ## Load libraries
 
 ```{r}
@@ -39,8 +58,8 @@ taxonomy <- read.delim2(
 
 ```{r}
 # Summarize number of unique values per column in the raw data
-data_raw %>%
-  dplyr::summarise(dplyr::across(dplyr::everything(), dplyr::n_distinct)) %>%
+data_raw |>
+  dplyr::summarise(dplyr::across(dplyr::everything(), dplyr::n_distinct)) |>
   tidyr::pivot_longer(dplyr::everything(), names_to = "column", values_to = "n_unique")
 ```
 
@@ -49,7 +68,7 @@ data_raw %>%
 ```{r}
 # Add new columns to the data for eventEnd, timestamp and formatting
 data <-
-  data_raw %>% 
+  data_raw |> 
   dplyr::mutate(
     # Parse detected time to datetime object in UTC
     detected_time_parsed = as.POSIXct(.data$detected_time, "%Y-%m-%dT%H:%M:%OSZ", tz = "UTC"),
@@ -69,17 +88,17 @@ data <-
 data <- dplyr::left_join(data, taxonomy, dplyr::join_by(tags == EnglishName))
 
 # Extract deployment-level information
-deployments_raw <- data %>%
-  group_by(site) %>%
+deployments_raw <- data |>
+  group_by(site) |>
   dplyr::mutate(
     # deploymentStart and deploymentEnd based on first and last detection for each site
     deploymentStart = min(detected_time_parsed),
     deploymentEnd = max(detected_time_parsed),
     deploymentID = .data$site,
-    ) %>%
+    ) |>
   dplyr::select(site, latitude, longitude, deploymentStart, deploymentEnd, 
-                deploymentID, recorder) %>% 
-  dplyr::distinct() %>% 
+                deploymentID, recorder) |> 
+  dplyr::distinct() |> 
   dplyr::ungroup()
 ```
 
@@ -89,7 +108,7 @@ deployments_raw <- data %>%
 
 ```{r}
 deployments <-
-  deployments_raw %>% 
+  deployments_raw |> 
   dplyr::mutate(
     deploymentID = .data$deploymentID, # Required
     locationID = NA_character_,
@@ -118,8 +137,8 @@ deployments <-
     deploymentTags = NA_character_,
     deploymentComments = NA_character_,
     .keep = "none"
-  ) %>% 
-  dplyr::arrange(deploymentID) %>% 
+  ) |> 
+  dplyr::arrange(deploymentID) |> 
   dplyr::select(
     deploymentID, locationID, locationName, latitude, longitude, 
     coordinateUncertainty, elevation, deploymentStart, deploymentEnd, setupBy, 
@@ -134,7 +153,7 @@ deployments <-
 
 ```{r}
 media <-
-  data %>% 
+  data |> 
   dplyr::mutate(
     mediaID = .data$audio_id, # Required
     deploymentID = .data$site, # Required
@@ -153,9 +172,9 @@ media <-
     favorite = NA,
     mediaComments = NA_character_,
     .keep = "none"
-  ) %>% 
-  dplyr::arrange(mediaID) %>%
-  dplyr::distinct() %>% 
+  ) |> 
+  dplyr::arrange(mediaID) |>
+  dplyr::distinct() |> 
   dplyr::select(
     mediaID, deploymentID, captureMethod, timestamp, duration, filePath, 
     filePublic, fileName, fileMediatype, exifData, bitDepth, 
@@ -167,7 +186,7 @@ media <-
 
 ```{r}
 observations <-
-  data %>% 
+  data |> 
   dplyr::mutate(
     observationID = .data$id, # Required
     deploymentID = .data$site, # Required
@@ -201,8 +220,8 @@ observations <-
     observationTags = .data$tags,
     observationComments = NA_character_,
     .keep = "none"
-  ) %>% 
-  dplyr::arrange(observationID) %>% 
+  ) |> 
+  dplyr::arrange(observationID) |> 
   dplyr::select(
     observationID, deploymentID, mediaID, eventID, eventStart,
     eventEnd, observationLevel, observationType, deviceSetupType,
@@ -220,10 +239,22 @@ observations <-
 ```{r}
 # Build frictionless data package with each resource and metadata
 acoustic <-
-  frictionless::create_package() %>%
-  add_resource(resource_name = "deployments", data = deployments, schema = here::here("camtrap-dp", "1.0.2", "deployments-table-schema-acoustic.json")) %>%
-  add_resource(resource_name = "media", data = media, schema = here::here("camtrap-dp", "1.0.2", "media-table-schema-acoustic.json")) %>%
-  add_resource(resource_name = "observations", data = observations, schema = here::here("camtrap-dp", "1.0.2", "observations-table-schema-acoustic.json")) %>%
+  frictionless::create_package() |>
+  add_resource(
+    resource_name = "deployments",
+    data = deployments,
+    schema = "https://raw.githubusercontent.com/camera-traps/bioacoustics/refs/heads/main/camtrap-dp/1.0.2/deployments-table-schema-acoustic.json"
+    ) |>
+  add_resource(
+    resource_name = "media",
+    data = media,
+    schema = "https://raw.githubusercontent.com/camera-traps/bioacoustics/refs/heads/main/camtrap-dp/1.0.2/media-table-schema-acoustic.json"
+    ) |>
+  add_resource(
+    resource_name = "observations",
+    data = observations,
+    schema = "https://raw.githubusercontent.com/camera-traps/bioacoustics/refs/heads/main/camtrap-dp/1.0.2/observations-table-schema-acoustic.json"
+    ) |>
   append(c(
     name = "sound-of-norway", # Required
     profile = "https://raw.githubusercontent.com/camera-traps/bioacoustics/main/camtrap-dp/1.0.2/camtrap-dp-profile-acoustic.json", # Required
@@ -243,7 +274,7 @@ acoustic <-
     taxonomic = NULL, # Required, but keep this empty, this comes later
     relatedIdentifiers = NULL,
     references = NULL
-  )) %>%
+  )) |>
   frictionless::create_package()
 
 # Add contributors metadata to data package
