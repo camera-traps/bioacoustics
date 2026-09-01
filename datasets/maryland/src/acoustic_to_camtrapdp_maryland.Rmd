@@ -11,10 +11,6 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
-```{r setup, include=FALSE}
-```
-
 # Install packages
 
 Before we begin, we need to ensure that all required R packages are installed. This includes packages for data handling, working with frictionless data, and min version 0.6.0 of `camtrapdp`.
@@ -285,18 +281,18 @@ acoustic <-
   add_resource(
     resource_name = "deployments",
     data = deployments,
-    schema = here::here( "camtrap-dp", "1.0.2", "deployments-table-schema-acoustic.json")
-  ) |>
+    schema = "https://raw.githubusercontent.com/camera-traps/bioacoustics/refs/heads/main/camtrap-dp/1.0.2/deployments-table-schema-acoustic.json"
+    ) |>
   add_resource(
     resource_name = "media",
     data = media,
-    schema = here::here( "camtrap-dp", "1.0.2", "media-table-schema-acoustic.json")
-  ) |>
+    schema = "https://raw.githubusercontent.com/camera-traps/bioacoustics/refs/heads/main/camtrap-dp/1.0.2/media-table-schema-acoustic.json"
+    ) |>
   add_resource(
     resource_name = "observations",
     data = observations,
-    schema = here::here( "camtrap-dp", "1.0.2", "observations-table-schema-acoustic.json")
-  ) |>
+    schema = "https://raw.githubusercontent.com/camera-traps/bioacoustics/refs/heads/main/camtrap-dp/1.0.2/observations-table-schema-acoustic.json"
+    ) |>
   append(c(
     name = "maryland-marine-mammals", # Required
     profile = "https://raw.githubusercontent.com/camera-traps/bioacoustics/main/camtrap-dp/1.0.2/camtrap-dp-profile-acoustic.json", # Required
