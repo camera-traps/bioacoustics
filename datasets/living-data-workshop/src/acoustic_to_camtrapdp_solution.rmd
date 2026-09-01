@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Install packages
 
-Before we begin, we need to ensure that all required R packages are installed. This includes packages for data handling, working with frictionless data, and the development version of `camtrapdp` from GitHub.
+Before we begin, we need to ensure that all required R packages are installed. This includes packages for data handling, working with frictionless data, and min version 0.6.0 of `camtrapdp`.
 
 ```{r}
 # Install required packages if not already installed
@@ -25,8 +25,8 @@ rlang::check_installed(c(
   "devtools"
 ))
 
-# We need the development version of camtrapdp from Github:
-devtools::install_github("inbo/camtrapdp")
+# We need camtrapdp >= 0.6.0, install the development version from Github:
+pak::pak("inbo/camtrapdp")
 ```
 
 
