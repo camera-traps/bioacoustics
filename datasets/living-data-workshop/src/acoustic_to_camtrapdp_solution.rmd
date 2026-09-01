@@ -57,8 +57,8 @@ It's good practice to inspect your data before processing it. Here, we summarize
 
 ```{r}
 # Summarise number of unique values per column in the raw data
-data %>%
-  dplyr::summarise(dplyr::across(dplyr::everything(), dplyr::n_distinct)) %>%
+data |>
+  dplyr::summarise(dplyr::across(dplyr::everything(), dplyr::n_distinct)) |>
   tidyr::pivot_longer(dplyr::everything(), names_to = "column", values_to = "n_unique")
 ```
 
@@ -72,23 +72,23 @@ Create the three resources (deployments, media, observations) based on the raw d
 ```{r}
 # Extract deployment-level information
 deployments_raw <-
-  data %>% 
-  dplyr::group_by(.data$site) %>% 
+  data |> 
+  dplyr::group_by(.data$site) |> 
     dplyr::mutate(
     # deploymentStart and deploymentEnd based on first and last detection for each site
     deploymentStart = min(detected_time),
     deploymentEnd = max(detected_time_end),
     deploymentID = .data$site,
-    ) %>%
+    ) |>
   dplyr::select(
     site, latitude, longitude, deploymentStart, deploymentEnd, deploymentID, 
     recorder
-    ) %>% 
-  dplyr::distinct() %>% 
+    ) |> 
+  dplyr::distinct() |> 
   dplyr::ungroup()
 
 deployments <-
-  deployments_raw %>% 
+  deployments_raw |> 
   dplyr::mutate(
     deploymentID = .data$deploymentID, # Required
     locationID = NA_character_,
@@ -117,8 +117,8 @@ deployments <-
     deploymentTags = NA_character_,
     deploymentComments = NA_character_,
     .keep = "none"
-  ) %>% 
-  dplyr::arrange(deploymentID) %>% 
+  ) |> 
+  dplyr::arrange(deploymentID) |> 
   dplyr::select(
     deploymentID, locationID, locationName, latitude, longitude, 
     coordinateUncertainty, elevation, deploymentStart, deploymentEnd, setupBy, 
@@ -133,7 +133,7 @@ deployments <-
 
 ```{r}
 media <-
-  data %>% 
+  data |> 
   dplyr::mutate(
     mediaID = .data$audio_id, # Required
     deploymentID = .data$site, # Required
@@ -152,9 +152,9 @@ media <-
     favorite = NA,
     mediaComments = NA_character_,
     .keep = "none"
-  ) %>% 
-  dplyr::arrange(mediaID) %>%
-  dplyr::distinct() %>% 
+  ) |> 
+  dplyr::arrange(mediaID) |>
+  dplyr::distinct() |> 
   dplyr::select(
     mediaID, deploymentID, captureMethod, timestamp, duration, filePath, 
     filePublic, fileName, fileMediatype, exifData, bitDepth, 
@@ -166,7 +166,7 @@ media <-
 
 ```{r}
 observations <-
-  data %>% 
+  data |> 
   dplyr::mutate(
     observationID = .data$id, # Required
     deploymentID = .data$site, # Required
@@ -200,8 +200,8 @@ observations <-
     observationTags = NA_character_,
     observationComments = NA_character_,
     .keep = "none"
-  ) %>% 
-  dplyr::arrange(observationID) %>% 
+  ) |> 
+  dplyr::arrange(observationID) |> 
   dplyr::select(
     observationID, deploymentID, mediaID, eventID, eventStart,
     eventEnd, observationLevel, observationType, deviceSetupType,
@@ -229,22 +229,22 @@ Here you don't need to change anything, but feel free to inspect the code.
 ```{r}
 # Build frictionless data package with each resource and metadata
 acoustic <-
-  frictionless::create_package() %>%
+  frictionless::create_package() |>
   add_resource(
     resource_name = "deployments",
     data = deployments,
     schema = "https://raw.githubusercontent.com/camera-traps/bioacoustics/refs/heads/main/camtrap-dp/1.0.2/deployments-table-schema-acoustic.json"
-    ) %>%
+    ) |>
   add_resource(
     resource_name = "media",
     data = media,
     schema = "https://raw.githubusercontent.com/camera-traps/bioacoustics/refs/heads/main/camtrap-dp/1.0.2/media-table-schema-acoustic.json"
-    ) %>%
+    ) |>
   add_resource(
     resource_name = "observations",
     data = observations,
     schema = "https://raw.githubusercontent.com/camera-traps/bioacoustics/refs/heads/main/camtrap-dp/1.0.2/observations-table-schema-acoustic.json"
-    ) %>%
+    ) |>
   append(c(
     name = "camtrap-dp-acoustic-example-dataset", # Required
     profile = "https://raw.githubusercontent.com/camera-traps/bioacoustics/main/camtrap-dp/1.0.2/camtrap-dp-profile-acoustic.json", # Required
@@ -264,7 +264,7 @@ acoustic <-
     taxonomic = NULL, # Required, but keep this empty, this comes later
     relatedIdentifiers = NULL,
     references = NULL
-  )) %>%
+  )) |>
   frictionless::create_package()
 ```
 
@@ -356,8 +356,8 @@ map_taxonomy <- function(taxonomy) {
 ```{r}
 # Apply mapping function to each row in taxonomy for package metadata
 taxonomy <- 
-  data %>% 
-  dplyr::select(scientificName, englishName) %>% 
+  data |> 
+  dplyr::select(scientificName, englishName) |> 
   dplyr::distinct()
 taxonomy_list <- apply(taxonomy, 1, as.list)
 acoustic$taxonomic <- purrr::map(taxonomy_list, map_taxonomy)
