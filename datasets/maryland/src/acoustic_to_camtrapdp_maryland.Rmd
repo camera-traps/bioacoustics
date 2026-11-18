@@ -228,7 +228,7 @@ observations <-
     eventID = eventID, # Fixed random IDs for repeatability
     eventStart = format(eventStart, "%Y-%m-%dT%H:%M:%OS3Z", tz = "UTC"), # Required
     eventEnd = format(eventEnd, "%Y-%m-%dT%H:%M:%OS3Z", tz = "UTC"), # Required
-    observationLevel = "interval", # Required
+    observationLevel = "media", # Required
     observationType = "animal", # Required
     deviceSetupType = NA_character_,
     scientificName = dplyr::case_when(  # Required
@@ -249,6 +249,8 @@ observations <-
     bboxY = NA_real_,
     bboxWidth = NA_real_,
     bboxHeight = NA_real_,
+    startTime = as.numeric(.data$File.Offset..s.),
+    endTime = as.numeric(.data$File.Offset..s.) + as.numeric(.data$snippet_duration),
     frequencyLow = .data$Low.Freq..Hz.,
     frequencyHigh = .data$High.Freq..Hz.,
     classificationMethod = "machine",
@@ -266,7 +268,8 @@ observations <-
     eventEnd, observationLevel, observationType, deviceSetupType,
     scientificName, count, lifeStage, sex, behavior, individualID,
     individualPositionRadius, individualPositionAngle, individualSpeed,
-    bboxX, bboxY, bboxWidth, bboxHeight, frequencyLow, frequencyHigh,
+    bboxX, bboxY, bboxWidth, bboxHeight, startTime, endTime,
+    frequencyLow, frequencyHigh,
     classificationMethod, classifiedBy, classificationTimestamp,
     classificationProbability, classificationConfirmation, observationTags,
     observationComments
@@ -368,7 +371,7 @@ acoustic$project <- list( # Required
 # Write Data Package
 
 ```{r}
-frictionless::write_package(acoustic, here::here( "datasets", "maryland", "data", "interim"))
+frictionless::write_package(acoustic, here::here("datasets", "maryland", "data", "interim"))
 ```
 
 # Read with camtrapdp
@@ -382,5 +385,10 @@ acoustic_dp <- camtrapdp::read_camtrapdp(here::here( "datasets", "maryland", "da
 # Write Camtrap DP
 
 ```{r}
-camtrapdp::write_camtrapdp(acoustic_dp, here::here( "datasets", "maryland", "data", "processed"))
+# write_camtrapdp() drops fractional seconds from date-time columns but writes text columns unchanged,
+# so swap the date-time timestamp columns for the original timestamp strings (character type)
+camtrapdp::media(acoustic_dp)$timestamp <- media$timestamp
+camtrapdp::observations(acoustic_dp)[c("eventStart", "eventEnd")] <- observations[c("eventStart", "eventEnd")]
+
+camtrapdp::write_camtrapdp(acoustic_dp, here::here("datasets", "maryland", "data", "processed"))
 ```

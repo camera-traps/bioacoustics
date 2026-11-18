@@ -76,8 +76,7 @@
         "required": true,
         "enum": [
           "media",
-          "event",
-          "interval"
+          "event"
         ]
       },
       "example": "media"
@@ -265,6 +264,28 @@
       "example": 0.5
     },
     {
+      "name": "startTime",
+      "description": "Start of the observation within the media file identified by `mediaID`, expressed in seconds from the beginning of the media file, with an optional fractional part for milliseconds or finer. Only applicable for media-based observations (`observationLevel` = `media`). Leave empty if the observation applies to the whole media file.",
+      "skos:exactMatch": "http://rs.tdwg.org/ac/terms/startTime",
+      "type": "number",
+      "constraints": {
+        "required": false,
+        "minimum": 0
+      },
+      "example": 123.456
+    },
+    {
+      "name": "endTime",
+      "description": "End of the observation within the media file identified by `mediaID`, expressed in seconds from the beginning of the media file, with an optional fractional part for milliseconds or finer. Only applicable for media-based observations (`observationLevel` = `media`). Must be equal to or greater than `startTime`.",
+      "skos:exactMatch": "http://rs.tdwg.org/ac/terms/endTime",
+      "type": "number",
+      "constraints": {
+        "required": false,
+        "minimum": 0
+      },
+      "example": 126.789
+    },
+    {
       "name": "frequencyLow",
       "description": "Lower limit of the frequency range over which the observation applies. Expressed in Hertz. Must be lower than frequencyHigh.",
       "type": "number",
@@ -275,7 +296,7 @@
     },
     {
       "name": "frequencyHigh",
-      "description": "Higher limit of the frequency range over which the observation applies. Expressed in Hertz. Must be higher than frequencyHigh.",
+      "description": "Higher limit of the frequency range over which the observation applies. Expressed in Hertz. Must be higher than frequencyLow.",
       "type": "number",
       "constraints": {
         "required": false
