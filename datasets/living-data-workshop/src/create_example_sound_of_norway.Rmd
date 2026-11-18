@@ -53,7 +53,7 @@ dataset <-
     detected_time_end_interim = .data$detected_time_parsed + .data$end_secs,
     # Format event end time to ISO 8601 string
     detected_time_end = format(
-      .data$detected_time_end_interim, format = "%Y-%m-%dT%H:%M:%OSZ", tz = "UTC"
+      .data$detected_time_end_interim, format = "%Y-%m-%dT%H:%M:%OS3Z", tz = "UTC"
       ),
     # Extract interim timestamp from audio file name
     timestamp_interim = sub(".mp3", "", basename(.data$audio_link)),
